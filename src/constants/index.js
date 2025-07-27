@@ -26,6 +26,10 @@ import anwarTechnologies from "../assets/company/anwarTechnologies.png";
 import prionty from "../assets/company/pritonty.jpeg";
 import uniech from "../assets/company/uniech.jpg";
 
+import python from "../assets/tech/python.png";
+import postgresql from "../assets/tech/postgreSql.png";
+import prisma from "../assets/tech/prisma.png";
+
 export const navLinks = [
   { id: "about", title: "About" },
   { id: "work", title: "Work" },
@@ -49,10 +53,13 @@ const technologies = [
   { name: "Tailwind CSS", icon: tailwind },
   { name: "Node JS", icon: nodejs },
   { name: "MongoDB", icon: mongodb },
-  { name: "Three JS", icon: threejs },
+  // { name: "Three JS", icon: threejs },
   { name: "git", icon: git },
-  { name: "figma", icon: figma },
-  { name: "docker", icon: docker },
+  // { name: "figma", icon: figma },
+  { name: "Python", icon: python },
+  { name: "PostgreSQL", icon: postgresql },
+  // { name: "docker", icon: docker },
+  { name: "Prisma", icon: prisma },
 ];
 
 const experiences = [
@@ -134,7 +141,8 @@ const projects = [
       { name: "vercel", color: "pink-text-gradient" },
     ],
     image: carrent,
-    source_code_link: "https://github.com/arbinzaman/rahimafrooz-battery-frontend",
+    source_code_link:
+      "https://github.com/arbinzaman/rahimafrooz-battery-frontend",
   },
   {
     name: "Hospital Management System (HMS)",
@@ -146,7 +154,8 @@ const projects = [
       { name: "express", color: "pink-text-gradient" },
     ],
     image: jobit,
-    source_code_link: "https://github.com/arbinzaman/hospital-management-system-client",
+    source_code_link:
+      "https://github.com/arbinzaman/hospital-management-system-client",
   },
   {
     name: "CRM with Python Automation",
