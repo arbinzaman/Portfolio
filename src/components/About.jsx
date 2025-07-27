@@ -40,7 +40,7 @@ const About = () => {
         variants={fadeIn("", "", 0.1, 1)}
         className="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]"
       >
-        I am a Jr. Software Engineer with hands-on experience building and
+        I am a Software Engineer with hands-on experience building and
         maintaining scalable CRM systems and web applications. Skilled in
         JavaScript, TypeScript, React, Node.js, and Three.js, I focus on
         performance optimization, responsive UI, and seamless API integration.
