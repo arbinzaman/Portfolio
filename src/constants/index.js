@@ -29,11 +29,21 @@ import uniech from "../assets/company/uniech.jpg";
 import python from "../assets/tech/python.png";
 import postgresql from "../assets/tech/postgreSql.png";
 import prisma from "../assets/tech/prisma.png";
+import uihp from "../assets/recognization/uihp.jpg";
+import btrc from "../assets/recognization/btrc.jpg";
+import GPAccelerator from "../assets/recognization/gpAccerleration.jpeg";
+import University from "../assets/recognization/universityRecognization.jpg";
+import UITS from "../assets/recognization/uits.png";
+import gp from "../assets/recognization/gp.png";
+import btrcLogo from "../assets/recognization/btrcLogo.png";
+import uihpLogo from "../assets/recognization/uihpLogo.jpg";
 
 export const navLinks = [
   { id: "about", title: "About" },
   { id: "work", title: "Work" },
+  { id: "recognition", title: "Recognition" },
   { id: "contact", title: "Contact" },
+
 ];
 
 const services = [
@@ -170,5 +180,48 @@ const projects = [
     source_code_link: "https://github.com/arbinzaman",
   },
 ];
+const recognitions = [
+  {
+    title: "Innovation Cohort 2 – BRAC University",
+    organization: "BRAC University UIHP",
+    date: "May 2025",
+    description:
+      "Team Leisurely_Loco was selected for Innovation Cohort 2 under the University Innovation Hub Program. Collaborated with mentors and entrepreneurs to refine digital startup ideas and drive innovation.",
+    tags: ["UIHP", "InnovationInAction", "StartupJourney"],
+    logo: uihpLogo,       // updated logo import
+    imageUrl: uihp,       // image can remain as before
+  },
+  {
+    title: "Head of Media & Communication",
+    organization: "UITS Computer Club",
+    date: "2021 - 2025",
+    description:
+      "Led media and communication efforts for UITS Computer Club. Participated in numerous competitions including gaming and photography, organized various events, and coordinated club outreach activities to boost member engagement and public relations.",
+    tags: ["UITS", "MediaLeadership", "EventOrganizer", "Photography", "Gaming"],
+    logo: UITS,          // new imported logo for UITS Computer Club
+    imageUrl: University, // keep the university image for achievement
+  },
+  {
+    title: "GP Accelerator Idea Design Bootcamp",
+    organization: "Grameenphone Ltd.",
+    date: "June 2025",
+    description:
+      "Selected for the Grameenphone Accelerator Idea Design Bootcamp. Worked closely with mentors and industry leaders to enhance startup strategies and prototype development.",
+    tags: ["GPAccelerator", "IdeaDesignBootcamp", "Entrepreneurship"],
+    logo: gp,             // new imported GP logo
+    imageUrl: GPAccelerator,
+  },
+  {
+    title: "BTRC Telecom & Digital Innovation Fair",
+    organization: "BTRC",
+    date: "July 2025",
+    description:
+      "Team Dokaan represented UITS at the national Telecom & Digital Innovation Fair 2025, showcasing a smart retail system. Among 32 projects, it highlighted digital innovation aligned with the Smart Bangladesh initiative.",
+    tags: ["UITS", "SmartBangladesh", "InnovationFair"],
+    logo: btrcLogo,       // new BTRC logo import
+    imageUrl: btrc,
+  },
+];
 
-export { services, technologies, experiences, testimonials, projects };
+
+export { services, technologies, experiences, testimonials, projects, recognitions };

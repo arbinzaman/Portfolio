@@ -8,6 +8,7 @@ import Works from "./Works.jsx";
 import Feedbacks from "./Feedbacks.jsx";
 import Contact from "./Contact.jsx";
 import CanvasLoader from "./Loader.jsx";
+import Recognitions from "./Recognitions.jsx";
 
 
 export {
@@ -17,6 +18,7 @@ export {
   Tech,
   Experience,
   Works,
+  Recognitions,
   Feedbacks,
   Contact,
   CanvasLoader,
@@ -24,4 +26,5 @@ export {
   BallCanvas, 
   ComputersCanvas, 
   StarsCanvas
+
 };
