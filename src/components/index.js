@@ -9,6 +9,7 @@ import Feedbacks from "./Feedbacks.jsx";
 import Contact from "./Contact.jsx";
 import CanvasLoader from "./Loader.jsx";
 import Recognitions from "./Recognitions.jsx";
+import Socials from "./Socials.jsx";
 
 
 export {
@@ -21,6 +22,7 @@ export {
   Recognitions,
   Feedbacks,
   Contact,
+  Socials,
   CanvasLoader,
   EarthCanvas, 
   BallCanvas, 
