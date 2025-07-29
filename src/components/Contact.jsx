@@ -16,6 +16,7 @@ const Contact = () => {
     message: "",
   });
 
+  // console.log(form);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -25,6 +26,24 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Validation
+    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+      toast.error("Please fill out all fields.", {
+        style: {
+          border: "1px solid #ff4d4f",
+          padding: "12px 16px",
+          color: "#fff",
+          background: "#1f1f1f",
+        },
+        iconTheme: {
+          primary: "#ff4d4f",
+          secondary: "#1f1f1f",
+        },
+      });
+      return;
+    }
+
     setLoading(true);
 
     emailjs
@@ -32,24 +51,47 @@ const Contact = () => {
         import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
         {
-          from_name: form.name,
+          name: form.name,
           to_name: "Arbin Zaman",
-          from_email: form.email,
-          to_email: "arbinzmn@gmail.com",
+          email: form.email,
+          // email: "arbinzmn@gmail.com",
           message: form.message,
+          time: new Date().toISOString(),
         },
         import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
       )
       .then(
         () => {
           setLoading(false);
-          toast.success("Thank you. I'll get back to you soon!");
+          toast.success("Thanks for reaching out! I'll reply soon.", {
+            style: {
+              border: "1px solid #4ade80",
+              padding: "12px 16px",
+              color: "#fff",
+              background: "#1f1f1f",
+            },
+            iconTheme: {
+              primary: "#4ade80",
+              secondary: "#1f1f1f",
+            },
+          });
           setForm({ name: "", email: "", message: "" });
         },
         (error) => {
           setLoading(false);
           console.error(error);
-          toast.error("Something went wrong. Please try again.");
+          toast.error("Something went wrong. Please try again later.", {
+            style: {
+              border: "1px solid #facc15",
+              padding: "12px 16px",
+              color: "#fff",
+              background: "#1f1f1f",
+            },
+            iconTheme: {
+              primary: "#facc15",
+              secondary: "#1f1f1f",
+            },
+          });
         }
       );
   };
