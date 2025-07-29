@@ -17,8 +17,8 @@ import {
   docker,
   tesla,
   shopify,
-  carrent,
   jobit,
+  carrent,
   tripguide,
   threejs,
 } from "../assets";
@@ -37,20 +37,21 @@ import UITS from "../assets/recognization/uits.png";
 import gp from "../assets/recognization/gp.png";
 import btrcLogo from "../assets/recognization/btrcLogo.png";
 import uihpLogo from "../assets/recognization/uihpLogo.jpg";
+import dokaan from "../assets/dokaan.png";
+import hms from "../assets/hms.png";
 
 export const navLinks = [
   { id: "about", title: "About" },
   { id: "work", title: "Work" },
   { id: "recognition", title: "Recognition" },
   { id: "contact", title: "Contact" },
-
 ];
 
 const services = [
   { title: "Full Stack Developer", icon: web },
-  { title: "React Native Developer", icon: mobile },
-  { title: "Backend Developer", icon: backend },
-  { title: "Automation & Script Developer", icon: creator },
+  { title: "Automation Expert", icon: mobile },
+  { title: "Entrepreneur", icon: backend },
+  { title: "Innovator", icon: creator },
 ];
 
 const technologies = [
@@ -71,7 +72,6 @@ const technologies = [
   // { name: "docker", icon: docker },
   { name: "Prisma", icon: prisma },
 ];
-
 const experiences = [
   {
     title: "Jr. Software Developer",
@@ -112,73 +112,73 @@ const experiences = [
     ],
   },
 ];
-
 const testimonials = [
   {
     testimonial:
       "Arbin played a key role in enhancing our HMS frontend performance and maintainability.",
-    name: "Fahim Rahman",
+    name: "Kamrul Saad",
     designation: "Backend Developer",
     company: "UNIECH",
-    image: "https://randomuser.me/api/portraits/men/77.jpg",
+    // image: "https://randomuser.me/api/portraits/men/77.jpg",
   },
   {
     testimonial:
       "His frontend logic and rapid problem solving helped us launch the CRM module ahead of schedule.",
-    name: "Mohammad Saad",
-    designation: "Project Manager",
+    name: "Asim ibne Alyus",
+    designation: "Lead Project Manager",
     company: "Anwar Technologies",
     image: "https://randomuser.me/api/portraits/men/55.jpg",
   },
   {
     testimonial:
       "We relied on Arbin’s skills to implement performance-focused UI for the battery website — and he delivered.",
-    name: "Shafiq Ahmed",
-    designation: "Team Lead",
+    name: "Nazmul Hasan",
+    designation: "Manager",
     company: "Prionty Digitals",
     image: "https://randomuser.me/api/portraits/men/4.jpg",
   },
 ];
-
 const projects = [
+  {
+    name: "Dokaan - Mobile Based ERP System",
+    description:
+      "A full-stack mobile ERP system for small businesses. Manages inventory, sales, and customers. Built with React Native and Node.js for real-time performance and seamless cross-device usage.",
+    tags: [
+      { name: "reactjs", color: "blue-text-gradient" },
+      { name: "reactnative", color: "green-text-gradient" },
+      { name: "nodejs", color: "pink-text-gradient" },
+    ],
+    image: dokaan,
+    source_code_link: "https://github.com/arbinzaman/Dokaan",
+  },
   {
     name: "Rahimafrooz Battery Website",
     description:
-      "Developed a responsive site with interactive location map, battery finder tool, and warranty registration dashboard. Ensured accessibility across devices.",
+      "Corporate website with location map, battery finder, and warranty registration tools. Developed using React and Node.js to ensure fast performance, responsiveness, and accessibility across all devices.",
     tags: [
       { name: "react", color: "blue-text-gradient" },
-      { name: "tailwind", color: "green-text-gradient" },
-      { name: "vercel", color: "pink-text-gradient" },
+      { name: "cms", color: "green-text-gradient" },
+      { name: "nodejs", color: "pink-text-gradient" },
     ],
-    image: carrent,
+    image: jobit,
     source_code_link:
       "https://github.com/arbinzaman/rahimafrooz-battery-frontend",
   },
+
   {
     name: "Hospital Management System (HMS)",
     description:
-      "Full-stack HMS app with patient QR-code access, appointment and billing modules. Integrated real-time updates using MongoDB.",
+      "Hospital system with patient QR access, appointment scheduling, and billing features. Built with React, Express, and MongoDB for fast performance and smooth real-time user interactions.",
     tags: [
       { name: "react", color: "blue-text-gradient" },
       { name: "mongodb", color: "green-text-gradient" },
       { name: "express", color: "pink-text-gradient" },
     ],
-    image: jobit,
+    image: hms,
     source_code_link:
       "https://github.com/arbinzaman/hospital-management-system-client",
   },
-  {
-    name: "CRM with Python Automation",
-    description:
-      "Built a CRM dashboard using React and Electron. Used Python scripts to automate report generation and manage backend operations.",
-    tags: [
-      { name: "electron", color: "blue-text-gradient" },
-      { name: "react", color: "green-text-gradient" },
-      { name: "python", color: "pink-text-gradient" },
-    ],
-    image: tripguide,
-    source_code_link: "https://github.com/arbinzaman",
-  },
+  ,
 ];
 const recognitions = [
   {
@@ -188,8 +188,8 @@ const recognitions = [
     description:
       "Team Leisurely_Loco was selected for Innovation Cohort 2 under the University Innovation Hub Program. Collaborated with mentors and entrepreneurs to refine digital startup ideas and drive innovation.",
     tags: ["UIHP", "InnovationInAction", "StartupJourney"],
-    logo: uihpLogo,       // updated logo import
-    imageUrl: uihp,       // image can remain as before
+    logo: uihpLogo, // updated logo import
+    imageUrl: uihp, // image can remain as before
   },
   {
     title: "Head of Media & Communication",
@@ -197,8 +197,14 @@ const recognitions = [
     date: "2021 - 2025",
     description:
       "Led media and communication efforts for UITS Computer Club. Participated in numerous competitions including gaming and photography, organized various events, and coordinated club outreach activities to boost member engagement and public relations.",
-    tags: ["UITS", "MediaLeadership", "EventOrganizer", "Photography", "Gaming"],
-    logo: UITS,          // new imported logo for UITS Computer Club
+    tags: [
+      "UITS",
+      "MediaLeadership",
+      "EventOrganizer",
+      "Photography",
+      "Gaming",
+    ],
+    logo: UITS, // new imported logo for UITS Computer Club
     imageUrl: University, // keep the university image for achievement
   },
   {
@@ -208,7 +214,7 @@ const recognitions = [
     description:
       "Selected for the Grameenphone Accelerator Idea Design Bootcamp. Worked closely with mentors and industry leaders to enhance startup strategies and prototype development.",
     tags: ["GPAccelerator", "IdeaDesignBootcamp", "Entrepreneurship"],
-    logo: gp,             // new imported GP logo
+    logo: gp, // new imported GP logo
     imageUrl: GPAccelerator,
   },
   {
@@ -218,10 +224,15 @@ const recognitions = [
     description:
       "Team Dokaan represented UITS at the national Telecom & Digital Innovation Fair 2025, showcasing a smart retail system. Among 32 projects, it highlighted digital innovation aligned with the Smart Bangladesh initiative.",
     tags: ["UITS", "SmartBangladesh", "InnovationFair"],
-    logo: btrcLogo,       // new BTRC logo import
+    logo: btrcLogo, // new BTRC logo import
     imageUrl: btrc,
   },
 ];
-
-
-export { services, technologies, experiences, testimonials, projects, recognitions };
+export {
+  services,
+  technologies,
+  experiences,
+  testimonials,
+  projects,
+  recognitions,
+};
