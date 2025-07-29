@@ -223,7 +223,7 @@ const recognitions = [
     date: "July 2025",
     description:
       "Team Dokaan represented UITS at the national Telecom & Digital Innovation Fair 2025, showcasing a smart retail system. Among 32 projects, it highlighted digital innovation aligned with the Smart Bangladesh initiative.",
-    tags: ["UITS", "SmartBangladesh", "InnovationFair"],
+    tags: ["btrc", "SmartBangladesh", "InnovationFair"],
     logo: btrcLogo, // new BTRC logo import
     imageUrl: btrc,
   },
