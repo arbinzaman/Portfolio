@@ -87,7 +87,7 @@ const experiences = [
     ],
   },
   {
-    title: "React Frontend Developer (Contract)",
+    title: "Jr. Software Engineer (Contract)",
     company_name: "Prionty Digitals",
     icon: prionty,
     iconBg: "#E6DEDD",
