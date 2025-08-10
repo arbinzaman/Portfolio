@@ -39,6 +39,7 @@ import btrcLogo from "../assets/recognization/btrcLogo.png";
 import uihpLogo from "../assets/recognization/uihpLogo.jpg";
 import dokaan from "../assets/dokaan.png";
 import hms from "../assets/hms.png";
+import sise from "../assets/priseRecevingImage.png";
 
 export const navLinks = [
   { id: "about", title: "About" },
@@ -181,17 +182,8 @@ const projects = [
   ,
 ];
 const recognitions = [
-  {
-    title: "Innovation Cohort 2 – BRAC University",
-    organization: "BRAC University UIHP",
-    date: "May 2025",
-    description:
-      "Team Leisurely_Loco was selected for Innovation Cohort 2 under the University Innovation Hub Program. Collaborated with mentors and entrepreneurs to refine digital startup ideas and drive innovation.",
-    tags: ["UIHP", "InnovationInAction", "StartupJourney"],
-    logo: uihpLogo, // updated logo import
-    imageUrl: uihp, // image can remain as before
-  },
-  {
+  
+   {
     title: "Head of Media & Communication",
     organization: "UITS Computer Club",
     date: "2021 - 2025",
@@ -206,7 +198,17 @@ const recognitions = [
     ],
     logo: UITS, // new imported logo for UITS Computer Club
     imageUrl: University, // keep the university image for achievement
+  },{
+    title: "Innovation Cohort 2 – BRAC University",
+    organization: "BRAC University UIHP",
+    date: "May 2025",
+    description:
+      "Team Leisurely_Loco was selected for Innovation Cohort 2 under the University Innovation Hub Program. Collaborated with mentors and entrepreneurs to refine digital startup ideas and drive innovation.",
+    tags: ["UIHP", "InnovationInAction", "StartupJourney"],
+    logo: uihpLogo, // updated logo import
+    imageUrl: uihp, // image can remain as before
   },
+ 
   {
     title: "GP Accelerator Idea Design Bootcamp",
     organization: "Grameenphone Ltd.",
@@ -227,6 +229,17 @@ const recognitions = [
     logo: btrcLogo, // new BTRC logo import
     imageUrl: btrc,
   },
+{
+  title: "2nd Runner-Up at SISE Autumn 2025",
+  organization: "UITS & IEEE UITS Student Branch",
+  date: "Autumn 2025",
+  description:
+    "Team Dokaan won 2nd Runner-Up at the Symposium on Information Science & Engineering (SISE) Autumn 2025 for developing a mobile-based miniature ERP solution empowering small and medium retailers in Bangladesh.",
+  tags: ["Dokaan", "ERP", "RetailTech", "SISE2025", "UITS", "IEEE", "Innovation"],
+  logo: UITS, // new SISE/IEEE logo import
+  imageUrl: sise, // related event/project image
+},
+
 ];
 export {
   services,
