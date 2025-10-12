@@ -42,6 +42,7 @@ import hms from "../assets/hms.png";
 import sise from "../assets/priseRecevingImage.png";
 import ICTAwardLogo from "../assets/recognization/ictInnovationLogo.png";
 import ICTAwardImage from "../assets/recognization/ictInnovation2.jpeg";
+import club from "../assets/recognization/club.png";
 
 export const navLinks = [
   { id: "about", title: "About" },
@@ -197,7 +198,7 @@ const recognitions = [
       "Photography",
       "Gaming",
     ],
-    logo: UITS, // new imported logo for UITS Computer Club
+    logo: club, // new imported logo for UITS Computer Club
     imageUrl: University, // keep the university image for achievement
   },
   {
@@ -233,8 +234,8 @@ const recognitions = [
   },
   {
     title: "2nd Runner-Up at SISE Autumn 2025",
-    organization: "UITS & IEEE UITS Student Branch",
-    date: "Autumn 2025",
+    organization: "University of Information Technology & Sciences (UITS)",
+    date: "August 2025",
     description:
       "Team Dokaan won 2nd Runner-Up at the Symposium on Information Science & Engineering (SISE) Autumn 2025 for developing a mobile-based miniature ERP solution empowering small and medium retailers in Bangladesh.",
     tags: [

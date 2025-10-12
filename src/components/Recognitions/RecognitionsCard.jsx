@@ -14,42 +14,43 @@ const RecognitionCard = ({
 }) => {
   return (
     <motion.div
-      variants={fadeIn("up", "spring", index * 0.3, 0.75)}
-      className="bg-gradient-to-br from-[#0a0a0a] to-[#111111] border border-cyan-500 shadow-[0_0_20px_#00ffff70] rounded-2xl overflow-hidden w-full sm:w-[48%] flex flex-col"
-    >
+  initial={{ opacity: 1, y: 0 }}
+  animate={{ opacity: 1, y: 0 }}
+  className="w-full sm:w-[48%] flex flex-col bg-gradient-to-br from-[#0a0a0a] to-[#111111] border border-cyan-500 shadow-lg shadow-cyan-500/50 rounded-2xl overflow-visible"
+>
+
       {/* Achievement Image */}
       {imageUrl && (
         <img
           src={imageUrl}
           alt={title}
-          className="w-full h-52 object-cover rounded-t-2xl"
+          className="w-full h-48 sm:h-56 object-cover rounded-t-2xl"
         />
       )}
 
       {/* Content */}
-      <div className="p-6 flex flex-col gap-4">
+      <div className="p-6 flex flex-col gap-4 bg-black/50">
         <div className="flex items-center gap-4">
-          {/* Logo with white background and padding */}
-          <div
-            className="bg-white rounded-full p-1.5 flex justify-center items-center"
-            style={{ width: 40, height: 40, minWidth: 40, minHeight: 40 }}
-          >
-            <img
-              src={logo}
-              alt={organization}
-              className="max-w-[28px] max-h-[28px] object-contain"
-            />
-          </div>
+          {/* Logo */}
+          {logo && (
+            <div className="bg-white rounded-full p-1.5 flex justify-center items-center w-10 h-10 min-w-[40px] min-h-[40px]">
+              <img
+                src={logo}
+                alt={organization}
+                className="max-w-[28px] max-h-[28px] object-contain"
+              />
+            </div>
+          )}
 
           <div>
             <h3 className="text-white text-lg font-semibold">{title}</h3>
-            <p className="text-cyan-300 text-sm">
+            <p className="text-cyan-400 text-sm">
               {organization} • {date}
             </p>
           </div>
         </div>
 
-        <p className="text-gray-300 text-sm leading-relaxed">{description}</p>
+        <p className="text-gray-100 text-sm leading-relaxed">{description}</p>
 
         <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (
