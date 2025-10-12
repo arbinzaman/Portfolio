@@ -40,6 +40,8 @@ import uihpLogo from "../assets/recognization/uihpLogo.jpg";
 import dokaan from "../assets/dokaan.png";
 import hms from "../assets/hms.png";
 import sise from "../assets/priseRecevingImage.png";
+import ICTAwardLogo from "../assets/recognization/ictInnovationLogo.png";
+import ICTAwardImage from "../assets/recognization/ictInnovation2.jpeg";
 
 export const navLinks = [
   { id: "about", title: "About" },
@@ -182,8 +184,7 @@ const projects = [
   ,
 ];
 const recognitions = [
-  
-   {
+  {
     title: "Head of Media & Communication",
     organization: "UITS Computer Club",
     date: "2021 - 2025",
@@ -198,7 +199,8 @@ const recognitions = [
     ],
     logo: UITS, // new imported logo for UITS Computer Club
     imageUrl: University, // keep the university image for achievement
-  },{
+  },
+  {
     title: "Innovation Cohort 2 – BRAC University",
     organization: "BRAC University UIHP",
     date: "May 2025",
@@ -208,7 +210,7 @@ const recognitions = [
     logo: uihpLogo, // updated logo import
     imageUrl: uihp, // image can remain as before
   },
- 
+
   {
     title: "GP Accelerator Idea Design Bootcamp",
     organization: "Grameenphone Ltd.",
@@ -224,22 +226,47 @@ const recognitions = [
     organization: "BTRC",
     date: "July 2025",
     description:
-      "Team Dokaan represented UITS at the national Telecom & Digital Innovation Fair 2025, showcasing a smart retail system. Among 32 projects, it highlighted digital innovation aligned with the Smart Bangladesh initiative.",
+      "Represented UITS at the national Telecom & Digital Innovation Fair 2025, showcasing a smart retail system. Among 32 projects, it highlighted digital innovation aligned with the Smart Bangladesh initiative.",
     tags: ["btrc", "SmartBangladesh", "InnovationFair"],
     logo: btrcLogo, // new BTRC logo import
     imageUrl: btrc,
   },
-{
-  title: "2nd Runner-Up at SISE Autumn 2025",
-  organization: "UITS & IEEE UITS Student Branch",
-  date: "Autumn 2025",
-  description:
-    "Team Dokaan won 2nd Runner-Up at the Symposium on Information Science & Engineering (SISE) Autumn 2025 for developing a mobile-based miniature ERP solution empowering small and medium retailers in Bangladesh.",
-  tags: ["Dokaan", "ERP", "RetailTech", "SISE2025", "UITS", "IEEE", "Innovation"],
-  logo: UITS, // new SISE/IEEE logo import
-  imageUrl: sise, // related event/project image
-},
-
+  {
+    title: "2nd Runner-Up at SISE Autumn 2025",
+    organization: "UITS & IEEE UITS Student Branch",
+    date: "Autumn 2025",
+    description:
+      "Team Dokaan won 2nd Runner-Up at the Symposium on Information Science & Engineering (SISE) Autumn 2025 for developing a mobile-based miniature ERP solution empowering small and medium retailers in Bangladesh.",
+    tags: [
+      "Dokaan",
+      "ERP",
+      "RetailTech",
+      "SISE2025",
+      "UITS",
+      "IEEE",
+      "Innovation",
+    ],
+    logo: UITS, // new SISE/IEEE logo import
+    imageUrl: sise, // related event/project image
+  },
+  {
+    title: "Bangladesh ICT & Innovation Awards 2025",
+    organization: "Bangladesh Innovation Forum",
+    date: "October 2025",
+    description:
+      "Selected for Bangladesh ICT & Innovation Awards 2025 and Participated in the presentation and evaluation phase , held on 11 October 2025 at the University of Liberal Arts Bangladesh (ULAB).",
+    tags: [
+      "TeamDokaan",
+      "BangladeshICTAwards",
+      "Innovation2025",
+      "SmartBangladesh",
+      "UITS",
+      "ULAB",
+      "CSE",
+    ],
+    logo: ICTAwardLogo, // import your new ICT Awards or UITS logo
+    imageUrl: ICTAwardImage, // relevant event or presentation image
+  },
 ];
 export {
   services,
