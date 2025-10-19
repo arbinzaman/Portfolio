@@ -43,6 +43,7 @@ import sise from "../assets/priseRecevingImage.png";
 import ICTAwardLogo from "../assets/recognization/ictInnovationLogo.png";
 import ICTAwardImage from "../assets/recognization/ictInnovation2.jpeg";
 import club from "../assets/recognization/club.png";
+import biin from "../assets/recognization/biin.jpeg";
 
 export const navLinks = [
   { id: "about", title: "About" },
@@ -206,7 +207,7 @@ const recognitions = [
     organization: "BRAC University UIHP",
     date: "May 2025",
     description:
-      "Team Leisurely_Loco was selected for Innovation Cohort 2 under the University Innovation Hub Program. Collaborated with mentors and entrepreneurs to refine digital startup ideas and drive innovation.",
+      "Team Dokaan was selected among 200+ teams nationwide for Innovation Cohort 2 under the University Innovation Hub Program. Collaborated with mentors and entrepreneurs to refine digital startup ideas and drive innovation.",
     tags: ["UIHP", "InnovationInAction", "StartupJourney"],
     logo: uihpLogo, // updated logo import
     imageUrl: uihp, // image can remain as before
@@ -217,7 +218,7 @@ const recognitions = [
     organization: "Grameenphone Ltd.",
     date: "June 2025",
     description:
-      "Selected for the Grameenphone Accelerator Idea Design Bootcamp. Worked closely with mentors and industry leaders to enhance startup strategies and prototype development.",
+      "Selected among 450+ teams across Bangladesh for the Grameenphone Accelerator Idea Design Bootcamp. Collaborated with mentors and industry leaders to refine startup strategies and accelerate prototype development.",
     tags: ["GPAccelerator", "IdeaDesignBootcamp", "Entrepreneurship"],
     logo: gp, // new imported GP logo
     imageUrl: GPAccelerator,
@@ -227,7 +228,7 @@ const recognitions = [
     organization: "BTRC",
     date: "July 2025",
     description:
-      "Represented UITS at the national Telecom & Digital Innovation Fair 2025, showcasing a smart retail system. Among 32 projects, it highlighted digital innovation aligned with the Smart Bangladesh initiative.",
+      "Represented UITS at the national Telecom & Digital Innovation Fair 2025, showcasing a smart retail system. Among 32+ teams, it highlighted digital innovation aligned with the Smart Bangladesh initiative.",
     tags: ["btrc", "SmartBangladesh", "InnovationFair"],
     logo: btrcLogo, // new BTRC logo import
     imageUrl: btrc,
@@ -237,7 +238,7 @@ const recognitions = [
     organization: "University of Information Technology & Sciences (UITS)",
     date: "August 2025",
     description:
-      "Team Dokaan won 2nd Runner-Up at the Symposium on Information Science & Engineering (SISE) Autumn 2025 for developing a mobile-based miniature ERP solution empowering small and medium retailers in Bangladesh.",
+      "Team Dokaan won 2nd Runner-Up at the Symposium on Information Science & Engineering (SISE) Autumn 2025, among 45+ participants from UITS, for developing a mobile-based miniature ERP solution empowering small and medium retailers in Bangladesh.",
     tags: [
       "Dokaan",
       "ERP",
@@ -255,7 +256,7 @@ const recognitions = [
     organization: "Bangladesh Innovation Forum",
     date: "October 2025",
     description:
-      "Selected for Bangladesh ICT & Innovation Awards 2025 and Participated in the presentation and evaluation phase , held on 11 October 2025 at the University of Liberal Arts Bangladesh (ULAB).",
+      "Team Dokaan proudly secured 2nd Runner-Up (🥉) among 300+ participants in the Bangladesh ICT & Innovation Awards 2025, held on October 18, 2025, at IUB, organized by  Bangladesh ICT & Innovation Networks (BIIN).",
     tags: [
       "TeamDokaan",
       "BangladeshICTAwards",
@@ -266,7 +267,7 @@ const recognitions = [
       "CSE",
     ],
     logo: ICTAwardLogo, // import your new ICT Awards or UITS logo
-    imageUrl: ICTAwardImage, // relevant event or presentation image
+    imageUrl: biin, // relevant event or presentation image
   },
 ];
 export {
