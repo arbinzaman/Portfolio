@@ -156,6 +156,7 @@ const projects = [
     ],
     image: dokaan,
     source_code_link: "https://github.com/arbinzaman/Dokaan",
+    live_link: "https://dokaan.vercel.app", // 👈 add live site link here
   },
   {
     name: "Rahimafrooz Battery Website",
@@ -169,8 +170,8 @@ const projects = [
     image: rahimafroozprojectpicture,
     source_code_link:
       "https://github.com/arbinzaman/rahimafrooz-battery-frontend",
+    live_link: "https://rahimafrooz-battery-frontend.vercel.app", // 👈 live link
   },
-
   {
     name: "Hospital Management System (HMS)",
     description:
@@ -183,9 +184,10 @@ const projects = [
     image: hms,
     source_code_link:
       "https://github.com/arbinzaman/hospital-management-system-client",
+    live_link: "https://hms-uniech.vercel.app/", // 👈 live link
   },
-  ,
 ];
+
 const recognitions = [
   {
     title: "Head of Media & Communication",
@@ -254,10 +256,10 @@ const recognitions = [
   },
   {
     title: "Bangladesh ICT & Innovation Awards 2025",
-    organization: "Bangladesh Innovation Forum",
+    organization: "Bangladesh ICT & Innovation Networks",
     date: "October 2025",
     description:
-      "Team Dokaan proudly secured 2nd Runner-Up (🥉) among 300+ participants in the Bangladesh ICT & Innovation Awards 2025, held on October 18, 2025, at IUB, organized by  Bangladesh ICT & Innovation Networks (BIIN).",
+      "Team Dokaan proudly secured 2nd Runner-Up (🥉) among 300+ participants in the Bangladesh ICT & Innovation Awards 2025, held on October 18, 2025, at IUB, organized by Bangladesh ICT & Innovation Networks (BIIN).",
     tags: [
       "TeamDokaan",
       "BangladeshICTAwards",

@@ -1,11 +1,10 @@
 import React from "react";
 import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
-
-import { styles } from "../styles";
+import {ExternalLink} from "lucide-react";
 import { github } from "../assets";
+import { styles } from "../styles";
 import { SectionWrapper } from "../hoc";
-
 import { projects } from "../constants";
 import { fadeIn, textVariant } from "../utils/motion";
 
@@ -16,6 +15,7 @@ const ProjectCard = ({
   tags,
   image,
   source_code_link,
+  live_link,
 }) => {
   return (
     <motion.div variants={fadeIn("up", "spring", index * 0.5, 0.75)}>
@@ -24,25 +24,40 @@ const ProjectCard = ({
         tiltMaxAngleY={45}
         scale={1}
         transitionSpeed={450}
-        className="bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full"
+        className="bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full cursor-pointer hover:opacity-90 transition-opacity duration-300"
       >
         <div className="relative w-full h-[230px]">
           <img
             src={image}
-            alt="project_image"
+            alt={name}
             className="w-full h-full object-cover rounded-2xl"
           />
 
-          <div className="absolute inset-0 flex justify-end m-3 card-img_hover">
+          <div className="absolute inset-0 flex justify-end m-3 gap-2 card-img_hover">
+            {/* GitHub Button */}
             <div
-              onClick={() => window.open(source_code_link, "_blank")}
+              onClick={(e) => {
+                e.stopPropagation();
+                window.open(source_code_link, "_blank");
+              }}
               className="black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer"
             >
               <img
                 src={github}
-                alt="source code"
+                alt="github"
                 className="w-1/2 h-1/2 object-contain"
               />
+            </div>
+
+            {/* Live Site Button */}
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                window.open(live_link, "_blank");
+              }}
+              className="black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer text-white hover:text-gray-300 transition-colors"
+            >
+              <ExternalLink size={20} />
             </div>
           </div>
         </div>
