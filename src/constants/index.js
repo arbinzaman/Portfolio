@@ -44,6 +44,7 @@ import ICTAwardLogo from "../assets/recognization/ictInnovationLogo.png";
 import ICTAwardImage from "../assets/recognization/ictInnovation2.jpeg";
 import club from "../assets/recognization/club.png";
 import biin from "../assets/recognization/biin.jpeg";
+import rahimafroozprojectpicture from "../assets/rahimafrooz.png";
 
 export const navLinks = [
   { id: "about", title: "About" },
@@ -165,7 +166,7 @@ const projects = [
       { name: "cms", color: "green-text-gradient" },
       { name: "nodejs", color: "pink-text-gradient" },
     ],
-    image: jobit,
+    image: rahimafroozprojectpicture,
     source_code_link:
       "https://github.com/arbinzaman/rahimafrooz-battery-frontend",
   },
