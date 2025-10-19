@@ -25,14 +25,13 @@ import {
 import anwarTechnologies from "../assets/company/anwarTechnologies.png";
 import prionty from "../assets/company/pritonty.jpeg";
 import uniech from "../assets/company/uniech.jpg";
-
 import python from "../assets/tech/python.png";
 import postgresql from "../assets/tech/postgreSql.png";
 import prisma from "../assets/tech/prisma.png";
-import uihp from "../assets/recognization/uihp.jpg";
-import btrc from "../assets/recognization/btrc.jpg";
+import uihp from "../assets/recognization/uihp-min.jpg";
+import btrc from "../assets/recognization/btrc-min.jpg";
 import GPAccelerator from "../assets/recognization/gpAccerleration.jpeg";
-import University from "../assets/recognization/universityRecognization.jpg";
+import University from "../assets/recognization/universityRecognization-min.jpg";
 import UITS from "../assets/recognization/uits.png";
 import gp from "../assets/recognization/gp.png";
 import btrcLogo from "../assets/recognization/btrcLogo.png";
@@ -41,7 +40,7 @@ import dokaan from "../assets/dokaan.png";
 import hms from "../assets/hms.png";
 import sise from "../assets/priseRecevingImage.png";
 import ICTAwardLogo from "../assets/recognization/ictInnovationLogo.png";
-import ICTAwardImage from "../assets/recognization/ictInnovation2.jpeg";
+// import ICTAwardImage from "../assets/recognization/ictInnovation2.jpeg";
 import club from "../assets/recognization/club.png";
 import biin from "../assets/recognization/biin.jpeg";
 import rahimafroozprojectpicture from "../assets/rahimafrooz.png";
