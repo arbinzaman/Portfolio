@@ -44,6 +44,8 @@ import ICTAwardLogo from "../assets/recognization/ictInnovationLogo.png";
 import club from "../assets/recognization/club.png";
 import biin from "../assets/recognization/biin.jpeg";
 import rahimafroozprojectpicture from "../assets/rahimafrooz.png";
+import apicta from "../assets/recognization/apicta.jpeg";
+import apictaLogo from "../assets/recognization/apictaLogo.jpeg";
 
 export const navLinks = [
   { id: "about", title: "About" },
@@ -155,7 +157,7 @@ const projects = [
     ],
     image: dokaan,
     source_code_link: "https://github.com/arbinzaman/Dokaan",
-    live_link: "https://dokaan.vercel.app", // 👈 add live site link here
+    live_link: "https://dokaan.vercel.app", //
   },
   {
     name: "Rahimafrooz Battery Website",
@@ -169,7 +171,7 @@ const projects = [
     image: rahimafroozprojectpicture,
     source_code_link:
       "https://github.com/arbinzaman/rahimafrooz-battery-frontend",
-    live_link: "https://rahimafrooz-battery-frontend.vercel.app", // 👈 live link
+    live_link: "https://rahimafrooz-battery-frontend.vercel.app", //
   },
   {
     name: "Hospital Management System (HMS)",
@@ -183,7 +185,7 @@ const projects = [
     image: hms,
     source_code_link:
       "https://github.com/arbinzaman/hospital-management-system-client",
-    live_link: "https://hms-uniech.vercel.app/", // 👈 live link
+    live_link: "https://hms-uniech.vercel.app/", //
   },
 ];
 
@@ -201,8 +203,8 @@ const recognitions = [
       "Photography",
       "Gaming",
     ],
-    logo: club, // new imported logo for UITS Computer Club
-    imageUrl: University, // keep the university image for achievement
+    logo: club, // UITS Computer Club logo
+    imageUrl: University, // University image
   },
   {
     title: "Innovation Cohort 2 – BRAC University",
@@ -211,10 +213,9 @@ const recognitions = [
     description:
       "Team Dokaan was selected among 200+ teams nationwide for Innovation Cohort 2 under the University Innovation Hub Program. Collaborated with mentors and entrepreneurs to refine digital startup ideas and drive innovation.",
     tags: ["UIHP", "InnovationInAction", "StartupJourney"],
-    logo: uihpLogo, // updated logo import
-    imageUrl: uihp, // image can remain as before
+    logo: uihpLogo,
+    imageUrl: uihp,
   },
-
   {
     title: "GP Accelerator Idea Design Bootcamp",
     organization: "Grameenphone Ltd.",
@@ -222,7 +223,7 @@ const recognitions = [
     description:
       "Selected among 450+ teams across Bangladesh for the Grameenphone Accelerator Idea Design Bootcamp. Collaborated with mentors and industry leaders to refine startup strategies and accelerate prototype development.",
     tags: ["GPAccelerator", "IdeaDesignBootcamp", "Entrepreneurship"],
-    logo: gp, // new imported GP logo
+    logo: gp,
     imageUrl: GPAccelerator,
   },
   {
@@ -232,7 +233,7 @@ const recognitions = [
     description:
       "Represented UITS at the national Telecom & Digital Innovation Fair 2025, showcasing a smart retail system. Among 32+ teams, it highlighted digital innovation aligned with the Smart Bangladesh initiative.",
     tags: ["btrc", "SmartBangladesh", "InnovationFair"],
-    logo: btrcLogo, // new BTRC logo import
+    logo: btrcLogo,
     imageUrl: btrc,
   },
   {
@@ -250,8 +251,8 @@ const recognitions = [
       "IEEE",
       "Innovation",
     ],
-    logo: UITS, // new SISE/IEEE logo import
-    imageUrl: sise, // related event/project image
+    logo: UITS,
+    imageUrl: sise,
   },
   {
     title: "Bangladesh ICT & Innovation Awards 2025",
@@ -268,10 +269,28 @@ const recognitions = [
       "ULAB",
       "CSE",
     ],
-    logo: ICTAwardLogo, // import your new ICT Awards or UITS logo
-    imageUrl: biin, // relevant event or presentation image
+    logo: ICTAwardLogo,
+    imageUrl: biin,
+  },
+  {
+    title: "Nominated At APICTA 2025 in Taiwan 🇹🇼",
+    organization: "Asia Pacific ICT Alliance (APICTA)",
+    date: "November 2025",
+    description:
+      "Nominated to represent Bangladesh at APICTA 2025 in Taiwan 🇹🇼 — a global recognition of innovation and impact in empowering small and medium retailers through digital solutions.",
+    tags: [
+      "APICTA2025",
+      "GlobalStage",
+      "Innovation",
+      "TeamDokaan",
+      "SmartBangladesh",
+      "BangladeshTech",
+    ],
+    logo: apictaLogo, // new APICTA logo import
+    imageUrl: apicta, // event or Taiwan image
   },
 ];
+
 export {
   services,
   technologies,
