@@ -9,6 +9,7 @@ import Feedbacks from "./Feedbacks.jsx";
 import Contact from "./Contact.jsx";
 import CanvasLoader from "./Loader.jsx";
 import Recognitions from "./Recognitions.jsx";
+import PhotoGallery from "./PhotoGallery.jsx";
 import Socials from "./Socials.jsx";
 
 
@@ -20,6 +21,7 @@ export {
   Experience,
   Works,
   Recognitions,
+  PhotoGallery,
   Feedbacks,
   Contact,
   Socials,

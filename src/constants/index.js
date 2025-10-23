@@ -40,12 +40,17 @@ import dokaan from "../assets/dokaan.png";
 import hms from "../assets/hms.png";
 import sise from "../assets/priseRecevingImage.png";
 import ICTAwardLogo from "../assets/recognization/ictInnovationLogo.png";
-// import ICTAwardImage from "../assets/recognization/ictInnovation2.jpeg";
 import club from "../assets/recognization/club.png";
 import biin from "../assets/recognization/biin.jpeg";
 import rahimafroozprojectpicture from "../assets/rahimafrooz.png";
 import apicta from "../assets/recognization/apicta.jpeg";
 import apictaLogo from "../assets/recognization/apictaLogo.jpeg";
+import bs from "../assets/gallery/bs.jpeg";
+import deltatimes from "../assets/gallery/deltatimes.jpeg";
+import dhakapost from "../assets/gallery/dhakapost.jpeg";
+import ittefaq from "../assets/gallery/ittefaq.jpeg";
+import techmail from "../assets/gallery/techmail.jpeg";
+import dhakatribute from "../assets/gallery/dhakatribute.jpeg";
 
 export const navLinks = [
   { id: "about", title: "About" },
@@ -290,7 +295,30 @@ const recognitions = [
     imageUrl: apicta, // event or Taiwan image
   },
 ];
-
+const galleryPhotos = [
+  {
+    title: "Bangladesh ICT & Innovation Network Coverage",
+    description: "Media coverage of Dokaan in BIIN program across multiple newspapers.",
+    images: [bs, ittefaq, deltatimes, dhakapost, techmail ,dhakatribute],
+  },
+  {
+    title: "Featured on Ekhon Television",
+    description: "We were featured on Ekhon TV during the BTRC Telecom & Digital Innovation Fair.",
+    embedUrl: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Ftv.ekhon%2Fvideos%2F635332049013025%2F&show_text=false&width=560&t=0",
+  },
+  // {
+  //   title: "Smart Bangladesh Coverage",
+  //   description:
+  //     "Press highlight focusing on contributions to digital transformation in retail.",
+  //   imageUrl: dhakapost,
+  // },
+  // {
+  //   title: "University Recognition Event",
+  //   description:
+  //     "Media coverage during a university event celebrating technology and growth.",
+  //   imageUrl: ittefaq,
+  // },
+];
 export {
   services,
   technologies,
@@ -298,4 +326,5 @@ export {
   testimonials,
   projects,
   recognitions,
+  galleryPhotos,
 };

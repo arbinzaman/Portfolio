@@ -13,6 +13,7 @@ import {
   StarsCanvas,
   Recognitions,
   Socials,
+  PhotoGallery,
 } from "./components";
 
 const App = () => {
@@ -75,6 +76,7 @@ const App = () => {
         <Tech />
         <Works />
         <Recognitions />
+        <PhotoGallery />
         <Feedbacks />
         <div className="relative z-0">
           <Contact />
