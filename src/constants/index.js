@@ -51,6 +51,7 @@ import dhakapost from "../assets/gallery/dhakapost.jpeg";
 import ittefaq from "../assets/gallery/ittefaq.jpeg";
 import techmail from "../assets/gallery/techmail.jpeg";
 import dhakatribute from "../assets/gallery/dhakatribute.jpeg";
+import etheatzLogo from "../assets/company/WhatsApp Image 2025-12-14 at 11.46.00 PM.jpeg";
 
 export const navLinks = [
   { id: "about", title: "About" },
@@ -85,12 +86,27 @@ const technologies = [
   { name: "Prisma", icon: prisma },
 ];
 const experiences = [
+
+  {
+  title: "Software Engineer (Contract)",
+  company_name: "Zyxora Ltd.",
+  icon: etheatzLogo,
+  iconBg: "#1F2937",
+  date: "Sep 2025 - Present",
+  points: [
+    "Developing a social media–style web app focused on halal and haram food guidance.",
+    "Building responsive, mobile-first UI with React and Tailwind CSS.",
+    "Managing API data and caching using Redux Toolkit Query (RTK Query).",
+    "Handling global state and authentication flows with Context API.",
+  ],
+},
+
   {
     title: "Jr. Software Developer",
     company_name: "Anwar Technologies",
     icon: anwarTechnologies,
     iconBg: "#E6DEDD",
-    date: "Feb 2024 - Present",
+    date: "Feb 2024 - Dec 2024",
     points: [
       "Building and maintaining a CRM system tailored to client needs.",
       "Ensuring application responsiveness and performance optimization.",
