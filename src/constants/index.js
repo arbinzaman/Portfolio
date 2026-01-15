@@ -88,11 +88,11 @@ const technologies = [
 const experiences = [
 
   {
-  title: "Software Engineer (Contract)",
-  company_name: "Zyxora Ltd.",
+  title: "Software Engineer",
+  company_name: "Zyxora Inc.",
   icon: etheatzLogo,
   iconBg: "#1F2937",
-  date: "Sep 2025 - Present",
+  date: "Jan 2026 - Present",
   points: [
     "Developing a social media–style web app focused on halal and haram food guidance.",
     "Building responsive, mobile-first UI with React and Tailwind CSS.",
@@ -106,7 +106,7 @@ const experiences = [
     company_name: "Anwar Technologies",
     icon: anwarTechnologies,
     iconBg: "#E6DEDD",
-    date: "Feb 2024 - Dec 2024",
+    date: "Feb 2025 - Dec 2025",
     points: [
       "Building and maintaining a CRM system tailored to client needs.",
       "Ensuring application responsiveness and performance optimization.",
@@ -115,11 +115,11 @@ const experiences = [
     ],
   },
   {
-    title: "Jr. Software Engineer (Contract)",
+    title: "Jr. Software Engineer",
     company_name: "Prionty Digitals",
     icon: prionty,
     iconBg: "#E6DEDD",
-    date: "May 2024 - Dec 2024",
+    date: "May 2024 - Jan 2025",
     points: [
       "API integration and collaboration with backend team.",
       "Optimized site initial loading speed from 7+s to under 1.5s.",
