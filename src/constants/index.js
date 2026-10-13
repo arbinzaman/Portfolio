@@ -320,6 +320,7 @@ const galleryPhotos = [
   {
     title: "Featured on Ekhon Television",
     description: "We were featured on Ekhon TV during the BTRC Telecom & Digital Innovation Fair.",
+    imageUrl: bs,
     embedUrl: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Ftv.ekhon%2Fvideos%2F635332049013025%2F&show_text=false&width=560&t=0",
   },
   // {

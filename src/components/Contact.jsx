@@ -80,7 +80,11 @@ const Contact = () => {
         (error) => {
           setLoading(false);
           console.error(error);
-          toast.error("Something went wrong. Please try again later.", {
+          const message =
+            error?.status === 412
+              ? "Email service needs reconnecting. Please try again later."
+              : "Something went wrong. Please try again later.";
+          toast.error(message, {
             style: {
               border: "1px solid #facc15",
               padding: "12px 16px",

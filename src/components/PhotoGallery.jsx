@@ -63,6 +63,19 @@ const PhotoGallery = () => {
                       />
                     ))}
                   </div>
+                ) : event.embedUrl ? (
+                  <div className="w-full aspect-video sm:aspect-[16/9] relative">
+                    <iframe
+                      src={event.embedUrl}
+                      className="absolute inset-0 w-full h-full rounded-xl shadow-lg"
+                      style={{ border: "none" }}
+                      scrolling="no"
+                      frameBorder="0"
+                      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
+                      allowFullScreen
+                      title={event.title}
+                    ></iframe>
+                  </div>
                 ) : event.imageUrl ? (
                   <motion.img
                     src={event.imageUrl}
@@ -73,19 +86,30 @@ const PhotoGallery = () => {
                     whileInView={{ opacity: 1 }}
                     transition={{ duration: 0.5 }}
                   />
-                ) : event.embedUrl ? (
-                  <div className="w-full aspect-video sm:aspect-[16/9] relative">
-                    <iframe
-                      src={event.embedUrl}
-                      className="absolute inset-0 w-full h-full rounded-xl shadow-lg"
-                      style={{ border: "none" }}
-                      scrolling="no"
-                      frameBorder="0"
-                      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                      allowFullScreen
-                      title={event.title}
-                    ></iframe>
-                  </div>
+                ) : event.videoUrl ? (
+                  <a
+                    href={event.videoUrl || event.embedUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group relative block w-full aspect-video sm:aspect-[16/9] overflow-hidden rounded-xl shadow-lg"
+                  >
+                    <img
+                      src={event.imageUrl || event.thumbnailUrl || "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80"}
+                      alt={event.title}
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/45" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/80 bg-white/10 backdrop-blur-sm shadow-lg">
+                        <span className="ml-1 text-2xl text-white">▶</span>
+                      </div>
+                    </div>
+                    <div className="absolute bottom-4 left-4 right-4 text-left">
+                      <span className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-cyan-200 backdrop-blur-sm">
+                        Watch video
+                      </span>
+                    </div>
+                  </a>
                 ) : null}
               </div>
             </SwiperSlide>
