@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, useLocation } from "react-router-dom";
 
 import {
   About,
@@ -15,7 +15,38 @@ import {
   Socials,
   PhotoGallery,
   Certified,
+  HobbyPortfolio,
 } from "./components";
+
+const PortfolioContent = () => {
+  const location = useLocation();
+
+  if (location.pathname === "/hobby") {
+    return <HobbyPortfolio />;
+  }
+
+  return (
+    <div className="relative z-0 bg-primary">
+      <div className="bg-hero-pattern bg-cover bg-no-repeat bg-center">
+        <Navbar />
+        <Hero />
+      </div>
+      <About />
+      <Experience />
+      <Tech />
+      <Works />
+      <Recognitions />
+      <Certified />
+      <PhotoGallery />
+      <Feedbacks />
+      <div className="relative z-0">
+        <Contact />
+        <StarsCanvas />
+        <Socials />
+      </div>
+    </div>
+  );
+};
 
 const App = () => {
   useEffect(() => {
@@ -85,25 +116,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <div className="relative z-0 bg-primary">
-        <div className="bg-hero-pattern bg-cover bg-no-repeat bg-center">
-          <Navbar />
-          <Hero />
-        </div>
-        <About />
-        <Experience />
-        <Tech />
-        <Works />
-        <Recognitions />
-        <Certified />
-        <PhotoGallery />
-        <Feedbacks />
-        <div className="relative z-0">
-          <Contact />
-          <StarsCanvas />
-          <Socials />
-        </div>
-      </div>
+      <PortfolioContent />
     </BrowserRouter>
   );
 };

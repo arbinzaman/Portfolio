@@ -12,6 +12,7 @@ import Recognitions from "./Recognitions.jsx";
 import PhotoGallery from "./PhotoGallery.jsx";
 import Socials from "./Socials.jsx";
 import Certified from "./Certified.jsx";
+import HobbyPortfolio from "./hobby/HobbyPortfolio.jsx";
 
 
 export {
@@ -24,6 +25,7 @@ export {
   Recognitions,
   PhotoGallery,
   Certified,
+  HobbyPortfolio,
   Feedbacks,
   Contact,
   Socials,
