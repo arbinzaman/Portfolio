@@ -14,6 +14,7 @@ import {
   Recognitions,
   Socials,
   PhotoGallery,
+  Certified,
 } from "./components";
 
 const App = () => {
@@ -94,6 +95,7 @@ const App = () => {
         <Tech />
         <Works />
         <Recognitions />
+        <Certified />
         <PhotoGallery />
         <Feedbacks />
         <div className="relative z-0">

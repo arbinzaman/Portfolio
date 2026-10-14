@@ -11,6 +11,7 @@ import CanvasLoader from "./Loader.jsx";
 import Recognitions from "./Recognitions.jsx";
 import PhotoGallery from "./PhotoGallery.jsx";
 import Socials from "./Socials.jsx";
+import Certified from "./Certified.jsx";
 
 
 export {
@@ -22,6 +23,7 @@ export {
   Works,
   Recognitions,
   PhotoGallery,
+  Certified,
   Feedbacks,
   Contact,
   Socials,
