@@ -31,7 +31,7 @@ const Certified = () => {
             pauseOnMouseEnter: true,
           }}
           speed={1600}
-          loop={certifiedBy.length > 4}
+          loop={certifiedBy.length > 6}
           slidesPerView={3}
           spaceBetween={28}
           breakpoints={{
@@ -48,7 +48,7 @@ const Certified = () => {
                   alt={`${organization} logo`}
                   className="h-12 max-w-[8rem] object-contain grayscale opacity-55 transition-all duration-500 group-hover:grayscale-0 group-hover:opacity-100"
                 />
-                <p className="line-clamp-1 text-center text-[11px] font-medium uppercase tracking-[0.14em] text-white/45 transition-colors duration-300 group-hover:text-white/80">
+                <p className="line-clamp-1 text-center text-[10px] font-medium uppercase tracking-[0.12em] text-white/45 transition-colors duration-300 group-hover:text-white/80">
                   {organization}
                 </p>
               </div>

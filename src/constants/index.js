@@ -336,6 +336,7 @@ const galleryPhotos = [
   //   imageUrl: ittefaq,
   // },
 ];
+
 export {
   services,
   technologies,
