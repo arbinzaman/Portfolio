@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, useLocation } from "react-router-dom";
+import { BrowserRouter, Link, useLocation } from "react-router-dom";
 
 import {
   About,
@@ -17,9 +17,24 @@ import {
   Certified,
   HobbyPortfolio,
 } from "./components";
+import TravelGalleryPage from "./components/hobby/TravelGalleryPage";
+import TravelPhotoPage from "./components/hobby/TravelPhotoPage";
+import TravelStoryPage from "./components/hobby/TravelStoryPage";
 
 const PortfolioContent = () => {
   const location = useLocation();
+
+  if (location.pathname === "/hobby/gallery") {
+    return <TravelGalleryPage />;
+  }
+
+  if (location.pathname.startsWith("/hobby/gallery/")) {
+    return <TravelPhotoPage />;
+  }
+
+  if (location.pathname.startsWith("/hobby/stories/")) {
+    return <TravelStoryPage />;
+  }
 
   if (location.pathname === "/hobby") {
     return <HobbyPortfolio />;
@@ -43,6 +58,28 @@ const PortfolioContent = () => {
         <Contact />
         <StarsCanvas />
         <Socials />
+        <footer className="border-t border-white/10 px-6 py-10 sm:px-12">
+          <Link
+            to="/hobby"
+            className="group relative mx-auto flex max-w-xl items-center justify-between overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-left transition-all duration-300 hover:-translate-y-1 hover:border-[#915EFF]/60 hover:bg-[#915EFF]/10 hover:shadow-[0_12px_40px_rgba(145,94,255,0.18)] sm:px-6"
+          >
+            <span className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-[#915EFF] to-cyan-400" />
+            <span className="pl-2">
+              <span className="block text-[10px] font-semibold uppercase tracking-[0.24em] text-[#915EFF]">
+                Beyond the screen
+              </span>
+              <span className="mt-1 block text-sm font-medium text-white">
+                Explore the places, stories, and miles behind the code
+              </span>
+            </span>
+            <span className="ml-4 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 text-lg text-white transition-all duration-300 group-hover:rotate-[-45deg] group-hover:border-[#915EFF] group-hover:bg-[#915EFF]">
+              →
+            </span>
+          </Link>
+          <p className="mt-4 text-center text-xs text-secondary/60">
+            © 2026 Arbin Zaman · Software Engineer & Traveller
+          </p>
+        </footer>
       </div>
     </div>
   );

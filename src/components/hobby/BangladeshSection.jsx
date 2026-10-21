@@ -119,6 +119,7 @@ const BangladeshSection = () => {
   const [calculatorOpen, setCalculatorOpen] = useState(false);
   const [selectedDistricts, setSelectedDistricts] = useState(new Set());
   const [visitorName, setVisitorName] = useState("");
+  const [tappedDistrict, setTappedDistrict] = useState(null);
   const pathById = useMemo(
     () => new Map(districtPaths.map((district) => [district.id, district.d])),
     [],
@@ -198,7 +199,6 @@ const BangladeshSection = () => {
 
   return (
     <section
-      id="journeys"
       className="mx-auto max-w-7xl px-6 py-20 sm:px-12 sm:py-28"
     >
       <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
@@ -299,6 +299,7 @@ const BangladeshSection = () => {
                       onBlur={() => setActiveDistrict(null)}
                       onClick={() => {
                         setActiveDistrict(name);
+                        setTappedDistrict(name);
                         toggleDistrict(name);
                       }}
                     >
@@ -327,10 +328,27 @@ const BangladeshSection = () => {
                 <span className="h-2.5 w-2.5 rounded-full bg-[#d8d4c8]" />
                 Still to explore
               </span>
-              <span className="hidden text-right sm:block">
-                {activeDistrict || "64 districts"}
+              <span className="text-right">
+                {activeDistrict || tappedDistrict || "Tap a district"}
               </span>
             </div>
+
+            {(tappedDistrict || activeDistrict) && (
+              <div className="mt-4 rounded-xl border border-[#36745e]/20 bg-white/60 px-4 py-3 text-sm text-[#17231f] sm:hidden">
+                <span className="font-semibold text-[#36745e]">
+                  {activeDistrict || tappedDistrict}
+                </span>
+                <span className="ml-2 text-[#17231f]/60">
+                  {calculatorOpen
+                    ? selectedDistricts.has(activeDistrict || tappedDistrict)
+                      ? "selected"
+                      : "not selected"
+                    : visitedDistricts.has(activeDistrict || tappedDistrict)
+                      ? "visited"
+                      : "not visited"}
+                </span>
+              </div>
+            )}
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <button
@@ -339,6 +357,7 @@ const BangladeshSection = () => {
                   setCalculatorOpen((open) => !open);
                   setSelectedDistricts(new Set());
                   setActiveDistrict(null);
+                  setTappedDistrict(null);
                 }}
                 className={`rounded-full px-5 py-3 text-xs font-semibold uppercase tracking-[0.14em] transition ${
                   calculatorOpen

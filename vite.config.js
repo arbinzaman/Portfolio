@@ -7,6 +7,8 @@ export default defineConfig({
   server: {
     watch: {
       ignored: ['**/dist/**', '**/*.crdownload', '**/*.tmp'],
+      usePolling: true,
+      interval: 1000,
     },
   },
   build: {

@@ -35,48 +35,85 @@ const indiaVideos = [
 
 const IndiaVideosSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const videoRefs = useRef([]);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+  const videoRef = useRef(null);
+  const touchStartX = useRef(null);
 
   useEffect(() => {
-    const intervalId = window.setInterval(() => {
-      setActiveIndex((currentIndex) => (currentIndex + 1) % indiaVideos.length);
-    }, 4000);
+    const section = sectionRef.current;
+    if (!section) return undefined;
 
-    return () => window.clearInterval(intervalId);
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { rootMargin: "200px 0px", threshold: 0.01 },
+    );
+    observer.observe(section);
+
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
-    videoRefs.current.forEach((video, index) => {
-      if (!video) return;
+    if (!isVisible) return undefined;
 
-      if (index === activeIndex) {
-        video.currentTime = 0;
-        video.play().catch(() => {});
-      } else {
-        video.pause();
-      }
+    const intervalId = window.setInterval(
+      () => setActiveIndex((currentIndex) => (currentIndex + 1) % indiaVideos.length),
+      4000,
+    );
+
+    return () => window.clearInterval(intervalId);
+  }, [isVisible]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !isVisible) return;
+
+    video.currentTime = 0;
+    video.play().catch(() => {});
+  }, [activeIndex, isVisible]);
+
+  const selectDestination = (index) => {
+    setActiveIndex(index);
+  };
+
+  const handlePointerDown = (event) => {
+    touchStartX.current = event.clientX;
+  };
+
+  const handlePointerUp = (event) => {
+    if (touchStartX.current === null) return;
+
+    const distance = event.clientX - touchStartX.current;
+    touchStartX.current = null;
+
+    if (Math.abs(distance) < 45) return;
+
+    setActiveIndex((currentIndex) => {
+      const direction = distance < 0 ? 1 : -1;
+      return (currentIndex + direction + indiaVideos.length) % indiaVideos.length;
     });
-  }, [activeIndex]);
+  };
 
   return (
-    <section className="relative flex min-h-[82vh] items-end overflow-hidden bg-[#17231f] px-6 py-20 text-white sm:px-12 sm:py-28">
-      {indiaVideos.map(({ video, title }, index) => (
+    <section
+      ref={sectionRef}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      className="relative flex min-h-[82vh] touch-pan-y items-end overflow-hidden bg-[#17231f] px-6 py-20 text-white sm:px-12 sm:py-28"
+    >
+      {isVisible && (
         <video
-          key={title}
-          ref={(element) => {
-            videoRefs.current[index] = element;
-          }}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
-            index === activeIndex ? "opacity-100" : "opacity-0"
-          }`}
-          src={video}
+          key={indiaVideos[activeIndex].title}
+          ref={videoRef}
+          className="absolute inset-0 h-full w-full object-cover"
+          src={indiaVideos[activeIndex].video}
           muted
           loop
           playsInline
-          preload={index === 0 ? "auto" : "metadata"}
+          preload="metadata"
           aria-hidden="true"
         />
-      ))}
+      )}
 
       <div className="absolute inset-0 bg-[#17231f]/40" />
       <div className="absolute inset-0 bg-gradient-to-t from-[#17231f]/90 via-[#17231f]/25 to-transparent" />
@@ -94,12 +131,18 @@ const IndiaVideosSection = () => {
 
         <div className="mt-8 flex gap-2" aria-label="India destinations">
           {indiaVideos.map(({ title }, index) => (
-            <span
+            <button
               key={title}
+              type="button"
+              aria-label={`Show ${title}`}
+              aria-current={index === activeIndex ? "true" : undefined}
+              onClick={() => selectDestination(index)}
               className={`h-1 transition-all duration-500 ${
                 index === activeIndex ? "w-12 bg-white" : "w-6 bg-white/40"
               }`}
-            />
+            >
+              <span className="sr-only">{title}</span>
+            </button>
           ))}
         </div>
       </div>

@@ -33,6 +33,9 @@ const HobbyHero = () => {
             <a href="#stories" className="hidden hover:text-white sm:inline">
               Stories
             </a>
+            <a href="#gallery" className="hidden hover:text-white sm:inline">
+              Gallery
+            </a>
             <Link to="/" className="hover:text-white">
               Coding portfolio
             </Link>
@@ -49,6 +52,7 @@ const HobbyHero = () => {
           muted
           loop
           playsInline
+          preload="metadata"
           aria-hidden="true"
         />
         <div className="absolute inset-0 bg-[#17231f]/45" />
@@ -63,8 +67,8 @@ const HobbyHero = () => {
             and beyond.
           </h1>
           <p className="mt-8 max-w-lg text-base leading-7 text-white/80 sm:text-lg">
-            A visual journal of places I have travelled, stories I have seen,
-            and moments I have captured along the way.
+            An avid traveller from Bangladesh, sharing the destinations,
+            landscapes, and moments I have captured along the way.
           </p>
           <a
             href="#journeys"
