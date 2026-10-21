@@ -1,5 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+
+import meghalayaVideo from "../../assets/videos/meghalaya.mp4";
+import kolkataVideo from "../../assets/videos/kolkata.mp4";
+import sikkimVideo from "../../assets/videos/Sikkim.mp4";
+import tajmahalVideo from "../../assets/videos/tajmahal video.mp4";
 
 export const stories = [
   {
@@ -13,7 +17,6 @@ export const stories = [
     content:
       "Every journey starts with a small decision to leave the familiar behind. Write the full account of this journey here: the route you took, the places that surprised you, the people you met, and the moment that made the trip unforgettable. This is your space to turn a destination into a memory.",
     readTime: "4 min read",
-    featured: true,
   },
   {
     number: "02",
@@ -41,96 +44,100 @@ export const stories = [
   },
 ];
 
+const travelVideos = [
+  { source: tajmahalVideo, label: "Agra, India" },
+  { source: sikkimVideo, label: "Sikkim, India" },
+  { source: meghalayaVideo, label: "Meghalaya, India" },
+  { source: kolkataVideo, label: "Kolkata, India" },
+];
+
+const socialLinks = [
+  { label: "Instagram", href: "https://www.instagram.com/zamanarbin/" },
+  { label: "YouTube", href: "https://www.youtube.com/@zamanarbin" },
+  { label: "Facebook", href: "https://www.facebook.com/zamanarbin/" },
+];
+
 const StoriesSection = () => {
-  const [featuredStory, ...otherStories] = stories;
+  const [activeVideo, setActiveVideo] = useState(0);
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveVideo((current) => (current + 1) % travelVideos.length);
+    }, 9000);
+    return () => window.clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    videoRef.current?.play().catch(() => {});
+  }, [activeVideo]);
+
   return (
-    <section
-      className="bg-[#17231f] px-6 py-20 text-[#f5f2ea] sm:px-12 sm:py-28"
-    >
-      <div className="mx-auto max-w-7xl">
-        <div className="flex flex-col justify-between gap-8 border-b border-white/15 pb-10 sm:flex-row sm:items-end">
-          <div>
-            <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#9bc6ad]">
-              <span className="h-px w-8 bg-[#9bc6ad]" />
-              Stories from the road
-            </div>
-            <h2 className="mt-5 max-w-3xl text-4xl font-semibold tracking-[-0.06em] sm:text-7xl">
-              Places become memories.
-            </h2>
-          </div>
-          <p className="max-w-xs text-sm leading-7 text-white/55">
-            Personal notes, honest detours, and the small moments that make a
-            journey worth remembering.
+    <section className="relative isolate min-h-[80vh] overflow-hidden bg-[#17231f] px-6 py-24 text-white sm:px-12 sm:py-32">
+      <video
+        key={travelVideos[activeVideo].source}
+        ref={videoRef}
+        className="absolute inset-0 -z-20 h-full w-full object-cover"
+        src={travelVideos[activeVideo].source}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload={activeVideo === 0 ? "metadata" : "none"}
+        aria-hidden="true"
+      />
+      <div className="absolute inset-0 -z-10 bg-[#07110d]/65" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#07110d] via-[#07110d]/45 to-[#07110d]/35" />
+
+      <div className="mx-auto flex min-h-[55vh] max-w-7xl flex-col justify-between">
+        <div className="max-w-3xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#b9dfc8]">
+            Follow the journey
           </p>
-        </div>
-
-        <div className="mt-10 grid gap-4 lg:grid-cols-[1.25fr_0.75fr]">
-          <article className="group relative flex min-h-[30rem] flex-col justify-between overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#36745e] via-[#265b4a] to-[#12231d] p-7 sm:p-10">
-            <div className="absolute -right-20 -top-24 h-72 w-72 rounded-full border-[2rem] border-white/10 transition duration-700 group-hover:scale-110" />
-            <div className="absolute bottom-10 right-10 h-28 w-28 rounded-full border border-white/20" />
-            <div className="relative flex items-start justify-between">
-              <span className="text-7xl font-light tracking-[-0.08em] text-white/25">
-                {featuredStory.number}
-              </span>
-              <span className="rounded-full border border-white/25 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/75">
-                {featuredStory.category}
-              </span>
-            </div>
-            <div className="relative max-w-xl">
-              <p className="mb-5 text-xs font-medium uppercase tracking-[0.2em] text-[#b9dfc8]">
-                Featured story · {featuredStory.readTime}
-              </p>
-              <h3 className="max-w-lg text-4xl font-semibold tracking-[-0.06em] sm:text-6xl">
-                {featuredStory.title}
-              </h3>
-              <p className="mt-5 max-w-lg text-sm leading-7 text-white/70">
-                {featuredStory.excerpt}
-              </p>
-              <Link
-              to={`/hobby/stories/${featuredStory.slug}`}
-              className="mt-8 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-white"
+          <h2 className="mt-6 text-5xl font-semibold leading-[0.95] tracking-[-0.07em] sm:text-8xl">
+            Watch the world
+            <br />
+            unfold.
+          </h2>
+          <p className="mt-8 max-w-2xl text-base leading-8 text-white/75 sm:text-lg">
+            Cinematic notes from the road. Follow along for new films,
+            photographs, and places worth finding.
+          </p>
+          <div className="mt-9 flex flex-wrap items-center gap-3">
+            {socialLinks.map((social) => (
+              <a
+                key={social.label}
+                href={social.href}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-full border border-white/25 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.16em] text-white/80 transition hover:border-white hover:bg-white hover:text-[#17231f]"
               >
-              Read full story
-              <span className="text-lg transition group-hover:translate-x-1">
-                ↗
-              </span>
-              </Link>
-            </div>
-          </article>
-
-          <div className="grid gap-4">
-            {otherStories.map((story) => (
-              <article
-                key={story.title}
-                className="group flex min-h-[14rem] flex-col justify-between rounded-[2rem] border border-white/15 bg-white/[0.04] p-7 transition duration-300 hover:border-[#9bc6ad]/60 hover:bg-white/[0.08] sm:p-8"
-              >
-                <div className="flex items-start justify-between gap-5">
-                  <span className="text-4xl font-light tracking-[-0.08em] text-[#9bc6ad]/50">
-                    {story.number}
-                  </span>
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/45">
-                    {story.category}
-                  </span>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-semibold tracking-[-0.04em]">
-                    {story.title}
-                  </h3>
-                  <p className="mt-3 max-w-md text-sm leading-6 text-white/55">
-                    {story.excerpt}
-                  </p>
-                  <Link
-                    to={`/hobby/stories/${story.slug}`}
-                    className="mt-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9bc6ad]"
-                  >
-                    Read full story{" "}
-                    <span className="ml-2 text-white/40">↗</span>
-                  </Link>
-                </div>
-              </article>
+                {social.label}
+              </a>
             ))}
           </div>
+        </div>
 
+        <div className="mt-20 flex flex-col justify-between gap-6 border-t border-white/20 pt-5 sm:flex-row sm:items-end">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/50">
+              Now showing
+            </p>
+            <p className="mt-2 text-sm font-medium">{travelVideos[activeVideo].label}</p>
+          </div>
+          <div className="flex gap-2">
+            {travelVideos.map((video, index) => (
+              <button
+                key={video.label}
+                type="button"
+                aria-label={`Show ${video.label}`}
+                onClick={() => setActiveVideo(index)}
+                className={`h-1 transition-all ${
+                  activeVideo === index ? "w-12 bg-white" : "w-6 bg-white/35"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>

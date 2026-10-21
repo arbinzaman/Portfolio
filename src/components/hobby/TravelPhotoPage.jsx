@@ -42,7 +42,7 @@ const TravelPhotoPage = () => {
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#9bc6ad]">
-              {item.category} · Travel archive
+              {item.category} · {item.region}
             </p>
             <h1 className="mt-6 text-5xl font-semibold tracking-[-0.07em] sm:text-7xl">
               {item.title}
@@ -50,6 +50,9 @@ const TravelPhotoPage = () => {
             <p className="mt-6 max-w-md text-base leading-8 text-white/60">
               A moment from the road, preserved as part of Arbin Zaman&apos;s
               travel archive.
+            </p>
+            <p className="mt-8 border-l border-[#9bc6ad]/60 pl-4 text-sm text-[#9bc6ad]">
+              Captured in {item.region}
             </p>
           </div>
         </div>

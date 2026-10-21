@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import HobbyHero from "./HobbyHero";
 
 const BangladeshSection = lazy(() => import("./BangladeshSection"));
-const IndiaVideosSection = lazy(() => import("./IndiaVideosSection"));
 const TravelGallery = lazy(() => import("./TravelGallery"));
 const StoriesSection = lazy(() => import("./StoriesSection"));
 
@@ -201,11 +200,6 @@ const HobbyPortfolio = () => {
       <DeferredSection id="journeys">
         <Suspense fallback={<SectionFallback />}>
           <BangladeshSection />
-        </Suspense>
-      </DeferredSection>
-      <DeferredSection>
-        <Suspense fallback={<SectionFallback />}>
-          <IndiaVideosSection />
         </Suspense>
       </DeferredSection>
       <DeferredSection id="gallery">

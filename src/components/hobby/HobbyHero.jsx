@@ -58,24 +58,28 @@ const HobbyHero = () => {
         <div className="absolute inset-0 bg-[#17231f]/45" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#17231f]/90 via-[#17231f]/20 to-[#17231f]/35" />
         <div className="relative z-10 mx-auto w-full max-w-7xl">
-          <p className="mb-6 text-xs font-semibold uppercase tracking-[0.3em] text-white/75">
-            Notes from the road
-          </p>
-          <h1 className="max-w-3xl text-5xl font-semibold leading-[0.98] tracking-[-0.06em] text-white sm:text-8xl">
-            Bangladesh
-            <br />
-            and beyond.
-          </h1>
-          <p className="mt-8 max-w-lg text-base leading-7 text-white/80 sm:text-lg">
-            An avid traveller from Bangladesh, sharing the destinations,
-            landscapes, and moments I have captured along the way.
-          </p>
-          <a
-            href="#journeys"
-            className="mt-10 inline-flex border-b border-white pb-2 text-sm font-semibold uppercase tracking-[0.16em]"
-          >
-            Explore the journeys
-          </a>
+          <div className="mt-12 max-w-2xl border-t border-white/25 pt-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#b9dfc8]">
+              Notes from the road
+            </p>
+            <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] sm:text-6xl">
+              Bangladesh
+              <span className="block">and beyond.</span>
+            </h1>
+            <p className="mt-3 max-w-xl text-sm leading-7 text-white/70 sm:text-base">
+              An avid traveller from Bangladesh, sharing the destinations,
+              landscapes, and moments I have captured along the way.
+            </p>
+            <a
+              href="#journeys"
+              className="mt-6 inline-flex items-center border-b border-[#b9dfc8]/70 pb-1 text-sm font-semibold text-[#d9f3e2] transition-colors hover:border-white hover:text-white"
+            >
+              Explore the journeys
+              <span className="ml-2" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          </div>
         </div>
       </section>
     </>

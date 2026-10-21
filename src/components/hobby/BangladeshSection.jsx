@@ -227,6 +227,7 @@ const BangladeshSection = () => {
             <p className="mt-3 max-w-md text-sm leading-6 text-[#17231f]/65">
               Every place adds a new frame to the story.
             </p>
+
           </div>
         </div>
 
