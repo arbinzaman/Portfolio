@@ -10,7 +10,6 @@ import {
   Navbar,
   Tech,
   Works,
-  StarsCanvas,
   Recognitions,
   Socials,
   PhotoGallery,
@@ -59,7 +58,6 @@ const PortfolioContent = () => {
         <Feedbacks />
         <div className="relative z-0">
           <Contact />
-          <StarsCanvas />
           <Socials />
           <footer className="border-t border-white/10 px-6 py-10 sm:px-12">
             <Link
