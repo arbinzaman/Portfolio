@@ -20,58 +20,64 @@ const ProjectCard = ({
   return (
     <motion.div variants={fadeIn("up", "spring", index * 0.5, 0.75)}>
       <Tilt
-        tiltMaxAngleX={45}
-        tiltMaxAngleY={45}
+        tiltMaxAngleX={7}
+        tiltMaxAngleY={7}
         scale={1}
         transitionSpeed={450}
-        className="bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full cursor-pointer hover:opacity-90 transition-opacity duration-300"
+        className="group w-full cursor-pointer rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-3 shadow-[0_24px_70px_rgba(0,0,0,0.2)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-[#a78bfa]/40 sm:w-[360px]"
       >
-        <div className="relative w-full h-[230px]">
+        <div className="relative h-[230px] w-full overflow-hidden rounded-xl border border-white/10">
           <img
             src={image}
             alt={name}
-            className="w-full h-full object-cover rounded-2xl"
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
           />
 
           <div className="absolute inset-0 flex justify-end m-3 gap-2 card-img_hover">
             {/* GitHub Button */}
-            <div
+            <a
+              href={source_code_link}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`View ${name} source code`}
               onClick={(e) => {
                 e.stopPropagation();
-                window.open(source_code_link, "_blank");
               }}
-              className="black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/60 backdrop-blur-md transition hover:bg-[#915EFF]"
             >
               <img
                 src={github}
                 alt="github"
                 className="w-1/2 h-1/2 object-contain"
               />
-            </div>
+            </a>
 
             {/* Live Site Button */}
-            <div
+            <a
+              href={live_link}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`View ${name} live site`}
               onClick={(e) => {
                 e.stopPropagation();
-                window.open(live_link, "_blank");
               }}
-              className="black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer text-white hover:text-gray-300 transition-colors"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white backdrop-blur-md transition hover:bg-[#915EFF]"
             >
               <ExternalLink size={20} />
-            </div>
+            </a>
           </div>
         </div>
 
         <div className="mt-5">
-          <h3 className="text-white font-bold text-[24px]">{name}</h3>
-          <p className="mt-2 text-secondary text-[14px]">{description}</p>
+          <h3 className="text-[20px] font-semibold tracking-tight text-white">{name}</h3>
+          <p className="mt-2 text-[14px] leading-6 text-secondary">{description}</p>
         </div>
 
         <div className="mt-4 flex flex-wrap gap-2">
           {tags.map((tag) => (
             <p
               key={`${name}-${tag.name}`}
-              className={`text-[14px] ${tag.color}`}
+              className={`rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[11px] ${tag.color}`}
             >
               #{tag.name}
             </p>
@@ -93,7 +99,7 @@ const Works = () => {
       <div className="w-full flex">
         <motion.p
           variants={fadeIn("", "", 0.1, 1)}
-          className="mt-3 text-secondary text-[17px] max-w-3xl leading-[30px]"
+          className="mt-6 max-w-3xl text-[16px] leading-8 text-secondary sm:text-[17px]"
         >
           Following projects showcase my skills and experience through
           real-world examples of my work. Each project is briefly described with
@@ -103,7 +109,7 @@ const Works = () => {
         </motion.p>
       </div>
 
-      <div className="mt-20 flex flex-wrap gap-7">
+      <div className="mt-12 flex flex-wrap gap-6 sm:mt-16 sm:gap-7">
         {projects.map((project, index) => (
           <ProjectCard key={`project-${index}`} index={index} {...project} />
         ))}
@@ -112,4 +118,4 @@ const Works = () => {
   );
 };
 
-export default SectionWrapper(Works, "");
+export default SectionWrapper(Works, "projects");

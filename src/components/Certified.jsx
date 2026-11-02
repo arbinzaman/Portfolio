@@ -12,13 +12,17 @@ const certifiedBy = recognitions
 
 const Certified = () => {
   return (
-    <section className="w-full overflow-hidden border-y border-white/10 bg-primary px-6 py-14 sm:px-16">
+    <section
+      id="credentials"
+      data-portfolio-chapter="credentials"
+      className="relative w-full overflow-hidden border-y border-white/[0.08] bg-gradient-to-r from-[#0b0d1b]/80 via-[#111027]/80 to-[#0b0d1b]/80 px-6 py-14 backdrop-blur-xl sm:px-16"
+    >
       <div className="mx-auto max-w-7xl">
         <div className="text-center">
           <p className={`${styles.sectionSubText} text-white/45`}>
             Recognized by
           </p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+          <h2 className="mt-3 text-2xl font-semibold tracking-[-0.04em] text-white sm:text-3xl">
             Certified By
           </h2>
         </div>
@@ -42,7 +46,7 @@ const Certified = () => {
         >
           {certifiedBy.map(({ logo, organization, title }) => (
             <SwiperSlide key={`${organization}-${title}`}>
-              <div className="group flex h-28 flex-col items-center justify-center gap-4 px-3">
+              <div className="group flex h-28 flex-col items-center justify-center gap-4 rounded-2xl border border-transparent px-3 transition hover:border-white/10 hover:bg-white/[0.035]">
                 <img
                   src={logo}
                   alt={`${organization} logo`}

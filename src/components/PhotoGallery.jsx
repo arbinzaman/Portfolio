@@ -13,16 +13,23 @@ const PhotoGallery = () => {
   if (!galleryPhotos || galleryPhotos.length === 0) return null;
 
   return (
-    <section className="relative w-full py-12 sm:py-16 px-4 sm:px-6 md:px-8 bg-black overflow-hidden">
+    <section
+      id="gallery"
+      data-portfolio-chapter="gallery"
+      className="relative w-full overflow-hidden border-y border-white/[0.08] bg-[#080a16]/70 px-4 py-14 backdrop-blur-xl sm:px-6 sm:py-20 md:px-8"
+    >
       {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 blur-3xl" />
+      <div className="absolute -right-20 top-0 h-72 w-72 rounded-full bg-[#915EFF]/10 blur-[100px]" />
 
-      <div className="relative z-10 max-w-7xl mx-auto text-center">
+      <div className="relative z-10 mx-auto max-w-7xl text-center">
+        <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.24em] text-white/45">
+          Moments beyond the desk
+        </p>
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-3xl sm:text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-purple-500 mb-8 sm:mb-10"
+          className="mb-8 text-3xl font-semibold tracking-[-0.04em] text-white sm:mb-10 sm:text-4xl md:text-5xl"
         >
           In the Spotlight ✨
         </motion.h2>
@@ -40,7 +47,7 @@ const PhotoGallery = () => {
           {galleryPhotos.map((event, index) => (
             <SwiperSlide key={index}>
               <div className="flex flex-col gap-4 sm:gap-6">
-                <h3 className="text-cyan-300 font-semibold text-lg sm:text-xl md:text-2xl">
+                <h3 className="text-lg font-semibold tracking-tight text-[#c4b5fd] sm:text-xl md:text-2xl">
                   {event.title}
                 </h3>
                 <p className="text-gray-400 text-sm sm:text-base md:text-lg mb-4 sm:mb-6">
@@ -55,7 +62,7 @@ const PhotoGallery = () => {
                         key={idx}
                         src={img}
                         alt={`${event.title} ${idx + 1}`}
-                        className="w-full h-48 sm:h-60 md:h-72 lg:h-80 object-cover rounded-xl shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300"
+                        className="h-48 w-full cursor-pointer rounded-2xl border border-white/10 object-cover shadow-[0_24px_70px_rgba(0,0,0,0.25)] transition-transform duration-500 hover:scale-[1.02] sm:h-60 md:h-72 lg:h-80"
                         onClick={() => setSelectedImage(img)}
                         initial={{ opacity: 0.8 }}
                         whileInView={{ opacity: 1 }}
@@ -67,7 +74,7 @@ const PhotoGallery = () => {
                   <div className="w-full aspect-video sm:aspect-[16/9] relative">
                     <iframe
                       src={event.embedUrl}
-                      className="absolute inset-0 w-full h-full rounded-xl shadow-lg"
+                      className="absolute inset-0 h-full w-full rounded-2xl border border-white/10 shadow-[0_24px_70px_rgba(0,0,0,0.25)]"
                       style={{ border: "none" }}
                       scrolling="no"
                       frameBorder="0"
@@ -80,7 +87,7 @@ const PhotoGallery = () => {
                   <motion.img
                     src={event.imageUrl}
                     alt={event.title}
-                    className="w-full h-48 sm:h-60 md:h-72 lg:h-80 object-cover rounded-xl shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300"
+                    className="h-48 w-full cursor-pointer rounded-2xl border border-white/10 object-cover shadow-[0_24px_70px_rgba(0,0,0,0.25)] transition-transform duration-500 hover:scale-[1.02] sm:h-60 md:h-72 lg:h-80"
                     onClick={() => setSelectedImage(event.imageUrl)}
                     initial={{ opacity: 0.8 }}
                     whileInView={{ opacity: 1 }}
@@ -91,7 +98,7 @@ const PhotoGallery = () => {
                     href={event.videoUrl || event.embedUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="group relative block w-full aspect-video sm:aspect-[16/9] overflow-hidden rounded-xl shadow-lg"
+                    className="group relative block aspect-video w-full overflow-hidden rounded-2xl border border-white/10 shadow-[0_24px_70px_rgba(0,0,0,0.25)] sm:aspect-[16/9]"
                   >
                     <img
                       src={event.imageUrl || event.thumbnailUrl || "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80"}
@@ -120,13 +127,13 @@ const PhotoGallery = () => {
       {/* Modal for viewing selected image */}
       {selectedImage && (
         <div
-          className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#050816]/90 p-4 backdrop-blur-xl"
           onClick={() => setSelectedImage(null)}
         >
           <img
             src={selectedImage}
             alt="Selected"
-            className="max-h-full max-w-full rounded-lg shadow-2xl"
+            className="max-h-full max-w-full rounded-2xl border border-white/15 shadow-2xl"
           />
         </div>
       )}

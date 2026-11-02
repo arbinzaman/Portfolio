@@ -9,20 +9,22 @@ import { fadeIn, textVariant } from "../utils/motion";
 
 const ServiceCard = ({ index, title, icon }) => (
   <Tilt
-    tiltMaxAngleX={45}
-    tiltMaxAngleY={45}
+    tiltMaxAngleX={8}
+    tiltMaxAngleY={8}
     scale={1}
     transitionSpeed={450}
     className="xs:w-[250px] w-full"
   >
     <motion.div
       variants={fadeIn("right", "spring", index * 0.5, 0.75)}
-      className="w-full green-pink-gradient p-[1px] rounded-[20px] shadow-card"
+      className="w-full rounded-[20px] border border-white/10 bg-gradient-to-br from-white/15 via-white/[0.04] to-[#915EFF]/25 p-px shadow-[0_20px_60px_rgba(0,0,0,0.2)] transition duration-300 hover:-translate-y-1 hover:border-[#a78bfa]/40"
     >
-      <div className="bg-tertiary rounded-[20px] py-5 px-12 min-h-[280px] flex justify-evenly items-center flex-col">
-        <img src={icon} alt={title} className="w-16 h-16 object-contain" />
+      <div className="flex min-h-[280px] flex-col items-center justify-evenly rounded-[19px] bg-[#0b0d1b]/90 px-10 py-6 backdrop-blur-xl">
+        <div className="flex h-20 w-20 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.035] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+          <img src={icon} alt={title} className="h-14 w-14 object-contain" />
+        </div>
 
-        <h3 className="text-white text-[20px] font-bold text-center">
+        <h3 className="text-center text-lg font-semibold tracking-tight text-white">
           {title}
         </h3>
       </div>
@@ -40,7 +42,7 @@ const About = () => {
 
       <motion.p
         variants={fadeIn("", "", 0.1, 1)}
-        className="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]"
+        className="mt-6 max-w-3xl border-l border-[#a78bfa]/45 pl-5 text-[16px] leading-8 text-secondary sm:text-[17px]"
       >
         I am a Software Engineer with hands-on experience in both frontend and
         backend development, building and maintaining scalable ERP systems and
@@ -56,7 +58,7 @@ const About = () => {
         clean, modern, and impactful digital products.
       </motion.p>
 
-      <div className="mt-20 flex flex-wrap gap-10">
+      <div className="mt-14 flex flex-wrap gap-6 sm:mt-16 sm:gap-8">
         {services.map((service, index) => (
           <ServiceCard key={service.title} index={index} {...service} />
         ))}

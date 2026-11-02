@@ -101,10 +101,10 @@ const Contact = () => {
   };
 
   return (
-    <div className='xl:mt-12 flex xl:flex-row flex-col-reverse gap-10 overflow-hidden'>
+    <div className='mt-8 flex flex-col-reverse gap-8 overflow-hidden xl:mt-12 xl:flex-row xl:gap-10'>
       <motion.div
         variants={slideIn("left", "tween", 0.2, 1)}
-        className='flex-[0.75] bg-black-100 p-8 rounded-2xl'
+        className='relative flex-[0.75] overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#14122a]/95 to-[#080a16]/95 p-6 shadow-[0_28px_90px_rgba(0,0,0,0.28)] backdrop-blur-xl sm:p-8 lg:p-10'
       >
         <p className={styles.sectionSubText}>Get in touch</p>
         <h3 className={styles.sectionHeadText}>Contact.</h3>
@@ -112,54 +112,58 @@ const Contact = () => {
         <form
           ref={formRef}
           onSubmit={handleSubmit}
-          className='mt-12 flex flex-col gap-8'
+          className='mt-8 flex flex-col gap-6 sm:mt-10 sm:gap-7'
         >
           <label className='flex flex-col'>
-            <span className='text-white font-medium mb-4'>Your Name</span>
+            <span className='mb-2 text-sm font-medium text-white/80'>Your Name</span>
             <input
               type='text'
               name='name'
               value={form.name}
               onChange={handleChange}
               placeholder="What's your good name?"
-              className='bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium'
+              autoComplete='name'
+              className='rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3.5 font-medium text-white outline-none transition placeholder:text-secondary/70 focus:border-[#a78bfa]/60 focus:bg-white/[0.06] focus:ring-2 focus:ring-[#915EFF]/20 sm:px-5'
             />
           </label>
           <label className='flex flex-col'>
-            <span className='text-white font-medium mb-4'>Your email</span>
+            <span className='mb-2 text-sm font-medium text-white/80'>Your email</span>
             <input
               type='email'
               name='email'
               value={form.email}
               onChange={handleChange}
               placeholder="What's your mail address?"
-              className='bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium'
+              autoComplete='email'
+              className='rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3.5 font-medium text-white outline-none transition placeholder:text-secondary/70 focus:border-[#a78bfa]/60 focus:bg-white/[0.06] focus:ring-2 focus:ring-[#915EFF]/20 sm:px-5'
             />
           </label>
           <label className='flex flex-col'>
-            <span className='text-white font-medium mb-4'>Your Message</span>
+            <span className='mb-2 text-sm font-medium text-white/80'>Your Message</span>
             <textarea
               rows={7}
               name='message'
               value={form.message}
               onChange={handleChange}
               placeholder='What you want to say?'
-              className='bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium'
+              className='resize-y rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3.5 font-medium text-white outline-none transition placeholder:text-secondary/70 focus:border-[#a78bfa]/60 focus:bg-white/[0.06] focus:ring-2 focus:ring-[#915EFF]/20 sm:px-5'
             />
           </label>
 
           <button
             type='submit'
-            className='bg-tertiary py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-md shadow-primary'
+            disabled={loading}
+            className='group inline-flex w-fit items-center gap-3 rounded-full border border-[#a78bfa]/35 bg-[#915EFF] px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_35px_rgba(145,94,255,0.24)] transition hover:-translate-y-0.5 hover:bg-[#a78bfa] disabled:cursor-wait disabled:opacity-70'
           >
-            {loading ? "Sending..." : "Send"}
+            {loading ? "Sending..." : "Send message"}
+            {!loading && <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">↗</span>}
           </button>
         </form>
       </motion.div>
 
       <motion.div
         variants={slideIn("right", "tween", 0.2, 1)}
-        className='xl:flex-1 xl:h-auto md:h-[550px] h-[350px]'
+        className='h-[300px] overflow-hidden rounded-3xl border border-white/10 bg-white/[0.02] md:h-[420px] xl:h-auto xl:flex-1'
       >
         <EarthCanvas />
       </motion.div>

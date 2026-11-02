@@ -16,7 +16,7 @@ const RecognitionCard = ({
     <motion.div
   initial={{ opacity: 1, y: 0 }}
   animate={{ opacity: 1, y: 0 }}
-  className="w-full sm:w-[48%] flex flex-col bg-gradient-to-br from-[#0a0a0a] to-[#111111] border border-cyan-500 shadow-lg shadow-cyan-500/50 rounded-2xl overflow-visible"
+  className="group flex w-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] shadow-[0_24px_70px_rgba(0,0,0,0.2)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-[#a78bfa]/40 sm:w-[48%]"
 >
 
       {/* Achievement Image */}
@@ -24,16 +24,16 @@ const RecognitionCard = ({
         <img
           src={imageUrl}
           alt={title}
-          className="w-full h-48 sm:h-56 object-cover rounded-t-2xl"
+          className="h-48 w-full object-cover transition-transform duration-700 group-hover:scale-[1.03] sm:h-56"
         />
       )}
 
       {/* Content */}
-      <div className="p-6 flex flex-col gap-4 bg-black/50">
+      <div className="flex flex-col gap-4 p-6">
         <div className="flex items-center gap-4">
           {/* Logo */}
           {logo && (
-            <div className="bg-white rounded-full p-1.5 flex justify-center items-center w-10 h-10 min-w-[40px] min-h-[40px]">
+            <div className="flex h-11 min-h-[44px] w-11 min-w-[44px] items-center justify-center rounded-xl border border-white/10 bg-white/[0.06] p-1.5">
               <img
                 src={logo}
                 alt={organization}
@@ -44,19 +44,19 @@ const RecognitionCard = ({
 
           <div>
             <h3 className="text-white text-lg font-semibold">{title}</h3>
-            <p className="text-cyan-400 text-sm">
-              {organization} • {date}
+            <p className="mt-1 text-xs text-[#c4b5fd]">
+              {organization} · {date}
             </p>
           </div>
         </div>
 
-        <p className="text-gray-100 text-sm leading-relaxed">{description}</p>
+        <p className="text-sm leading-6 text-white/70">{description}</p>
 
         <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (
             <span
               key={tag}
-              className="bg-[#004d4d] text-cyan-300 text-xs px-3 py-1 rounded-md font-mono"
+              className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 font-mono text-[11px] text-cyan-200/80"
             >
               #{tag}
             </span>
