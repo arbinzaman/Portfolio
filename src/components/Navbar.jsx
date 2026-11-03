@@ -29,8 +29,10 @@ const Navbar = () => {
     <nav
       className={`${
         styles.paddingX
-      } w-full flex items-center py-5 fixed top-0 z-20 ${
-        scrolled ? "bg-primary" : "bg-transparent"
+      } fixed top-0 z-20 flex w-full items-center py-4 transition-all duration-300 ${
+        scrolled
+          ? "border-b border-white/[0.07] bg-[#070914]/75 shadow-[0_12px_40px_rgba(0,0,0,0.18)] backdrop-blur-2xl"
+          : "bg-gradient-to-b from-[#050816]/50 to-transparent"
       }`}
     >
       <div className='w-full flex justify-between items-center max-w-7xl mx-auto'>
@@ -53,7 +55,7 @@ const Navbar = () => {
               key={nav.id}
               className={`${
                 active === nav.title ? "text-white" : "text-secondary"
-              } cursor-pointer text-base font-medium hover:text-white lg:text-[18px]`}
+              } cursor-pointer rounded-full px-3 py-2 text-sm font-medium transition-colors hover:bg-white/[0.05] hover:text-white lg:text-base`}
               onClick={() => setActive(nav.title)}
             >
               <a href={`#${nav.id}`}>{nav.title}</a>

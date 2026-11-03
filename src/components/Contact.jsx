@@ -4,7 +4,7 @@ import emailjs from "@emailjs/browser";
 import { toast } from "react-hot-toast";
 
 import { styles } from "../styles";
-import { EarthCanvas } from "./canvas";
+import EarthCanvas from "./canvas/Earth";
 import { SectionWrapper } from "../hoc";
 import { slideIn } from "../utils/motion";
 
@@ -104,7 +104,7 @@ const Contact = () => {
     <div className='mt-8 flex flex-col-reverse gap-8 overflow-hidden xl:mt-12 xl:flex-row xl:gap-10'>
       <motion.div
         variants={slideIn("left", "tween", 0.2, 1)}
-        className='relative flex-[0.75] overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#14122a]/95 to-[#080a16]/95 p-6 shadow-[0_28px_90px_rgba(0,0,0,0.28)] backdrop-blur-xl sm:p-8 lg:p-10'
+        className='portfolio-panel relative flex-[0.75] overflow-hidden rounded-3xl p-6 sm:p-8 lg:p-10'
       >
         <p className={styles.sectionSubText}>Get in touch</p>
         <h3 className={styles.sectionHeadText}>Contact.</h3>
@@ -163,7 +163,7 @@ const Contact = () => {
 
       <motion.div
         variants={slideIn("right", "tween", 0.2, 1)}
-        className='h-[300px] overflow-hidden rounded-3xl border border-white/10 bg-white/[0.02] md:h-[420px] xl:h-auto xl:flex-1'
+        className='portfolio-panel relative h-[300px] overflow-hidden rounded-3xl md:h-[420px] xl:h-auto xl:flex-1'
       >
         <EarthCanvas />
       </motion.div>

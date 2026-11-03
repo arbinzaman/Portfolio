@@ -16,14 +16,14 @@ const PhotoGallery = () => {
     <section
       id="gallery"
       data-portfolio-chapter="gallery"
-      className="relative w-full overflow-hidden border-y border-white/[0.08] bg-[#080a16]/70 px-4 py-14 backdrop-blur-xl sm:px-6 sm:py-20 md:px-8"
+      className="portfolio-section-band relative w-full overflow-hidden px-4 py-16 sm:px-6 sm:py-20 md:px-8"
     >
       {/* Background Gradient */}
-      <div className="absolute -right-20 top-0 h-72 w-72 rounded-full bg-[#915EFF]/10 blur-[100px]" />
+      <div className="pointer-events-none absolute -right-20 top-0 h-72 w-72 rounded-full bg-[#915EFF]/10 blur-[100px]" />
 
       <div className="relative z-10 mx-auto max-w-7xl text-center">
         <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.24em] text-white/45">
-          Moments beyond the desk
+          Press &amp; media
         </p>
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
@@ -31,7 +31,7 @@ const PhotoGallery = () => {
           transition={{ duration: 0.8 }}
           className="mb-8 text-3xl font-semibold tracking-[-0.04em] text-white sm:mb-10 sm:text-4xl md:text-5xl"
         >
-          In the Spotlight ✨
+          Featured stories
         </motion.h2>
 
         {/* Swiper: Event by Event */}
@@ -62,7 +62,7 @@ const PhotoGallery = () => {
                         key={idx}
                         src={img}
                         alt={`${event.title} ${idx + 1}`}
-                        className="h-48 w-full cursor-pointer rounded-2xl border border-white/10 object-cover shadow-[0_24px_70px_rgba(0,0,0,0.25)] transition-transform duration-500 hover:scale-[1.02] sm:h-60 md:h-72 lg:h-80"
+                        className="portfolio-panel-hover h-48 w-full cursor-pointer rounded-2xl border border-white/10 object-cover shadow-[0_24px_70px_rgba(0,0,0,0.25)] transition-transform duration-500 hover:scale-[1.02] sm:h-60 md:h-72 lg:h-80"
                         onClick={() => setSelectedImage(img)}
                         initial={{ opacity: 0.8 }}
                         whileInView={{ opacity: 1 }}
@@ -87,7 +87,7 @@ const PhotoGallery = () => {
                   <motion.img
                     src={event.imageUrl}
                     alt={event.title}
-                    className="h-48 w-full cursor-pointer rounded-2xl border border-white/10 object-cover shadow-[0_24px_70px_rgba(0,0,0,0.25)] transition-transform duration-500 hover:scale-[1.02] sm:h-60 md:h-72 lg:h-80"
+                    className="portfolio-panel-hover h-48 w-full cursor-pointer rounded-2xl border border-white/10 object-cover shadow-[0_24px_70px_rgba(0,0,0,0.25)] transition-transform duration-500 hover:scale-[1.02] sm:h-60 md:h-72 lg:h-80"
                     onClick={() => setSelectedImage(event.imageUrl)}
                     initial={{ opacity: 0.8 }}
                     whileInView={{ opacity: 1 }}

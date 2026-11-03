@@ -11,6 +11,7 @@ import CanvasLoader from "./Loader.jsx";
 import Recognitions from "./Recognitions.jsx";
 import PhotoGallery from "./PhotoGallery.jsx";
 import Socials from "./Socials.jsx";
+export { socialLinks } from "./Socials.jsx";
 import Certified from "./Certified.jsx";
 import HobbyPortfolio from "./hobby/HobbyPortfolio.jsx";
 

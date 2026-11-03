@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Github,
   Facebook,
@@ -6,57 +5,83 @@ import {
   Linkedin,
   Twitter,
 } from "lucide-react";
-import { motion } from "framer-motion";
-import { slideIn } from "../utils/motion"; // Make sure this function is defined
-import EarthCanvas from "./canvas/Earth";
 
-const socials = [
+export const socialLinks = [
   {
-    icon: <Github className="w-7 h-7" />,
+    name: "GitHub",
+    Icon: Github,
     url: "https://github.com/arbinzaman",
+    handle: "arbinzaman",
   },
   {
-    icon: <Facebook className="w-7 h-7" />,
+    name: "Facebook",
+    Icon: Facebook,
     url: "https://www.facebook.com/arbin.zaman.90/",
+    handle: "arbin.zaman",
   },
   {
-    icon: <Instagram className="w-7 h-7" />,
+    name: "Instagram",
+    Icon: Instagram,
     url: "https://www.instagram.com/zamanarbin/",
+    handle: "@zamanarbin",
   },
   {
-    icon: <Linkedin className="w-7 h-7" />,
+    name: "LinkedIn",
+    Icon: Linkedin,
     url: "https://www.linkedin.com/in/zamanarbin/",
+    handle: "in/zamanarbin",
   },
   {
-    icon: <Twitter className="w-7 h-7" />,
+    name: "Twitter",
+    Icon: Twitter,
     url: "https://twitter.com/ArbinZaman",
+    handle: "@ArbinZaman",
   },
 ];
 
 const Socials = () => {
   return (
-    <section className="relative overflow-hidden  py-20 text-white text-center z-10">
-   
+    <section className="relative z-10 px-6 py-10 text-white sm:px-12 sm:py-12">
+      <div className="mx-auto max-w-7xl border-t border-white/[0.08] pt-7 sm:pt-8">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#c4b5fd]/75">
+              Around the web
+            </p>
+            <h2 className="mt-2 text-xl font-semibold tracking-[-0.04em] text-white sm:text-2xl">
+              Find me online.
+            </h2>
+          </div>
+          <p className="max-w-sm text-sm leading-6 text-secondary sm:text-right">
+            Follow my work, projects, and ideas across these platforms.
+          </p>
+        </div>
 
- 
-        <h2 className="text-3xl sm:text-4xl font-bold mb-8 tracking-wide">
-          Find Me On
-        </h2>
-
-        <div className="flex justify-center flex-wrap gap-6 text-3xl">
-          {socials.map((item, index) => (
+        <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-5">
+          {socialLinks.map(({ name, url, handle, Icon }) => (
             <a
-              key={index}
-              href={item.url}
+              key={name}
+              href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-cyan-300 hover:text-white transition duration-300 shadow-[0_0_20px_#00ffff70] p-4  border border-cyan-400 bg-[#091324] hover:scale-110"
+              aria-label={`Visit Arbin on ${name} (${handle})`}
+              className="group flex min-w-0 items-center gap-3 rounded-xl border border-white/[0.08] bg-white/[0.025] px-3 py-3 transition-colors duration-200 hover:border-[#a78bfa]/35 hover:bg-white/[0.045] sm:px-4"
             >
-              {item.icon}
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/[0.07] bg-white/[0.035] text-white/65 transition-colors group-hover:border-[#a78bfa]/30 group-hover:text-[#d9d4ff]">
+                <Icon size={17} strokeWidth={1.8} />
+              </span>
+              <span className="min-w-0 flex-1 text-left">
+                <span className="block text-xs font-medium text-white/80">
+                  {name}
+                </span>
+                <span className="mt-0.5 block truncate text-[10px] text-white/40">
+                  {handle}
+                </span>
+              </span>
             </a>
           ))}
         </div>
-
+      </div>
     </section>
   );
 };

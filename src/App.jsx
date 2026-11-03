@@ -1,5 +1,6 @@
-import { useEffect } from "react";
-import { BrowserRouter, Link, useLocation } from "react-router-dom";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { BrowserRouter, useLocation } from "react-router-dom";
+import { ArrowUp } from "lucide-react";
 
 import {
   About,
@@ -19,10 +20,38 @@ import {
 import TravelGalleryPage from "./components/hobby/TravelGalleryPage";
 import TravelPhotoPage from "./components/hobby/TravelPhotoPage";
 import TravelStoryPage from "./components/hobby/TravelStoryPage";
-import PortfolioScrollExperience from "./components/PortfolioScrollExperience";
+const PortfolioScrollExperience = lazy(() =>
+  import("./components/PortfolioScrollExperience"),
+);
 
 const PortfolioContent = () => {
   const location = useLocation();
+  const [backgroundReady, setBackgroundReady] = useState(false);
+
+  useEffect(() => {
+    if (location.pathname.startsWith("/hobby")) return undefined;
+
+    let timeoutId;
+    let idleCallbackId;
+    const loadBackground = () => setBackgroundReady(true);
+
+    if ("requestIdleCallback" in window) {
+      idleCallbackId = window.requestIdleCallback(loadBackground, {
+        timeout: 1200,
+      });
+    } else {
+      timeoutId = window.setTimeout(loadBackground, 400);
+    }
+
+    return () => {
+      if (idleCallbackId !== undefined) {
+        window.cancelIdleCallback(idleCallbackId);
+      }
+      if (timeoutId !== undefined) {
+        window.clearTimeout(timeoutId);
+      }
+    };
+  }, [location.pathname]);
 
   if (location.pathname === "/hobby/gallery") {
     return <TravelGalleryPage />;
@@ -42,7 +71,11 @@ const PortfolioContent = () => {
 
   return (
     <div className="relative isolate min-h-screen bg-primary">
-      <PortfolioScrollExperience />
+      {backgroundReady && (
+        <Suspense fallback={null}>
+          <PortfolioScrollExperience />
+        </Suspense>
+      )}
       <div className="relative z-10">
         <div className="relative bg-transparent">
           <Navbar />
@@ -59,27 +92,31 @@ const PortfolioContent = () => {
         <div className="relative z-0">
           <Contact />
           <Socials />
-          <footer className="border-t border-white/10 px-6 py-10 sm:px-12">
-            <Link
-              to="/hobby"
-              className="group relative mx-auto flex max-w-xl items-center justify-between overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-left transition-all duration-300 hover:-translate-y-1 hover:border-[#915EFF]/60 hover:bg-[#915EFF]/10 hover:shadow-[0_12px_40px_rgba(145,94,255,0.18)] sm:px-6"
-            >
-              <span className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-[#915EFF] to-cyan-400" />
-              <span className="pl-2">
-                <span className="block text-[10px] font-semibold uppercase tracking-[0.24em] text-[#915EFF]">
-                  Beyond the screen
-                </span>
-                <span className="mt-1 block text-sm font-medium text-white">
-                  Explore the places, stories, and miles behind the code
-                </span>
-              </span>
-              <span className="ml-4 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 text-lg text-white transition-all duration-300 group-hover:rotate-[-45deg] group-hover:border-[#915EFF] group-hover:bg-[#915EFF]">
-                →
-              </span>
-            </Link>
-            <p className="mt-4 text-center text-xs text-secondary/60">
-              © 2026 Arbin Zaman · Software Engineer & Traveller
-            </p>
+          <footer className="border-t border-white/[0.08] px-6 py-6 sm:px-12 sm:py-7">
+            <div className="mx-auto flex max-w-7xl items-center justify-between gap-5">
+              <div className="flex min-w-0 flex-col gap-1">
+                <a
+                  href="#intro"
+                  className="w-fit text-sm font-semibold tracking-tight text-white/85 transition-colors hover:text-white"
+                  aria-label="Back to Arbin Zaman introduction"
+                >
+                  Arbin Zaman
+                </a>
+                <p className="text-xs text-white/40">
+                  © 2026 · Designed with care
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                aria-label="Back to top of page"
+                className="group inline-flex shrink-0 items-center gap-2 rounded-full border border-white/[0.09] px-3.5 py-2 text-xs font-medium text-white/60 transition-colors hover:border-white/20 hover:text-white"
+              >
+                Back to top
+                <ArrowUp size={14} className="transition-transform group-hover:-translate-y-0.5" />
+              </button>
+            </div>
           </footer>
         </div>
       </div>

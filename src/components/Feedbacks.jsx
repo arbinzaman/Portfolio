@@ -16,7 +16,7 @@ const FeedbackCard = ({
 }) => (
   <motion.div
     variants={fadeIn("", "spring", index * 0.5, 0.75)}
-    className='group w-full rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 shadow-[0_24px_70px_rgba(0,0,0,0.18)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-[#a78bfa]/35 sm:p-8 xs:w-[320px]'
+    className='portfolio-panel portfolio-panel-hover group w-full rounded-2xl p-7 sm:p-8 xs:w-[320px]'
   >
     <p className='text-[44px] font-semibold leading-none text-[#a78bfa]'>“</p>
 
@@ -47,7 +47,7 @@ const Feedbacks = () => {
   return (
     <div className={`mt-12`}>
       <div
-        className={`relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#14122a] to-[#090b18] ${styles.padding} min-h-[260px] before:absolute before:-right-12 before:-top-24 before:h-64 before:w-64 before:rounded-full before:bg-[#915EFF]/10 before:blur-[80px]`}
+        className={`portfolio-panel relative min-h-[260px] overflow-hidden rounded-3xl ${styles.padding} before:absolute before:-right-12 before:-top-24 before:h-64 before:w-64 before:rounded-full before:bg-[#915EFF]/10 before:blur-[80px]`}
       >
         <motion.div variants={textVariant()}>
           <p className={styles.sectionSubText}>What others say</p>

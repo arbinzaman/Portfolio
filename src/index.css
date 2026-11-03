@@ -19,6 +19,48 @@
   display: block;
 }
 
+.portfolio-ambient-glow {
+  background:
+    radial-gradient(ellipse at 68% 42%, rgba(132, 83, 255, 0.13), transparent 34%),
+    radial-gradient(ellipse at 43% 61%, rgba(18, 184, 210, 0.08), transparent 32%);
+  filter: blur(28px);
+  opacity: 0.85;
+  animation: portfolio-ambient-drift 24s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@media (max-width: 640px) {
+  .portfolio-background-gradient {
+    background:
+      radial-gradient(ellipse at 54% 37%, rgba(145, 94, 255, 0.2), transparent 49%),
+      radial-gradient(ellipse at 62% 48%, rgba(34, 211, 238, 0.1), transparent 43%),
+      linear-gradient(180deg, rgba(5, 8, 22, 0.02), #050816) !important;
+  }
+
+  .portfolio-ambient-glow {
+    opacity: 1;
+    filter: blur(20px);
+  }
+}
+
+@keyframes portfolio-ambient-drift {
+  0% {
+    transform: translate3d(-2%, -1%, 0) scale(0.96);
+  }
+  50% {
+    transform: translate3d(1.5%, 1%, 0) scale(1.04);
+  }
+  100% {
+    transform: translate3d(2%, -1.5%, 0) scale(1);
+  }
+}
+
+@keyframes chapter-orbit-drift {
+  to {
+    rotate: 360deg;
+  }
+}
+
 .black-gradient {
   background: #000000; /* fallback for old browsers */
   background: -webkit-linear-gradient(
@@ -200,5 +242,367 @@
       0em 2.5em 0 0em rgba(255, 255, 255, 0.2),
       -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.5),
       -2.6em 0em 0 0em rgba(255, 255, 255, 0.7), -1.8em -1.8em 0 0em #ffffff;
+  }
+}
+
+@layer components {
+  .portfolio-section {
+    padding-top: clamp(4.5rem, 9vw, 7.5rem);
+    padding-bottom: clamp(4.5rem, 9vw, 7.5rem);
+    scroll-margin-top: 5rem;
+  }
+
+  .portfolio-section-glow {
+    position: absolute;
+    top: 2rem;
+    right: 7%;
+    z-index: -1;
+    width: clamp(12rem, 25vw, 22rem);
+    aspect-ratio: 1;
+    border-radius: 9999px;
+    background: radial-gradient(
+      circle,
+      rgba(145, 94, 255, 0.13),
+      rgba(34, 211, 238, 0.045) 42%,
+      transparent 72%
+    );
+    filter: blur(36px);
+    pointer-events: none;
+    transform-style: preserve-3d;
+    transition:
+      opacity 450ms ease,
+      filter 450ms ease,
+      transform 800ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .portfolio-section-glow::before,
+  .portfolio-section-glow::after {
+    position: absolute;
+    inset: 12%;
+    border: 1px solid color-mix(in srgb, var(--chapter-accent, #a78bfa), transparent 78%);
+    border-radius: 42% 58% 65% 35% / 46% 38% 62% 54%;
+    content: "";
+    opacity: 0.22;
+    transform: rotateX(64deg) rotateZ(-24deg);
+    transition:
+      opacity 450ms ease,
+      border-color 450ms ease,
+      transform 800ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    animation: chapter-orbit-drift 28s linear infinite;
+  }
+
+  .portfolio-section-glow::after {
+    inset: 24%;
+    opacity: 0.16;
+    transform: rotateY(62deg) rotateZ(18deg);
+    animation-direction: reverse;
+    animation-duration: 34s;
+  }
+
+  .portfolio-section[data-portfolio-chapter="about"] {
+    --chapter-accent: #67e8f9;
+  }
+
+  .portfolio-section[data-portfolio-chapter="work"] {
+    --chapter-accent: #818cf8;
+  }
+
+  .portfolio-section[data-portfolio-chapter="stack"] {
+    --chapter-accent: #22d3ee;
+  }
+
+  .portfolio-section[data-portfolio-chapter="projects"] {
+    --chapter-accent: #c084fc;
+  }
+
+  .portfolio-section[data-portfolio-chapter="recognition"] {
+    --chapter-accent: #fbbf24;
+  }
+
+  .portfolio-section[data-portfolio-chapter="feedback"] {
+    --chapter-accent: #34d399;
+  }
+
+  .portfolio-section[data-portfolio-chapter="contact"] {
+    --chapter-accent: #67e8f9;
+  }
+
+  .portfolio-section-band[data-portfolio-chapter="credentials"] {
+    --chapter-accent: #a78bfa;
+  }
+
+  .portfolio-section-band[data-portfolio-chapter="gallery"] {
+    --chapter-accent: #fb7185;
+  }
+
+  .portfolio-section-band::after {
+    position: absolute;
+    top: 10%;
+    right: -5rem;
+    width: clamp(14rem, 27vw, 26rem);
+    aspect-ratio: 1;
+    border: 1px solid color-mix(in srgb, var(--chapter-accent, #a78bfa), transparent 84%);
+    border-radius: 45% 55% 62% 38% / 43% 38% 62% 57%;
+    background: radial-gradient(
+      circle at 35% 30%,
+      color-mix(in srgb, var(--chapter-accent, #a78bfa), transparent 90%),
+      transparent 68%
+    );
+    content: "";
+    opacity: 0.3;
+    pointer-events: none;
+    transform: perspective(800px) rotateX(62deg) rotateZ(-26deg);
+    animation: chapter-orbit-drift 38s linear infinite;
+  }
+
+  .portfolio-section-band[data-chapter-active="true"]::after {
+    opacity: 0.58;
+    border-color: color-mix(in srgb, var(--chapter-accent, #a78bfa), transparent 66%);
+  }
+
+  .portfolio-section[data-chapter-active="true"] .portfolio-section-glow {
+    opacity: 1;
+    filter: blur(28px);
+    transform: scale(1.16) rotateX(8deg);
+  }
+
+  .portfolio-section[data-chapter-active="true"] .portfolio-section-glow::before,
+  .portfolio-section[data-chapter-active="true"] .portfolio-section-glow::after {
+    border-color: color-mix(in srgb, var(--chapter-accent, #a78bfa), transparent 54%);
+    opacity: 0.48;
+  }
+
+  .portfolio-section-band {
+    isolation: isolate;
+    border-top: 1px solid rgba(255, 255, 255, 0.075);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.075);
+    background:
+      radial-gradient(
+        ellipse at 82% 10%,
+        rgba(145, 94, 255, 0.1),
+        transparent 38%
+      ),
+      linear-gradient(
+        110deg,
+        rgba(8, 10, 23, 0.88),
+        rgba(15, 13, 35, 0.78) 52%,
+        rgba(8, 10, 23, 0.88)
+      );
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  .portfolio-section h2 {
+    text-wrap: balance;
+  }
+
+  .portfolio-panel {
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    background:
+      linear-gradient(145deg, rgba(255, 255, 255, 0.055), transparent 48%),
+      rgba(8, 10, 23, 0.78);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.045),
+      0 24px 70px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  .portfolio-panel-hover {
+    transition:
+      border-color 240ms ease,
+      background-color 240ms ease,
+      box-shadow 240ms ease,
+      transform 240ms ease;
+  }
+
+  .portfolio-panel-hover:hover {
+    transform: translateY(-4px);
+    border-color: rgba(167, 139, 250, 0.34);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.07),
+      0 28px 80px rgba(0, 0, 0, 0.3),
+      0 0 40px rgba(145, 94, 255, 0.07);
+  }
+
+  .project-card-shell {
+    position: relative;
+    isolation: isolate;
+    perspective: 1300px;
+    transform-style: preserve-3d;
+  }
+
+  .project-card-shell::before,
+  .project-card-shell::after {
+    position: absolute;
+    z-index: -1;
+    border: 1px solid rgba(255, 255, 255, 0.075);
+    border-radius: 1.45rem;
+    background: rgba(12, 12, 28, 0.8);
+    content: "";
+    inset: 5px;
+    transform: translateZ(-7px);
+    transition:
+      border-color 300ms ease,
+      transform 300ms ease;
+  }
+
+  .project-card-shell::after {
+    background: rgba(145, 94, 255, 0.035);
+    inset: 10px;
+    transform: translateZ(-15px);
+  }
+
+  .project-card-shell:hover::before {
+    border-color: rgba(167, 139, 250, 0.25);
+    transform: translateZ(-7px) translateY(2px);
+  }
+
+  .project-card-shell:hover::after {
+    border-color: rgba(103, 232, 249, 0.14);
+    transform: translateZ(-15px) translateY(4px);
+  }
+
+  .project-card-face {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1.25rem;
+    background:
+      linear-gradient(145deg, rgba(255, 255, 255, 0.055), transparent 42%),
+      rgba(8, 10, 23, 0.94);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 24px 70px rgba(0, 0, 0, 0.3);
+    transform-style: preserve-3d;
+    transition:
+      border-color 300ms ease,
+      box-shadow 300ms ease;
+  }
+
+  .project-card-shell:hover .project-card-face {
+    border-color: rgba(167, 139, 250, 0.3);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.09),
+      0 32px 85px rgba(0, 0, 0, 0.38),
+      0 0 38px rgba(145, 94, 255, 0.08);
+  }
+
+  .project-card-media {
+    position: relative;
+    margin: 0.75rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.9rem;
+    background: #080a16;
+    transform: translateZ(14px);
+  }
+
+  .project-card-media-featured {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-window-bar {
+    display: grid;
+    min-height: 2.25rem;
+    grid-template-columns: 3.5rem minmax(0, 1fr) 3.5rem;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(17, 18, 33, 0.94);
+    padding: 0 0.75rem;
+  }
+
+  .project-preview-image {
+    position: relative;
+    height: 13rem;
+    overflow: hidden;
+    background: #111324;
+  }
+
+  .project-preview-image-featured {
+    height: 15rem;
+  }
+
+  .project-preview-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.88);
+    transition:
+      filter 700ms ease,
+      transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .project-card-shell:hover .project-preview-image img {
+    filter: saturate(1.04);
+    transform: scale(1.045);
+  }
+
+  .project-preview-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(5, 8, 22, 0.04) 35%,
+      rgba(5, 8, 22, 0.5)
+    );
+    pointer-events: none;
+  }
+
+  .project-card-details {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    padding: 1rem 1.1rem 1.2rem;
+    transform: translateZ(12px);
+  }
+
+  .project-card-featured .project-card-details {
+    justify-content: center;
+    padding: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .project-preview-image {
+      height: 15rem;
+    }
+
+    .project-preview-image-featured {
+      height: 100%;
+      min-height: 23rem;
+    }
+
+    .project-card-details {
+      padding: 1.35rem 1.5rem 1.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .portfolio-section-glow::before,
+    .portfolio-section-glow::after,
+    .portfolio-section-glow::before,
+    .portfolio-section-glow::after,
+    .portfolio-section-glow,
+    .project-card-shell::before,
+    .project-card-shell::after,
+    .project-preview-image img {
+      transition: none;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

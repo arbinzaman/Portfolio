@@ -17,11 +17,12 @@ const ExperienceCard = ({ experience }) => {
     <VerticalTimelineElement
       contentStyle={{
         background:
-          "linear-gradient(145deg, rgba(20, 18, 42, 0.96), rgba(8, 11, 25, 0.92))",
+          "linear-gradient(145deg, rgba(22, 20, 45, 0.88), rgba(8, 11, 25, 0.82))",
         color: "#fff",
-        border: "1px solid rgba(255, 255, 255, 0.12)",
-        borderRadius: "18px",
-        boxShadow: "0 24px 70px rgba(0, 0, 0, 0.24)",
+        border: "1px solid rgba(255, 255, 255, 0.1)",
+        borderRadius: "22px",
+        boxShadow:
+          "inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 24px 70px rgba(0, 0, 0, 0.24)",
         backdropFilter: "blur(18px)",
       }}
       contentArrowStyle={{ borderRight: "7px solid rgba(20, 18, 42, 0.96)" }}

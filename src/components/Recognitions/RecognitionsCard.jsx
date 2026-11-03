@@ -16,7 +16,7 @@ const RecognitionCard = ({
     <motion.div
   initial={{ opacity: 1, y: 0 }}
   animate={{ opacity: 1, y: 0 }}
-  className="group flex w-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] shadow-[0_24px_70px_rgba(0,0,0,0.2)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-[#a78bfa]/40 sm:w-[48%]"
+  className="portfolio-panel portfolio-panel-hover group flex w-full flex-col overflow-hidden rounded-2xl sm:w-[48%]"
 >
 
       {/* Achievement Image */}
@@ -44,7 +44,7 @@ const RecognitionCard = ({
 
           <div>
             <h3 className="text-white text-lg font-semibold">{title}</h3>
-            <p className="mt-1 text-xs text-[#c4b5fd]">
+            <p className="mt-1 text-xs tracking-wide text-[#c4b5fd]">
               {organization} · {date}
             </p>
           </div>
