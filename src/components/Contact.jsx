@@ -16,7 +16,6 @@ const Contact = () => {
     message: "",
   });
 
-  // console.log(form);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -54,11 +53,10 @@ const Contact = () => {
           name: form.name,
           to_name: "Arbin Zaman",
           email: form.email,
-          // email: "arbinzmn@gmail.com",
           message: form.message,
           time: new Date().toISOString(),
         },
-        import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
+        import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY,
       )
       .then(
         () => {
@@ -96,74 +94,89 @@ const Contact = () => {
               secondary: "#1f1f1f",
             },
           });
-        }
+        },
       );
   };
 
   return (
-    <div className='mt-8 flex flex-col-reverse gap-8 overflow-hidden xl:mt-12 xl:flex-row xl:gap-10'>
+    <div className="mt-8 flex flex-col-reverse gap-10 xl:mt-12 xl:flex-row xl:items-stretch xl:gap-12">
       <motion.div
         variants={slideIn("left", "tween", 0.2, 1)}
-        className='portfolio-panel relative flex-[0.75] overflow-hidden rounded-3xl p-6 sm:p-8 lg:p-10'
+        className="relative flex-[0.78] rounded-[22px] border border-white/15 bg-[#080a18]/90 p-6 shadow-[0_6px_0_0_rgba(18,15,38,0.95),0_7px_0_0_rgba(167,139,250,0.32),0_26px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:p-8 lg:p-10"
       >
-        <p className={styles.sectionSubText}>Get in touch</p>
-        <h3 className={styles.sectionHeadText}>Contact.</h3>
+        <div className="border-b border-white/[0.08] pb-5">
+          <p className={styles.sectionSubText}>Get in touch</p>
+          <h3 className={`${styles.sectionHeadText} extrude-3d`}>Contact.</h3>
+        </div>
 
         <form
           ref={formRef}
           onSubmit={handleSubmit}
-          className='mt-8 flex flex-col gap-6 sm:mt-10 sm:gap-7'
+          className="mt-8 flex flex-col gap-6 sm:mt-9 sm:gap-7"
         >
-          <label className='flex flex-col'>
-            <span className='mb-2 text-sm font-medium text-white/80'>Your Name</span>
+          <label className="flex flex-col">
+            <span className="mb-2 text-sm font-medium text-white/85">
+              Your Name
+            </span>
             <input
-              type='text'
-              name='name'
+              type="text"
+              name="name"
               value={form.name}
               onChange={handleChange}
               placeholder="What's your good name?"
-              autoComplete='name'
-              className='rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3.5 font-medium text-white outline-none transition placeholder:text-secondary/70 focus:border-[#a78bfa]/60 focus:bg-white/[0.06] focus:ring-2 focus:ring-[#915EFF]/20 sm:px-5'
+              autoComplete="name"
+              className="input-3d px-4 py-3.5 font-medium text-white outline-none placeholder:text-secondary/60 sm:px-5"
             />
           </label>
-          <label className='flex flex-col'>
-            <span className='mb-2 text-sm font-medium text-white/80'>Your email</span>
+          <label className="flex flex-col">
+            <span className="mb-2 text-sm font-medium text-white/85">
+              Your Email
+            </span>
             <input
-              type='email'
-              name='email'
+              type="email"
+              name="email"
               value={form.email}
               onChange={handleChange}
               placeholder="What's your mail address?"
-              autoComplete='email'
-              className='rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3.5 font-medium text-white outline-none transition placeholder:text-secondary/70 focus:border-[#a78bfa]/60 focus:bg-white/[0.06] focus:ring-2 focus:ring-[#915EFF]/20 sm:px-5'
+              autoComplete="email"
+              className="input-3d px-4 py-3.5 font-medium text-white outline-none placeholder:text-secondary/60 sm:px-5"
             />
           </label>
-          <label className='flex flex-col'>
-            <span className='mb-2 text-sm font-medium text-white/80'>Your Message</span>
+          <label className="flex flex-col">
+            <span className="mb-2 text-sm font-medium text-white/85">
+              Your Message
+            </span>
             <textarea
-              rows={7}
-              name='message'
+              rows={6}
+              name="message"
               value={form.message}
               onChange={handleChange}
-              placeholder='What you want to say?'
-              className='resize-y rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3.5 font-medium text-white outline-none transition placeholder:text-secondary/70 focus:border-[#a78bfa]/60 focus:bg-white/[0.06] focus:ring-2 focus:ring-[#915EFF]/20 sm:px-5'
+              placeholder="What do you want to build together?"
+              className="input-3d resize-y px-4 py-3.5 font-medium text-white outline-none placeholder:text-secondary/60 sm:px-5"
             />
           </label>
 
           <button
-            type='submit'
+            type="submit"
             disabled={loading}
-            className='group inline-flex w-fit items-center gap-3 rounded-full border border-[#a78bfa]/35 bg-[#915EFF] px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_35px_rgba(145,94,255,0.24)] transition hover:-translate-y-0.5 hover:bg-[#a78bfa] disabled:cursor-wait disabled:opacity-70'
+            className="key-3d key-3d--primary group mt-1 w-fit px-6 py-3.5 text-sm disabled:cursor-wait disabled:opacity-70"
           >
             {loading ? "Sending..." : "Send message"}
-            {!loading && <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">↗</span>}
+            {!loading && (
+              <span
+                aria-hidden="true"
+                className="transition-transform group-hover:translate-x-1"
+              >
+                ↗
+              </span>
+            )}
           </button>
         </form>
       </motion.div>
 
       <motion.div
         variants={slideIn("right", "tween", 0.2, 1)}
-        className='portfolio-panel relative h-[300px] overflow-hidden rounded-3xl md:h-[420px] xl:h-auto xl:flex-1'
+        className="relative h-[340px] w-full overflow-hidden rounded-[22px] border border-white/15 bg-[#080a18]/85 shadow-[0_6px_0_0_rgba(18,15,38,0.95),0_7px_0_0_rgba(167,139,250,0.32),0_26px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl md:h-[460px] xl:h-[620px] xl:flex-1"
       >
         <EarthCanvas />
       </motion.div>

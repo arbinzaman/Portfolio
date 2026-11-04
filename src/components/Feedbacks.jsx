@@ -1,4 +1,5 @@
 import React from "react";
+import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
 
 import { styles } from "../styles";
@@ -6,55 +7,66 @@ import { SectionWrapper } from "../hoc";
 import { fadeIn, textVariant } from "../utils/motion";
 import { testimonials } from "../constants";
 
-const FeedbackCard = ({
-  index,
-  testimonial,
-  name,
-  designation,
-  company,
-  image,
-}) => (
-  <motion.div
-    variants={fadeIn("", "spring", index * 0.5, 0.75)}
-    className='portfolio-panel portfolio-panel-hover group w-full rounded-2xl p-7 sm:p-8 xs:w-[320px]'
+const FeedbackCard = ({ index, testimonial, name, designation, company }) => (
+  <Tilt
+    tiltMaxAngleX={8}
+    tiltMaxAngleY={8}
+    perspective={1150}
+    scale={1.02}
+    transitionSpeed={450}
+    className="h-full w-full"
   >
-    <p className='text-[44px] font-semibold leading-none text-[#a78bfa]'>“</p>
+    <motion.div
+      variants={fadeIn("", "spring", index * 0.35, 0.75)}
+      className="plate-3d group h-full w-full"
+    >
+      <div className="plate-3d-face flex h-full flex-col justify-between p-6 sm:p-7">
+        <div>
+          <div className="z-lift-lg flex items-center justify-between">
+            <span className="extrude-3d text-[44px] font-black leading-none text-[#a78bfa]">
+              “
+            </span>
+          </div>
 
-    <div className='mt-1'>
-      <p className='mt-3 text-[15px] leading-7 text-white/80'>{testimonial}</p>
-
-      <div className='mt-7 flex justify-between items-center gap-1'>
-        <div className='flex-1 flex flex-col'>
-          <p className='text-[14px] font-semibold text-white'>
-            {name}
-          </p>
-          <p className='mt-1 text-xs leading-5 text-secondary'>
-            {designation} of {company}
+          <p className="z-lift-sm mt-2 text-[15px] leading-7 text-white/85">
+            {testimonial}
           </p>
         </div>
 
-        {/* <img
-          src={image}
-          alt={`feedback_by-${name}`}
-          className='w-10 h-10 rounded-full object-cover'
-        /> */}
+        <div className="z-lift-md mt-7 flex items-center justify-between gap-2 border-t border-white/[0.08] pt-4">
+          <div className="flex flex-1 flex-col">
+            <p className="text-[14px] font-semibold text-white">
+              <span className="mr-1 font-mono text-[#a78bfa]">@</span>
+              {name}
+            </p>
+            <p className="mt-1 font-mono text-[11px] leading-5 text-secondary">
+              {designation} of {company}
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
-  </motion.div>
+    </motion.div>
+  </Tilt>
 );
 
 const Feedbacks = () => {
   return (
-    <div className={`mt-12`}>
-      <div
-        className={`portfolio-panel relative min-h-[260px] overflow-hidden rounded-3xl ${styles.padding} before:absolute before:-right-12 before:-top-24 before:h-64 before:w-64 before:rounded-full before:bg-[#915EFF]/10 before:blur-[80px]`}
-      >
-        <motion.div variants={textVariant()}>
-          <p className={styles.sectionSubText}>What others say</p>
-          <h2 className={styles.sectionHeadText}>Testimonials.</h2>
-        </motion.div>
+    <div className="mt-8">
+      <div className="plate-3d">
+        <div
+          className={`plate-3d-face relative min-h-[240px] overflow-hidden ${styles.padding} before:absolute before:-right-12 before:-top-24 before:h-64 before:w-64 before:rounded-full before:bg-[#915EFF]/15 before:blur-[80px]`}
+        >
+          <motion.div variants={textVariant()}>
+            <p className={styles.sectionSubText}>What others say</p>
+            <h2 className={`${styles.sectionHeadText} extrude-3d`}>
+              Testimonials.
+            </h2>
+          </motion.div>
+        </div>
       </div>
-      <div className={`-mt-12 relative z-10 pb-14 ${styles.paddingX} flex flex-wrap gap-5 sm:gap-6`}>
+      <div
+        className={`relative z-10 -mt-12 grid grid-cols-1 gap-6 pb-14 ${styles.paddingX} md:grid-cols-2 lg:grid-cols-3`}
+      >
         {testimonials.map((testimonial, index) => (
           <FeedbackCard key={testimonial.name} index={index} {...testimonial} />
         ))}

@@ -1,4 +1,5 @@
 import React from "react";
+import Tilt from "react-parallax-tilt";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -23,14 +24,18 @@ const Certified = () => {
     <section
       id="credentials"
       data-portfolio-chapter="credentials"
-      className="portfolio-section-band relative w-full overflow-hidden px-6 py-16 sm:px-16 sm:py-20"
+      className="portfolio-section-band relative w-full overflow-hidden px-6 py-16 sm:px-16 sm:py-24"
     >
-      <div className="mx-auto max-w-7xl">
-        <div className="text-center">
+      <div aria-hidden="true" className="perspective-floor h-32 opacity-55">
+        <div className="perspective-floor__plane" />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-7xl">
+        <div className="flex flex-col items-center text-center">
           <p className={`${styles.sectionSubText} text-white/45`}>
             Professional milestones
           </p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-[-0.04em] text-white sm:text-3xl">
+          <h2 className="extrude-3d mt-3 text-2xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
             Recognition &amp; credentials
           </h2>
         </div>
@@ -44,26 +49,37 @@ const Certified = () => {
           }}
           speed={1600}
           loop={certifiedBy.length > 6}
-          slidesPerView={3}
-          spaceBetween={28}
+          slidesPerView={2}
+          spaceBetween={20}
           breakpoints={{
-            640: { slidesPerView: 4, spaceBetween: 36 },
-            1024: { slidesPerView: 6, spaceBetween: 48 },
+            640: { slidesPerView: 3, spaceBetween: 28 },
+            1024: { slidesPerView: 5, spaceBetween: 32 },
           }}
-          className="mt-12"
+          className="mt-12 !py-4"
         >
-          {certifiedBy.map(({ logo, organization, title, label }) => (
-            <SwiperSlide key={`${organization}-${title}`}>
-              <div className="portfolio-panel-hover group flex h-28 flex-col items-center justify-center gap-4 rounded-2xl border border-transparent px-3">
-                <img
-                  src={logo}
-                  alt={`${organization} logo`}
-                  className="h-12 max-w-[8rem] object-contain grayscale opacity-55 transition-all duration-500 group-hover:grayscale-0 group-hover:opacity-100"
-                />
-                <p className="line-clamp-1 text-center text-[10px] font-medium uppercase tracking-[0.12em] text-white/45 transition-colors duration-300 group-hover:text-white/80">
-                  {label || organization}
-                </p>
-              </div>
+          {certifiedBy.map(({ logo, organization, title, label }, idx) => (
+            <SwiperSlide key={`${organization}-${title || idx}`}>
+              <Tilt
+                tiltMaxAngleX={10}
+                tiltMaxAngleY={10}
+                perspective={1000}
+                scale={1.03}
+                transitionSpeed={400}
+                className="plate-3d group"
+              >
+                <div className="plate-3d-face flex h-32 flex-col items-center justify-center gap-3 px-4 py-4">
+                  <div className="z-lift-lg flex h-14 w-14 items-center justify-center rounded-xl border border-white/10 bg-white/[0.05] p-2 shadow-[0_4px_0_0_rgba(145,94,255,0.28)]">
+                    <img
+                      src={logo}
+                      alt={`${organization} logo`}
+                      className="h-10 max-w-[6.5rem] object-contain grayscale opacity-70 transition-all duration-500 group-hover:grayscale-0 group-hover:opacity-100"
+                    />
+                  </div>
+                  <p className="z-lift-sm line-clamp-1 text-center font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-white/55 transition-colors duration-300 group-hover:text-white/95">
+                    {label || organization}
+                  </p>
+                </div>
+              </Tilt>
             </SwiperSlide>
           ))}
         </Swiper>

@@ -1,6 +1,6 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
+import { OrbitControls, useGLTF } from "@react-three/drei";
 
 import CanvasLoader from "../Loader";
 
@@ -8,8 +8,8 @@ const Computers = ({ isMobile }) => {
   const computer = useGLTF("/desktop_pc/scene.gltf");
 
   return (
-    <group position={isMobile ? [-3.8, 0, 1.6] : [0, 0, 0]}>
-      <hemisphereLight intensity={0.15} groundColor='black' />
+    <mesh>
+      <hemisphereLight intensity={0.15} groundColor="black" />
       <spotLight
         position={[-20, 50, 10]}
         angle={0.12}
@@ -19,56 +19,68 @@ const Computers = ({ isMobile }) => {
       <pointLight intensity={1} />
       <primitive
         object={computer.scene}
-        scale={isMobile ? 0.31 : 0.75}
-        position={isMobile ? [0, -2.45, -2.4] : [0, -3.65, -1.5]}
+        scale={isMobile ? 0.25 : 0.75}
+        position={isMobile ? [0.22, -2.4, -0.33] : [0, -3.65, -1.5]}
         rotation={[-0.01, -0.2, -0.1]}
       />
-    </group>
+    </mesh>
   );
 };
 
 const ComputersCanvas = () => {
+  const containerRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [inView, setInView] = useState(true);
 
   useEffect(() => {
-    // Add a listener for changes to the screen size
-    const mediaQuery = window.matchMedia("(max-width: 500px)");
-
-    // Set the initial value of the `isMobile` state variable
+    const mediaQuery = window.matchMedia("(max-width: 640px)");
     setIsMobile(mediaQuery.matches);
 
-    // Define a callback function to handle changes to the media query
     const handleMediaQueryChange = (event) => {
       setIsMobile(event.matches);
     };
 
-    // Add the callback function as a listener for changes to the media query
     mediaQuery.addEventListener("change", handleMediaQueryChange);
-
-    // Remove the listener when the component is unmounted
     return () => {
       mediaQuery.removeEventListener("change", handleMediaQueryChange);
     };
   }, []);
 
-  return (
-    <Canvas
-      frameloop='demand'
-      dpr={[1, 1.25]}
-      camera={{ position: [20, 3, 5], fov: 25 }}
-      gl={{ powerPreference: "low-power" }}
-    >
-      <Suspense fallback={<CanvasLoader />}>
-        <OrbitControls
-          enableZoom={false}
-          maxPolarAngle={Math.PI / 2}
-          minPolarAngle={Math.PI / 2}
-        />
-        <Computers isMobile={isMobile} />
-      </Suspense>
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return undefined;
 
-      <Preload all />
-    </Canvas>
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+      },
+      { rootMargin: "250px 0px" },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={containerRef} className="h-full w-full">
+      {inView && (
+        <Canvas
+          frameloop="demand"
+          dpr={isMobile ? 1 : [1, 1.25]}
+          camera={{ position: [20, 3, 5], fov: 25 }}
+          gl={{ powerPreference: "low-power", antialias: !isMobile }}
+        >
+          <Suspense fallback={<CanvasLoader />}>
+            <OrbitControls
+              enableZoom={false}
+              maxPolarAngle={Math.PI / 2}
+              minPolarAngle={Math.PI / 2}
+            />
+            <Computers isMobile={isMobile} />
+          </Suspense>
+        </Canvas>
+      )}
+    </div>
   );
 };
 

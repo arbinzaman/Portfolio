@@ -1,4 +1,5 @@
 import React from "react";
+import Tilt from "react-parallax-tilt";
 import {
   VerticalTimeline,
   VerticalTimelineElement,
@@ -16,49 +17,64 @@ const ExperienceCard = ({ experience }) => {
   return (
     <VerticalTimelineElement
       contentStyle={{
-        background:
-          "linear-gradient(145deg, rgba(22, 20, 45, 0.88), rgba(8, 11, 25, 0.82))",
+        background: "transparent",
         color: "#fff",
-        border: "1px solid rgba(255, 255, 255, 0.1)",
-        borderRadius: "22px",
-        boxShadow:
-          "inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 24px 70px rgba(0, 0, 0, 0.24)",
-        backdropFilter: "blur(18px)",
+        border: "none",
+        boxShadow: "none",
+        padding: 0,
       }}
-      contentArrowStyle={{ borderRight: "7px solid rgba(20, 18, 42, 0.96)" }}
+      contentArrowStyle={{
+        borderRight: "8px solid rgba(167, 139, 250, 0.45)",
+      }}
       date={experience.date}
-      iconStyle={{ background: experience.iconBg }}
+      iconStyle={{
+        background: experience.iconBg,
+        boxShadow:
+          "0 0 0 4px rgba(167, 139, 250, 0.35), 0 6px 0 0 rgba(18, 14, 38, 0.95), 0 14px 30px rgba(0, 0, 0, 0.5)",
+      }}
       icon={
-        <div className='flex justify-center items-center w-full h-full'>
+        <div className="flex h-full w-full items-center justify-center">
           <img
             src={experience.icon}
             alt={experience.company_name}
-         className='object-contain rounded-full '
-
+            className="rounded-full object-contain"
           />
         </div>
       }
     >
-      <div>
-        <h3 className='text-[22px] font-semibold tracking-tight text-white'>{experience.title}</h3>
-        <p
-          className='text-[#c4b5fd] text-[14px] font-medium'
-          style={{ margin: 0 }}
-        >
-          {experience.company_name}
-        </p>
-      </div>
+      <Tilt
+        tiltMaxAngleX={5}
+        tiltMaxAngleY={5}
+        perspective={1200}
+        scale={1.01}
+        transitionSpeed={450}
+        className="plate-3d w-full"
+      >
+        <div className="plate-3d-face p-6 sm:p-7">
+          <div className="z-lift-md border-b border-white/[0.08] pb-4">
+            <h3 className="text-[21px] font-semibold tracking-tight text-white sm:text-[23px]">
+              {experience.title}
+            </h3>
+            <p
+              className="mt-1 text-[14px] font-medium text-[#c4b5fd]"
+              style={{ margin: 0 }}
+            >
+              {experience.company_name}
+            </p>
+          </div>
 
-      <ul className='mt-5 ml-1 space-y-3'>
-        {experience.points.map((point, index) => (
-          <li
-            key={`experience-point-${index}`}
-            className='relative pl-5 text-[14px] leading-6 tracking-normal text-white/75 before:absolute before:left-0 before:top-[0.7em] before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#a78bfa]'
-          >
-            {point}
-          </li>
-        ))}
-      </ul>
+          <ul className="z-lift-sm mt-5 ml-1 space-y-3">
+            {experience.points.map((point, pointIdx) => (
+              <li
+                key={`experience-point-${pointIdx}`}
+                className="relative pl-5 text-[14px] leading-6 tracking-normal text-white/80 before:absolute before:left-0 before:top-[0.65em] before:h-2 before:w-2 before:rounded-sm before:border before:border-[#c4b5fd] before:bg-[#915EFF] before:shadow-[0_2px_0_0_rgba(145,94,255,0.5)]"
+              >
+                {point}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Tilt>
     </VerticalTimelineElement>
   );
 };
@@ -70,12 +86,12 @@ const Experience = () => {
         <p className={`${styles.sectionSubText} text-center`}>
           What I have done so far
         </p>
-        <h2 className={`${styles.sectionHeadText} text-center`}>
+        <h2 className={`${styles.sectionHeadText} extrude-3d text-center`}>
           Work Experience.
         </h2>
       </motion.div>
 
-      <div className='mt-14 flex flex-col sm:mt-20'>
+      <div className="mt-14 flex flex-col sm:mt-20">
         <VerticalTimeline>
           {experiences.map((experience, index) => (
             <ExperienceCard

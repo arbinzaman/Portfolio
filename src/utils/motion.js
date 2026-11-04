@@ -1,7 +1,7 @@
 export const textVariant = (delay) => {
   return {
     hidden: {
-      y: -50,
+      y: -30,
       opacity: 0,
     },
     show: {
@@ -9,7 +9,7 @@ export const textVariant = (delay) => {
       opacity: 1,
       transition: {
         type: "spring",
-        duration: 1.25,
+        duration: 1.1,
         delay: delay,
       },
     },
@@ -19,8 +19,8 @@ export const textVariant = (delay) => {
 export const fadeIn = (direction, type, delay, duration) => {
   return {
     hidden: {
-      x: direction === "left" ? 100 : direction === "right" ? -100 : 0,
-      y: direction === "up" ? 100 : direction === "down" ? -100 : 0,
+      x: direction === "left" ? 40 : direction === "right" ? -40 : 0,
+      y: direction === "up" ? 40 : direction === "down" ? -40 : 0,
       opacity: 0,
     },
     show: {
@@ -40,7 +40,7 @@ export const fadeIn = (direction, type, delay, duration) => {
 export const zoomIn = (delay, duration) => {
   return {
     hidden: {
-      scale: 0,
+      scale: 0.9,
       opacity: 0,
     },
     show: {
@@ -59,12 +59,14 @@ export const zoomIn = (delay, duration) => {
 export const slideIn = (direction, type, delay, duration) => {
   return {
     hidden: {
-      x: direction === "left" ? "-100%" : direction === "right" ? "100%" : 0,
-      y: direction === "up" ? "100%" : direction === "down" ? "100%" : 0,
+      x: direction === "left" ? -50 : direction === "right" ? 50 : 0,
+      y: direction === "up" ? 50 : direction === "down" ? 50 : 0,
+      opacity: 0,
     },
     show: {
       x: 0,
       y: 0,
+      opacity: 1,
       transition: {
         type: type,
         delay: delay,

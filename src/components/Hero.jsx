@@ -1,4 +1,5 @@
 import React from "react";
+import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
 
 import { styles } from "../styles";
@@ -16,6 +17,10 @@ const Hero = () => {
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_72%_45%,rgba(145,94,255,0.12),transparent_38%),linear-gradient(180deg,rgba(5,8,22,0.05)_0%,#050816_100%)]"
       />
 
+      <div aria-hidden="true" className="perspective-floor z-[2] h-40 opacity-65">
+        <div className="perspective-floor__plane" />
+      </div>
+
       <div className="pointer-events-none absolute inset-x-0 top-20 z-10 mx-auto max-w-7xl px-6 sm:px-16">
         <div className="max-w-3xl">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-secondary backdrop-blur-md sm:text-xs">
@@ -30,8 +35,14 @@ const Hero = () => {
             </div>
 
             <div className="max-w-2xl">
-              <h1 className={`${styles.heroHeadText} !mt-0 !leading-[1.05]`}>
-                Hi, I&apos;m <span className="text-[#a78bfa]">Arbin</span>
+              <h1 className={`${styles.heroHeadText} !mt-0 !leading-[1.05] extrude-3d`}>
+                Hi, I&apos;m{" "}
+                <span
+                  data-text="Arbin"
+                  className="exploded-type-3d text-[#a78bfa]"
+                >
+                  Arbin
+                </span>
               </h1>
               <h2 className="mt-2 text-[clamp(1.65rem,3vw,2.5rem)] font-semibold leading-tight tracking-[-0.05em] text-white/90">
                 I build digital products that scale.
@@ -41,10 +52,10 @@ const Hero = () => {
                 interfaces, reliable systems, and modern web technology.
               </p>
 
-              <div className="pointer-events-auto mt-2 flex flex-nowrap items-center gap-2">
+              <div className="pointer-events-auto mt-4 flex flex-nowrap items-center gap-3">
                 <a
                   href="#projects"
-                  className="group inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full bg-[#915EFF] px-3 py-2.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-[#a78bfa] hover:shadow-[0_0_32px_rgba(145,94,255,0.35)] sm:gap-3 sm:px-5 sm:py-3 sm:text-xs sm:tracking-[0.14em]"
+                  className="key-3d key-3d--primary group shrink-0 px-4 py-3 text-[10px] uppercase tracking-[0.12em] sm:px-5 sm:py-3.5 sm:text-xs sm:tracking-[0.14em]"
                 >
                   Explore my work
                   <span
@@ -56,7 +67,7 @@ const Hero = () => {
                 </a>
                 <a
                   href="#contact"
-                  className="inline-flex shrink-0 items-center whitespace-nowrap rounded-full border border-white/15 bg-white/[0.03] px-3 py-2.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/80 transition hover:border-white/35 hover:bg-white/[0.08] hover:text-white sm:px-5 sm:py-3 sm:text-xs sm:tracking-[0.14em]"
+                  className="key-3d key-3d--outline shrink-0 px-4 py-3 text-[10px] uppercase tracking-[0.12em] sm:px-5 sm:py-3.5 sm:text-xs sm:tracking-[0.14em]"
                 >
                   Get in touch
                 </a>
@@ -66,26 +77,36 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className="pointer-events-none absolute right-6 top-[34%] z-10 hidden w-52 rounded-2xl border border-white/10 bg-[#0b0d1b]/65 p-4 shadow-[0_20px_70px_rgba(0,0,0,0.25)] backdrop-blur-xl xl:block">
-        <div className="flex items-center justify-between">
-          <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-secondary">
-            Engineering stack
-          </p>
-          <span className="rounded-md border border-[#915EFF]/30 px-1.5 py-1 font-mono text-[9px] text-[#c4b5fd]">
-            LIVE
-          </span>
-        </div>
-        <p className="mt-3 text-sm font-medium text-white">Built for the web.</p>
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          {["React", "TypeScript", "Node.js"].map((technology) => (
-            <span
-              key={technology}
-              className="rounded-full border border-white/10 bg-white/[0.04] px-2 py-1 text-[9px] font-medium text-white/65"
-            >
-              {technology}
-            </span>
-          ))}
-        </div>
+      <div className="pointer-events-auto absolute right-6 top-[32%] z-10 hidden w-56 xl:block">
+        <Tilt
+          tiltMaxAngleX={10}
+          tiltMaxAngleY={10}
+          perspective={1100}
+          scale={1.02}
+          transitionSpeed={450}
+          className="plate-3d"
+        >
+          <div className="plate-3d-face p-4">
+            <div className="z-lift-md flex items-center justify-between">
+              <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-secondary">
+                Engineering stack
+              </p>
+              <span className="rounded-md border border-[#915EFF]/40 bg-[#915EFF]/15 px-1.5 py-0.5 font-mono text-[9px] text-[#c4b5fd] shadow-[0_2px_0_0_rgba(145,94,255,0.35)]">
+                LIVE
+              </span>
+            </div>
+            <p className="z-lift-sm mt-3 text-sm font-semibold text-white">
+              Built for the web.
+            </p>
+            <div className="z-lift-lg mt-3 flex flex-wrap gap-1.5">
+              {["React", "TypeScript", "Node.js"].map((technology) => (
+                <span key={technology} className="tag-3d !px-2 !py-0.5 !text-[9px]">
+                  {technology}
+                </span>
+              ))}
+            </div>
+          </div>
+        </Tilt>
       </div>
 
       <div className="absolute inset-0 z-[1]">
@@ -96,7 +117,7 @@ const Hero = () => {
         <a
           href="#about"
           aria-label="Scroll to introduction"
-          className="group flex h-12 w-7 items-start justify-center rounded-full border border-white/35 p-1.5 transition hover:border-[#a78bfa]"
+          className="group flex h-12 w-7 items-start justify-center rounded-full border border-white/35 bg-[#080a17]/60 p-1.5 shadow-[0_4px_0_0_rgba(167,139,250,0.35)] backdrop-blur-md transition hover:-translate-y-0.5 hover:border-[#a78bfa]"
         >
           <motion.span
             animate={{ y: [0, 15, 0] }}

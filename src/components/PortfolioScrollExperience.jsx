@@ -923,6 +923,12 @@ const ScrollObject = ({ pointer, reducedMotion, activeChapter, scrollMotion }) =
 
 const PortfolioScrollExperience = () => {
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [isMobileDevice] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      (window.matchMedia("(max-width: 768px)").matches ||
+        /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)),
+  );
   const [activeChapter, setActiveChapter] = useState("intro");
   const progressRef = useRef(null);
   const pointer = useRef({ x: 0, y: 0 });
@@ -1023,6 +1029,7 @@ const PortfolioScrollExperience = () => {
       >
         <div className="portfolio-background-gradient absolute inset-0 bg-[radial-gradient(ellipse_at_70%_43%,rgba(145,94,255,0.25),transparent_40%),radial-gradient(ellipse_at_76%_54%,rgba(34,211,238,0.13),transparent_34%),linear-gradient(180deg,rgba(5,8,22,0.04),#050816)]" />
         <div className="portfolio-ambient-glow absolute -inset-[18%]" />
+        {!isMobileDevice && (
         <Canvas
           camera={{ position: [0, 0, 6], fov: 42 }}
           dpr={[1, 1.15]}
@@ -1039,55 +1046,7 @@ const PortfolioScrollExperience = () => {
             scrollMotion={scrollMotion}
           />
         </Canvas>
-      </div>
-
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed left-0 right-0 top-0 z-50 h-px bg-white/10"
-      >
-        <div
-          ref={progressRef}
-          className="h-full origin-left scale-x-0 bg-gradient-to-r from-[#915EFF] via-[#c4b5fd] to-cyan-300 shadow-[0_0_10px_rgba(145,94,255,0.8)]"
-        />
-      </div>
-
-      <nav
-        aria-label="Portfolio chapters"
-        className="fixed right-4 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-end gap-3 md:flex lg:right-7"
-      >
-        {chapters.map((chapter) => {
-          const active = activeChapter === chapter.id;
-          return (
-            <a
-              key={chapter.id}
-              href={`#${chapter.id}`}
-              aria-label={`${chapter.number}: ${chapter.label}`}
-              aria-current={active ? "location" : undefined}
-              className="group flex h-5 items-center justify-end gap-2"
-            >
-              <span
-                className={`pointer-events-none rounded bg-[#080a17]/90 px-2 py-1 text-[9px] font-medium text-white/75 opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 ${
-                  active ? "opacity-100" : ""
-                }`}
-              >
-                {chapter.label}
-              </span>
-              <span
-                className={`block rounded-full transition-all duration-300 ${
-                  active
-                    ? "h-2.5 w-2.5 bg-[#c4b5fd] shadow-[0_0_12px_rgba(167,139,250,0.9)]"
-                    : "h-1.5 w-1.5 bg-white/30 group-hover:bg-white/75"
-                }`}
-              />
-            </a>
-          );
-        })}
-      </nav>
-
-      <div className="pointer-events-none fixed bottom-5 left-6 z-30 hidden items-center gap-2 font-mono text-[9px] uppercase tracking-[0.16em] text-white/40 sm:flex sm:left-10">
-        <span className="text-[#a78bfa]">{currentChapter.number}</span>
-        <span className="h-px w-5 bg-white/20" />
-        <span>{currentChapter.label}</span>
+        )}
       </div>
     </>
   );

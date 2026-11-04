@@ -1,28 +1,40 @@
 import React from "react";
-import { motion } from "framer-motion";
-import { textVariant } from "../utils/motion";
 import { styles } from "../styles";
 import { recognitions } from "../constants";
 import RecognitionCard from "./Recognitions/RecognitionsCard";
 import { SectionWrapper } from "../hoc";
 
 const Recognitions = () => {
+  const orderedRecognitions = recognitions.slice().reverse();
+
   return (
-    <section className="w-full py-4">
+    <div className="w-full py-4">
       {/* Section Header */}
-      <p className={styles.sectionSubText}>Milestones & Awards</p>
-      <h2 className={styles.sectionHeadText}>Recognition.</h2>
+      <div className="border-b border-white/[0.08] pb-6">
+        <p className={styles.sectionSubText}>Milestones &amp; Awards</p>
+        <h2 className={`${styles.sectionHeadText} extrude-3d`}>
+          Recognition.
+        </h2>
+      </div>
 
       {/* Cards Container */}
-      <div className="mt-10 flex flex-col justify-center gap-5 sm:flex-row sm:flex-wrap sm:gap-6">
-        {recognitions
-          .slice()
-          .reverse()
-          .map((item, index) => (
-            <RecognitionCard key={item.title} index={index} {...item} />
-          ))}
+      <div className="mt-10 grid grid-cols-1 gap-7 md:grid-cols-2 sm:mt-12 sm:gap-9">
+        {orderedRecognitions.map((item, index) => {
+          const isLastOdd =
+            orderedRecognitions.length % 2 !== 0 &&
+            index === orderedRecognitions.length - 1;
+
+          return (
+            <RecognitionCard
+              key={item.title}
+              index={index}
+              isLastOdd={isLastOdd}
+              {...item}
+            />
+          );
+        })}
       </div>
-    </section>
+    </div>
   );
 };
 
