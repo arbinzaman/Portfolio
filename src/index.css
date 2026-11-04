@@ -340,17 +340,15 @@ body {
     background:
       radial-gradient(
         ellipse at 82% 10%,
-        rgba(145, 94, 255, 0.1),
-        transparent 38%
+        rgba(145, 94, 255, 0.12),
+        transparent 42%
       ),
       linear-gradient(
         110deg,
-        rgba(8, 10, 23, 0.88),
-        rgba(15, 13, 35, 0.78) 52%,
-        rgba(8, 10, 23, 0.88)
+        rgba(8, 10, 23, 0.28),
+        rgba(15, 13, 35, 0.18) 52%,
+        rgba(8, 10, 23, 0.28)
       );
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
   }
 
   .portfolio-section h2 {
@@ -676,26 +674,24 @@ body {
   transform-style: preserve-3d;
 }
 
-/* Mobile & Android optimization: flatten heavy nested preserve-3d layers and backdrop-filters so mobile GPUs render fast */
+/* Mobile & Android optimization: preserve 3D exploded depth & animations while avoiding heavy backdrop-filter blur */
 @media (max-width: 768px) {
   .plate-3d {
-    --plate-gap: 4px;
-    perspective: none;
-    transform-style: flat;
-  }
-
-  .plate-3d-face,
-  .z-lift-sm,
-  .z-lift-md,
-  .z-lift-lg {
-    transform: none !important;
-    transform-style: flat;
+    --plate-gap: 6px;
+    perspective: 1000px;
+    transform-style: preserve-3d;
   }
 
   .plate-3d-face {
     background:
-      linear-gradient(145deg, rgba(255, 255, 255, 0.065), rgba(145, 94, 255, 0.03) 42%, transparent),
-      rgba(8, 10, 24, 0.78);
+      linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(145, 94, 255, 0.04) 42%, transparent),
+      rgba(8, 10, 24, 0.64);
+    border-color: rgba(196, 181, 253, 0.24);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      0 6px 0 0 rgba(18, 15, 38, 0.95),
+      0 7px 0 0 rgba(167, 139, 250, 0.42),
+      0 22px 50px rgba(0, 0, 0, 0.45);
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
@@ -707,18 +703,15 @@ body {
   }
 
   .plate-3d::before {
-    transform: translate(4px, 4px);
+    transform: translate3d(6px, 6px, -18px);
+    border-color: rgba(167, 139, 250, 0.36);
+    background: rgba(13, 12, 31, 0.58);
   }
 
   .plate-3d::after {
-    display: none;
-  }
-
-  .perspective-floor__plane,
-  .portfolio-ambient-glow,
-  .portfolio-section-glow::before,
-  .portfolio-section-glow::after {
-    animation: none !important;
+    transform: translate3d(12px, 12px, -36px);
+    border-color: rgba(103, 232, 249, 0.32);
+    background: rgba(8, 10, 23, 0.35);
   }
 }
 

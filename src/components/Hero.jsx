@@ -14,7 +14,7 @@ const Hero = () => {
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_72%_45%,rgba(145,94,255,0.12),transparent_38%),linear-gradient(180deg,rgba(5,8,22,0.05)_0%,#050816_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_72%_45%,rgba(145,94,255,0.12),transparent_42%),linear-gradient(180deg,rgba(5,8,22,0.04)_0%,rgba(5,8,22,0.38)_100%)]"
       />
 
       <div aria-hidden="true" className="perspective-floor z-[2] h-40 opacity-65">

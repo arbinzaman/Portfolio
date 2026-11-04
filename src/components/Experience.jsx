@@ -87,7 +87,9 @@ const Experience = () => {
           What I have done so far
         </p>
         <h2 className={`${styles.sectionHeadText} extrude-3d text-center`}>
-          Work Experience.
+          <span data-text="Work Experience." className="exploded-type-3d">
+            Work Experience.
+          </span>
         </h2>
       </motion.div>
 

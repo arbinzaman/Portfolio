@@ -36,7 +36,12 @@ const Certified = () => {
             Professional milestones
           </p>
           <h2 className="extrude-3d mt-3 text-2xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
-            Recognition &amp; credentials
+            <span
+              data-text="Recognition & credentials"
+              className="exploded-type-3d"
+            >
+              Recognition &amp; credentials
+            </span>
           </h2>
         </div>
 

@@ -34,14 +34,14 @@ const FeedbackCard = ({ index, testimonial, name, designation, company }) => (
         </div>
 
         <div className="z-lift-md mt-7 flex items-center justify-between gap-2 border-t border-white/[0.08] pt-4">
-          <div className="flex flex-1 flex-col">
+          <div className="flex flex-1 flex-col gap-1.5">
             <p className="text-[14px] font-semibold text-white">
               <span className="mr-1 font-mono text-[#a78bfa]">@</span>
               {name}
             </p>
-            <p className="mt-1 font-mono text-[11px] leading-5 text-secondary">
+            <span className="tag-3d w-fit !text-[10px]">
               {designation} of {company}
-            </p>
+            </span>
           </div>
         </div>
       </div>
@@ -52,18 +52,27 @@ const FeedbackCard = ({ index, testimonial, name, designation, company }) => (
 const Feedbacks = () => {
   return (
     <div className="mt-8">
-      <div className="plate-3d">
+      <Tilt
+        tiltMaxAngleX={3}
+        tiltMaxAngleY={3}
+        perspective={1400}
+        scale={1}
+        transitionSpeed={500}
+        className="plate-3d"
+      >
         <div
           className={`plate-3d-face relative min-h-[240px] overflow-hidden ${styles.padding} before:absolute before:-right-12 before:-top-24 before:h-64 before:w-64 before:rounded-full before:bg-[#915EFF]/15 before:blur-[80px]`}
         >
-          <motion.div variants={textVariant()}>
+          <motion.div variants={textVariant()} className="z-lift-md">
             <p className={styles.sectionSubText}>What others say</p>
             <h2 className={`${styles.sectionHeadText} extrude-3d`}>
-              Testimonials.
+              <span data-text="Testimonials." className="exploded-type-3d">
+                Testimonials.
+              </span>
             </h2>
           </motion.div>
         </div>
-      </div>
+      </Tilt>
       <div
         className={`relative z-10 -mt-12 grid grid-cols-1 gap-6 pb-14 ${styles.paddingX} md:grid-cols-2 lg:grid-cols-3`}
       >

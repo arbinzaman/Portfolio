@@ -35,7 +35,9 @@ const PhotoGallery = () => {
           transition={{ duration: 0.8 }}
           className="extrude-3d mb-8 text-3xl font-semibold tracking-[-0.04em] text-white sm:mb-10 sm:text-4xl md:text-5xl"
         >
-          Featured stories
+          <span data-text="Featured stories" className="exploded-type-3d">
+            Featured stories
+          </span>
         </motion.h2>
 
         {/* Swiper: Event by Event */}

@@ -13,7 +13,9 @@ const Recognitions = () => {
       <div className="border-b border-white/[0.08] pb-6">
         <p className={styles.sectionSubText}>Milestones &amp; Awards</p>
         <h2 className={`${styles.sectionHeadText} extrude-3d`}>
-          Recognition.
+          <span data-text="Recognition." className="exploded-type-3d">
+            Recognition.
+          </span>
         </h2>
       </div>
 

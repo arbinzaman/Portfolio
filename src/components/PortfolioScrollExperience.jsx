@@ -34,6 +34,7 @@ const sharedBoxGeo = new THREE.BoxGeometry(1, 1, 1);
 const sharedOctaGeo = new THREE.OctahedronGeometry(1, 0);
 const sharedIcosaGeo = new THREE.IcosahedronGeometry(1, 0);
 const sharedSphereLowGeo = new THREE.SphereGeometry(1, 16, 16);
+const sharedTorusGeo = new THREE.TorusGeometry(1, 0.015, 8, 96);
 
 /**
  * Kage-inspired Scroll & Pointer Camera Rig:
@@ -43,7 +44,7 @@ const sharedSphereLowGeo = new THREE.SphereGeometry(1, 16, 16);
 const InterstellarCameraRig = ({ pointer, scrollMotion, reducedMotion }) => {
   const smoothProgress = useRef(0);
   const smoothVelocity = useRef(0);
-  const lookAtTarget = useRef(new THREE.Vector3(0.6, 0, -4));
+  const lookAtTarget = useRef(new THREE.Vector3(0.4, 0, -4));
 
   useFrame((state, delta) => {
     if (document.hidden) return;
@@ -70,15 +71,26 @@ const InterstellarCameraRig = ({ pointer, scrollMotion, reducedMotion }) => {
     const py = reducedMotion ? 0 : pointer.current.y;
     const t = state.clock.elapsedTime;
 
-    // Curved orbital camera flight path inspired by Kage scroll scenes
-    const orbitAngle = p * Math.PI * 1.35;
+    // Curved orbital camera flight path across all 10 chapters
+    const isMobile = state.viewport.aspect < 0.85;
+    const orbitAngle = p * Math.PI * (isMobile ? 3.2 : 2.2);
+    const mobileSwayX = isMobile ? Math.sin(t * 0.55 + p * 6.0) * 0.35 : 0;
+    const mobileSwayY = isMobile ? Math.cos(t * 0.45 + p * 5.0) * 0.28 : 0;
+
     const targetCamX =
-      Math.sin(orbitAngle) * 1.35 + px * 0.95 + Math.cos(t * 0.22) * 0.12;
+      Math.sin(orbitAngle) * (isMobile ? 0.65 : 1.45) +
+      px * 0.95 +
+      mobileSwayX +
+      Math.cos(t * 0.22) * 0.12;
     const targetCamY =
-      Math.cos(p * Math.PI * 2.0) * 0.65 +
+      Math.cos(p * Math.PI * 2.5) * 0.68 +
       py * 0.72 +
+      mobileSwayY +
       Math.sin(t * 0.28) * 0.08;
-    const targetCamZ = 6.2 - Math.sin(p * Math.PI) * 1.45 - Math.abs(v) * 0.55;
+    const targetCamZ =
+      (isMobile ? 6.6 : 6.2) -
+      Math.sin(p * Math.PI) * 1.35 -
+      Math.abs(v) * 0.55;
 
     camera.position.x = THREE.MathUtils.damp(
       camera.position.x,
@@ -100,8 +112,10 @@ const InterstellarCameraRig = ({ pointer, scrollMotion, reducedMotion }) => {
     );
 
     // Dynamic look-at target that shifts across the cosmic horizon
-    const isMobile = state.viewport.aspect < 0.85;
-    const focusX = (isMobile ? 0.15 : 1.15) + Math.cos(orbitAngle) * 0.45 + px * 0.45;
+    const focusX =
+      (isMobile ? 0 : 0.45) +
+      Math.cos(orbitAngle) * (isMobile ? 0.25 : 0.55) +
+      px * 0.45;
     const focusY = Math.sin(p * Math.PI * 1.5) * 0.35 + py * 0.35 - v * 0.25;
     const focusZ = -3.5;
 
@@ -147,7 +161,7 @@ const InterstellarCameraRig = ({ pointer, scrollMotion, reducedMotion }) => {
 
 /**
  * 3D Warp Starfield & Relativistic Streak Lines:
- * 1,600 multi-colored stars in a deep 3D volume that stream past the camera
+ * Multi-colored stars in a deep 3D volume that stream past the camera
  * and stretch into hyperspace warp streaks when scrolling.
  */
 const WarpStarField = ({ pointer, scrollMotion, reducedMotion }) => {
@@ -161,10 +175,10 @@ const WarpStarField = ({ pointer, scrollMotion, reducedMotion }) => {
     const col = new Float32Array(count * 3);
     const starColors = [
       new THREE.Color("#ffffff"),
-      new THREE.Color("#ffd8a8"), // Warm K-type gold star
-      new THREE.Color("#bae6fd"), // Blue supergiant
-      new THREE.Color("#ddd6fe"), // Violet pulsar
-      new THREE.Color("#fde68a"), // Solar yellow
+      new THREE.Color("#ffd8a8"),
+      new THREE.Color("#bae6fd"),
+      new THREE.Color("#ddd6fe"),
+      new THREE.Color("#fde68a"),
     ];
 
     for (let i = 0; i < count; i += 1) {
@@ -445,7 +459,7 @@ const CosmicNebula = ({ activeChapter, scrollMotion, pointer, reducedMotion }) =
             float n = fbm(uv * 3.2 + q * 1.8);
             float vignette = smoothstep(0.78, 0.08, length(uv));
             vec3 col = mix(uColorB * 0.65, uColorA, smoothstep(0.32, 0.75, n));
-            float alpha = smoothstep(0.36, 0.78, n) * vignette * 0.22;
+            float alpha = smoothstep(0.36, 0.78, n) * vignette * 0.24;
             gl_FragColor = vec4(col, alpha);
           }
         `}
@@ -464,6 +478,7 @@ const CosmicNebula = ({ activeChapter, scrollMotion, pointer, reducedMotion }) =
 const WormholeCorridor = ({ scrollMotion, pointer, activeChapter, reducedMotion }) => {
   const groupRef = useRef();
   const ringRefs = useRef([]);
+  const isMobile = useThree((state) => state.viewport.aspect < 0.85);
   const chapterIndex = Math.max(
     0,
     chapters.findIndex(({ id }) => id === activeChapter),
@@ -473,11 +488,11 @@ const WormholeCorridor = ({ scrollMotion, pointer, activeChapter, reducedMotion 
   const rings = useMemo(
     () =>
       Array.from({ length: 7 }, (_, idx) => ({
-        z: -4.5 - idx * 2.2,
-        radius: 3.2 + idx * 0.55,
+        z: -4.2 - idx * 2.1,
+        radius: isMobile ? 1.15 + idx * 0.28 : 3.2 + idx * 0.55,
         speed: (idx % 2 === 0 ? 1 : -1) * (0.08 + idx * 0.02),
       })),
-    [],
+    [isMobile],
   );
 
   useFrame(({ clock }, delta) => {
@@ -512,7 +527,7 @@ const WormholeCorridor = ({ scrollMotion, pointer, activeChapter, reducedMotion 
       }
       const wave =
         0.5 + 0.5 * Math.sin(clock.elapsedTime * 1.6 - idx * 0.7 + progress * 8);
-      mesh.material.opacity = 0.045 + wave * 0.065 + pulse * 0.12;
+      mesh.material.opacity = 0.05 + wave * 0.07 + pulse * 0.12;
     });
   });
 
@@ -536,6 +551,491 @@ const WormholeCorridor = ({ scrollMotion, pointer, activeChapter, reducedMotion 
           />
         </mesh>
       ))}
+    </group>
+  );
+};
+
+/**
+ * 3D Spatial Floating Polyhedra Field:
+ * Wireframe geometric artifacts distributed across the 3D tunnel so every scroll position
+ * has tangible foreground/midground 3D objects gliding past the camera.
+ */
+const SpatialGeometryField = ({ scrollMotion, pointer, activeChapter, reducedMotion }) => {
+  const groupRef = useRef();
+  const itemRefs = useRef([]);
+  const isMobile = useThree((state) => state.viewport.aspect < 0.85);
+  const chapterIndex = Math.max(
+    0,
+    chapters.findIndex(({ id }) => id === activeChapter),
+  );
+  const palette = chapterPalettes[chapterIndex] || chapterPalettes[0];
+
+  const items = useMemo(
+    () =>
+      Array.from({ length: 16 }, (_, i) => {
+        const side = i % 2 === 0 ? -1 : 1;
+        const x = isMobile
+          ? side * (0.45 + ((i * 0.37) % 0.95))
+          : side * (2.6 + ((i * 0.91) % 2.8));
+        const y = ((i * 1.37) % 9) - 4.5;
+        const z = -1.2 - ((i * 1.13) % 7.5);
+        const scale = isMobile
+          ? 0.14 + ((i * 0.05) % 0.16)
+          : 0.16 + ((i * 0.07) % 0.22);
+        const shape = i % 3;
+        return { x, y, z, scale, shape, speed: 0.25 + (i % 5) * 0.08 };
+      }),
+    [isMobile],
+  );
+
+  useFrame(({ clock }, delta) => {
+    if (!groupRef.current || document.hidden || reducedMotion) return;
+    const t = clock.elapsedTime;
+    const p = scrollMotion.current.progress;
+
+    groupRef.current.position.x = THREE.MathUtils.damp(
+      groupRef.current.position.x,
+      -pointer.current.x * 0.55,
+      2.5,
+      delta,
+    );
+
+    itemRefs.current.forEach((mesh, i) => {
+      if (!mesh) return;
+      const item = items[i];
+      mesh.rotation.x = t * item.speed + i;
+      mesh.rotation.y = t * (item.speed * 0.8) + p * 3.5;
+      // Loop Y position smoothly with scroll so 3D shapes continuously travel vertically
+      const rawY = item.y + ((p * 18 + t * 0.15) % 9);
+      mesh.position.y = ((rawY + 4.5) % 9) - 4.5;
+    });
+  });
+
+  return (
+    <group ref={groupRef}>
+      {items.map((item, i) => (
+        <mesh
+          key={`spatial-geo-${i}`}
+          ref={(el) => {
+            itemRefs.current[i] = el;
+          }}
+          position={[item.x, item.y, item.z]}
+          scale={item.scale}
+          geometry={
+            item.shape === 0
+              ? sharedOctaGeo
+              : item.shape === 1
+              ? sharedIcosaGeo
+              : sharedBoxGeo
+          }
+        >
+          <meshBasicMaterial
+            color={i % 2 === 0 ? palette.primary : palette.rim}
+            wireframe
+            transparent
+            opacity={0.26}
+            depthWrite={false}
+            blending={THREE.AdditiveBlending}
+          />
+        </mesh>
+      ))}
+    </group>
+  );
+};
+
+/**
+ * Full-Scale 3D Section Monuments:
+ * Gives EVERY section of the portfolio its own signature large-scale 3D architectural
+ * structure in the WebGL world (inspired by Kage's scroll-scene monuments).
+ */
+const Section3DMonuments = ({
+  activeChapter,
+  scrollMotion,
+  pointer,
+  reducedMotion,
+}) => {
+  const rootRef = useRef();
+  const monumentRef = useRef();
+  const isMobile = useThree((state) => state.viewport.aspect < 0.85);
+
+  const chapterIndex = Math.max(
+    0,
+    chapters.findIndex(({ id }) => id === activeChapter),
+  );
+  const palette = chapterPalettes[chapterIndex] || chapterPalettes[0];
+
+  useFrame(({ clock }, delta) => {
+    if (!rootRef.current || !monumentRef.current || document.hidden) return;
+    const t = clock.elapsedTime;
+    const p = scrollMotion.current.progress;
+    const v = reducedMotion ? 0 : scrollMotion.current.velocity;
+    const px = reducedMotion ? 0 : pointer.current.x;
+    const py = reducedMotion ? 0 : pointer.current.y;
+
+    // Position the section monument so it's prominently framed on both mobile & desktop
+    const sideSign = chapterIndex % 2 === 0 ? -1 : 1;
+    const targetX = isMobile
+      ? -Math.sin(p * Math.PI * 3.5) * 0.45 + px * 0.35
+      : sideSign * 2.55 + px * 0.45;
+    const targetY = isMobile
+      ? -0.95 * Math.cos(p * Math.PI * 4.5) + py * 0.35 - v * 0.2
+      : Math.cos(p * Math.PI * 4.0) * 0.35 + py * 0.35 - v * 0.25;
+    const targetZ = (isMobile ? -1.85 : -2.4) + Math.sin(p * Math.PI * 2.0) * 0.45;
+
+    rootRef.current.position.x = THREE.MathUtils.damp(
+      rootRef.current.position.x,
+      targetX,
+      2.6,
+      delta,
+    );
+    rootRef.current.position.y = THREE.MathUtils.damp(
+      rootRef.current.position.y,
+      targetY,
+      2.6,
+      delta,
+    );
+    rootRef.current.position.z = THREE.MathUtils.damp(
+      rootRef.current.position.z,
+      targetZ,
+      2.6,
+      delta,
+    );
+
+    const targetScale = isMobile ? 0.72 : 1.22;
+    rootRef.current.scale.setScalar(
+      THREE.MathUtils.damp(rootRef.current.scale.x, targetScale, 3.0, delta),
+    );
+
+    if (!reducedMotion) {
+      monumentRef.current.rotation.y = t * 0.22 + p * Math.PI * 2.0 + px * 0.35;
+      monumentRef.current.rotation.x =
+        Math.sin(t * 0.35) * 0.22 + py * 0.25 + v * 0.2;
+    }
+  });
+
+  const wirePrimary = (
+    <meshBasicMaterial
+      color={palette.primary}
+      wireframe
+      transparent
+      opacity={0.42}
+      depthWrite={false}
+      blending={THREE.AdditiveBlending}
+    />
+  );
+
+  const wireRim = (
+    <meshBasicMaterial
+      color={palette.rim}
+      wireframe
+      transparent
+      opacity={0.34}
+      depthWrite={false}
+      blending={THREE.AdditiveBlending}
+    />
+  );
+
+  const solidAccent = (
+    <meshBasicMaterial
+      color={palette.secondary}
+      transparent
+      opacity={0.28}
+      depthWrite={false}
+      blending={THREE.AdditiveBlending}
+    />
+  );
+
+  // Render a distinct large-scale 3D monument for each section
+  let monumentContent = null;
+  switch (activeChapter) {
+    case "about":
+      // 02 Overview: 4D Tesseract Sanctuary & Floating Monolith Pillars
+      monumentContent = (
+        <group>
+          <mesh geometry={sharedBoxGeo} scale={1.55}>
+            {wirePrimary}
+          </mesh>
+          <mesh
+            geometry={sharedBoxGeo}
+            scale={0.88}
+            rotation={[Math.PI / 4, Math.PI / 4, 0]}
+          >
+            {wireRim}
+          </mesh>
+          <mesh geometry={sharedOctaGeo} scale={0.42}>
+            {solidAccent}
+          </mesh>
+          {[-1.3, 1.3].map((x, idx) => (
+            <mesh
+              key={`monolith-${idx}`}
+              position={[x, 0, 0]}
+              geometry={sharedBoxGeo}
+              scale={[0.14, 2.2, 0.14]}
+            >
+              {wireRim}
+            </mesh>
+          ))}
+          <mesh geometry={sharedTorusGeo} scale={1.45} rotation={[Math.PI / 2, 0, 0]}>
+            {solidAccent}
+          </mesh>
+        </group>
+      );
+      break;
+
+    case "work":
+      // 03 Experience: Chronos Astrolabe & 3D Career Helix
+      monumentContent = (
+        <group>
+          {[0, 1, 2, 3].map((i) => (
+            <mesh
+              key={`astrolabe-${i}`}
+              geometry={sharedTorusGeo}
+              scale={1.05 + i * 0.26}
+              rotation={[(i * Math.PI) / 4, (i * Math.PI) / 3, 0]}
+            >
+              {i % 2 === 0 ? wirePrimary : wireRim}
+            </mesh>
+          ))}
+          {Array.from({ length: 10 }, (_, i) => {
+            const y = (i - 4.5) * 0.28;
+            const angle = i * 0.65;
+            return (
+              <mesh
+                key={`helix-rung-${i}`}
+                position={[0, y, 0]}
+                rotation={[0, angle, 0]}
+                geometry={sharedBoxGeo}
+                scale={[1.25, 0.025, 0.025]}
+              >
+                {solidAccent}
+              </mesh>
+            );
+          })}
+          <mesh geometry={sharedOctaGeo} scale={0.52}>
+            {wirePrimary}
+          </mesh>
+        </group>
+      );
+      break;
+
+    case "stack":
+      // 04 Technology: Geodesic Crystal Matrix
+      monumentContent = (
+        <group>
+          <mesh geometry={sharedIcosaGeo} scale={1.65}>
+            {wirePrimary}
+          </mesh>
+          <mesh
+            geometry={sharedOctaGeo}
+            scale={1.05}
+            rotation={[Math.PI / 3, Math.PI / 4, 0]}
+          >
+            {wireRim}
+          </mesh>
+          <mesh geometry={sharedTorusGeo} scale={1.9} rotation={[Math.PI / 2.4, 0.3, 0]}>
+            {solidAccent}
+          </mesh>
+        </group>
+      );
+      break;
+
+    case "projects":
+      // 05 Selected Work: Orbital Drydock & 3D Holographic Gateways
+      monumentContent = (
+        <group>
+          {[-0.65, 0, 0.65].map((zOffset, idx) => (
+            <group
+              key={`drydock-bay-${idx}`}
+              position={[0, 0, zOffset]}
+              rotation={[0, 0, (idx * Math.PI) / 6]}
+            >
+              <mesh geometry={sharedBoxGeo} scale={[1.75, 1.15, 0.03]}>
+                {idx === 1 ? wirePrimary : wireRim}
+              </mesh>
+            </group>
+          ))}
+          <mesh geometry={sharedIcosaGeo} scale={0.62}>
+            {solidAccent}
+          </mesh>
+          <mesh geometry={sharedTorusGeo} scale={1.55} rotation={[Math.PI / 3, 0.4, 0]}>
+            {wirePrimary}
+          </mesh>
+        </group>
+      );
+      break;
+
+    case "recognition":
+      // 06 Recognition: Supernova Crown & Celestial Spire
+      monumentContent = (
+        <group>
+          <mesh geometry={sharedOctaGeo} scale={[0.65, 1.85, 0.65]}>
+            {wirePrimary}
+          </mesh>
+          <mesh
+            geometry={sharedOctaGeo}
+            scale={[1.15, 0.75, 1.15]}
+            rotation={[0, Math.PI / 4, 0]}
+          >
+            {wireRim}
+          </mesh>
+          {Array.from({ length: 8 }, (_, i) => {
+            const angle = (i / 8) * Math.PI * 2;
+            return (
+              <mesh
+                key={`crown-spire-${i}`}
+                position={[Math.cos(angle) * 1.35, 0, Math.sin(angle) * 1.35]}
+                rotation={[0, -angle, Math.PI / 8]}
+                geometry={sharedOctaGeo}
+                scale={[0.12, 0.55, 0.12]}
+              >
+                {solidAccent}
+              </mesh>
+            );
+          })}
+          <mesh geometry={sharedTorusGeo} scale={1.45} rotation={[Math.PI / 2, 0, 0]}>
+            {wirePrimary}
+          </mesh>
+        </group>
+      );
+      break;
+
+    case "credentials":
+      // 07 Credentials: Kage-Inspired 3D Sacred Torii / Cyber Portal Corridor
+      monumentContent = (
+        <group>
+          {[-0.9, -0.3, 0.3, 0.9].map((z, idx) => (
+            <group key={`portal-arch-${idx}`} position={[0, 0, z]}>
+              {/* Left & Right Pillars */}
+              <mesh
+                position={[-0.95, 0, 0]}
+                geometry={sharedBoxGeo}
+                scale={[0.08, 1.75, 0.08]}
+              >
+                {idx % 2 === 0 ? wirePrimary : wireRim}
+              </mesh>
+              <mesh
+                position={[0.95, 0, 0]}
+                geometry={sharedBoxGeo}
+                scale={[0.08, 1.75, 0.08]}
+              >
+                {idx % 2 === 0 ? wirePrimary : wireRim}
+              </mesh>
+              {/* Top Lintel Crossbars */}
+              <mesh
+                position={[0, 0.85, 0]}
+                geometry={sharedBoxGeo}
+                scale={[2.25, 0.09, 0.1]}
+              >
+                {wirePrimary}
+              </mesh>
+              <mesh
+                position={[0, 0.62, 0]}
+                geometry={sharedBoxGeo}
+                scale={[1.95, 0.05, 0.06]}
+              >
+                {solidAccent}
+              </mesh>
+            </group>
+          ))}
+        </group>
+      );
+      break;
+
+    case "gallery":
+      // 08 Featured Stories: 3D Floating Panorama Carousel Ring
+      monumentContent = (
+        <group>
+          {Array.from({ length: 6 }, (_, i) => {
+            const angle = (i / 6) * Math.PI * 2;
+            const r = 1.45;
+            return (
+              <mesh
+                key={`gallery-frame-${i}`}
+                position={[Math.cos(angle) * r, Math.sin(angle * 2) * 0.2, Math.sin(angle) * r]}
+                rotation={[0, -angle + Math.PI / 2, 0]}
+                geometry={sharedBoxGeo}
+                scale={[0.92, 0.62, 0.03]}
+              >
+                {i % 2 === 0 ? wirePrimary : wireRim}
+              </mesh>
+            );
+          })}
+          <mesh geometry={sharedOctaGeo} scale={0.55}>
+            {solidAccent}
+          </mesh>
+          <mesh geometry={sharedTorusGeo} scale={1.5} rotation={[Math.PI / 2, 0, 0]}>
+            {wireRim}
+          </mesh>
+        </group>
+      );
+      break;
+
+    case "feedback":
+      // 09 Testimonials: Harmonic Resonance Sphere & Echo Waves
+      monumentContent = (
+        <group>
+          <mesh geometry={sharedIcosaGeo} scale={1.25}>
+            {wirePrimary}
+          </mesh>
+          {[1.45, 1.75, 2.05].map((r, i) => (
+            <mesh
+              key={`echo-ring-${i}`}
+              geometry={sharedTorusGeo}
+              scale={r}
+              rotation={[Math.PI / 2.5 + i * 0.35, i * 0.4, 0]}
+            >
+              {i % 2 === 0 ? wireRim : solidAccent}
+            </mesh>
+          ))}
+        </group>
+      );
+      break;
+
+    case "contact":
+      // 10 Contact: Deep-Space Wormhole Relay Dish
+      monumentContent = (
+        <group>
+          {[0.6, 1.0, 1.4, 1.8].map((r, i) => (
+            <mesh
+              key={`relay-dish-${i}`}
+              position={[0, 0, -i * 0.22]}
+              geometry={sharedTorusGeo}
+              scale={r}
+            >
+              {i % 2 === 0 ? wirePrimary : wireRim}
+            </mesh>
+          ))}
+          <mesh
+            position={[0, 0, 0.4]}
+            geometry={sharedBoxGeo}
+            scale={[0.06, 0.06, 1.8]}
+          >
+            {solidAccent}
+          </mesh>
+          <mesh position={[0, 0, 1.2]} geometry={sharedOctaGeo} scale={0.25}>
+            {wirePrimary}
+          </mesh>
+        </group>
+      );
+      break;
+
+    default:
+      // 01 Intro: Subtle orbital beacon complimenting the 3D PC & Gargantua
+      monumentContent = (
+        <group>
+          <mesh geometry={sharedOctaGeo} scale={0.75}>
+            {wireRim}
+          </mesh>
+          <mesh geometry={sharedTorusGeo} scale={1.2} rotation={[Math.PI / 3, 0.4, 0]}>
+            {solidAccent}
+          </mesh>
+        </group>
+      );
+  }
+
+  return (
+    <group ref={rootRef} position={[-2.4, 0, -2.5]}>
+      <group ref={monumentRef}>{monumentContent}</group>
     </group>
   );
 };
@@ -617,118 +1117,9 @@ const ShootingComets = ({ reducedMotion }) => {
 };
 
 /**
- * Chapter-Specific Interstellar Artifact (Endurance / Tesseract / Wormhole / Pulsar):
- * Morphs inside/around the main cosmic anomaly as the user scrolls through chapters.
- */
-const InterstellarChapterArtifact = ({ chapter, accentColor, reducedMotion }) => {
-  const group = useRef();
-
-  useFrame(({ clock }, delta) => {
-    if (!group.current || reducedMotion || document.hidden) return;
-    group.current.rotation.y += delta * 0.35;
-    group.current.rotation.x = Math.sin(clock.elapsedTime * 0.5) * 0.25;
-  });
-
-  const wireMat = (
-    <meshBasicMaterial
-      color={accentColor}
-      transparent
-      opacity={0.65}
-      wireframe
-      depthWrite={false}
-      blending={THREE.AdditiveBlending}
-    />
-  );
-
-  const solidGlowMat = (
-    <meshBasicMaterial
-      color={accentColor}
-      transparent
-      opacity={0.45}
-      depthWrite={false}
-      blending={THREE.AdditiveBlending}
-    />
-  );
-
-  let artifact;
-  switch (chapter) {
-    case "about":
-    case "work":
-      // Tesseract 4D Hypercube projection
-      artifact = (
-        <>
-          <mesh geometry={sharedBoxGeo} scale={0.68}>
-            {wireMat}
-          </mesh>
-          <mesh
-            geometry={sharedBoxGeo}
-            scale={0.36}
-            rotation={[Math.PI / 4, Math.PI / 4, 0]}
-          >
-            {solidGlowMat}
-          </mesh>
-        </>
-      );
-      break;
-    case "stack":
-    case "projects":
-      // Gyroscopic Wormhole Sphere
-      artifact = (
-        <>
-          {[0, 1, 2].map((i) => (
-            <mesh
-              key={i}
-              rotation={[(i * Math.PI) / 3, (i * Math.PI) / 4, 0]}
-            >
-              <torusGeometry args={[0.56, 0.012, 6, 64]} />
-              {solidGlowMat}
-            </mesh>
-          ))}
-          <mesh geometry={sharedOctaGeo} scale={0.28}>
-            {wireMat}
-          </mesh>
-        </>
-      );
-      break;
-    case "recognition":
-    case "credentials":
-      // Binary Pulsar Star Core
-      artifact = (
-        <>
-          <mesh geometry={sharedIcosaGeo} scale={0.46}>
-            {wireMat}
-          </mesh>
-          <mesh position={[0, 0, 0]} scale={[0.04, 1.35, 0.04]} geometry={sharedBoxGeo}>
-            {solidGlowMat}
-          </mesh>
-        </>
-      );
-      break;
-    default:
-      // Endurance Core Beacon
-      artifact = (
-        <>
-          <mesh geometry={sharedOctaGeo} scale={0.48}>
-            {wireMat}
-          </mesh>
-          <mesh rotation={[Math.PI / 2, 0, 0]}>
-            <torusGeometry args={[0.66, 0.014, 6, 64]} />
-            {solidGlowMat}
-          </mesh>
-        </>
-      );
-  }
-
-  return (
-    <group ref={group} position={[2.35, 0.25, 0.25]}>
-      {artifact}
-    </group>
-  );
-};
-
-/**
  * Gargantua Black Hole + Relativistic Accretion Disk + Endurance Spacecraft Ring:
- * The centerpiece Interstellar 3D object that travels, tilts, and reacts to scroll & cursor.
+ * The centerpiece Interstellar 3D object that travels across the screen in an S-curve
+ * across all 10 chapters, tilting and reacting to scroll & cursor.
  */
 const GargantuaAndEndurance = ({
   pointer,
@@ -786,7 +1177,7 @@ const GargantuaAndEndurance = ({
     for (let i = 0; i < count; i += 1) {
       const angle = (i / count) * Math.PI * 2 * 7.0;
       const radius = 1.35 + ((i * 0.618) % 1.85);
-      const ySpread = (Math.sin(i * 19.7) * 0.08) * (3.3 - radius);
+      const ySpread = Math.sin(i * 19.7) * 0.08 * (3.3 - radius);
       positions[i * 3] = Math.cos(angle) * radius;
       positions[i * 3 + 1] = ySpread;
       positions[i * 3 + 2] = Math.sin(angle) * radius;
@@ -833,41 +1224,42 @@ const GargantuaAndEndurance = ({
     const energy = scrollEnergy.current;
 
     const aspect = state.viewport.aspect;
-    const baseX = aspect > 1.15 ? 2.35 : aspect < 0.85 ? 0.15 : 0.85;
-    const baseScale = aspect > 1.15 ? 1.55 : aspect < 0.85 ? 0.98 : 1.15;
+    const maxSwipeX = aspect > 1.15 ? 2.15 : aspect < 0.85 ? 0.45 : 1.15;
+    const baseScale = aspect > 1.15 ? 1.55 : aspect < 0.85 ? 0.72 : 1.2;
 
-    // Dramatic 3D figure-eight flight path across chapters + cursor reactivity
+    // Sweeping 3D S-curve flight path across all sections (with vertical travel on mobile so it shines in upper/lower viewport bands)
     const targetX =
-      baseX +
-      Math.sin(progress * Math.PI * 2.5) * 0.75 +
-      Math.cos(chapterIndex * 0.9) * 0.28 +
+      Math.cos(progress * Math.PI * (isMobile ? 3.5 : 3.0)) * maxSwipeX +
       px * 0.65;
-    const targetY =
-      0.38 -
-      progress * 0.55 +
-      Math.sin(progress * Math.PI * 3.0) * 0.42 +
-      py * 0.52;
+    const targetY = isMobile
+      ? 0.95 * Math.sin(progress * Math.PI * 4.5 + 0.6) + py * 0.45
+      : 0.32 -
+        progress * 0.35 +
+        Math.sin(progress * Math.PI * 4.0) * 0.45 +
+        py * 0.52;
     const targetZ =
-      -2.2 + Math.cos(progress * Math.PI * 2.0) * 0.85 + energy * 0.45;
+      (isMobile ? -1.65 : -2.1) +
+      Math.cos(progress * Math.PI * 2.0) * 0.65 +
+      energy * 0.45;
     const targetScale =
-      baseScale * (0.94 + Math.sin(progress * Math.PI) * 0.16 + energy * 0.14);
+      baseScale * (0.95 + Math.sin(progress * Math.PI * 2.0) * 0.14 + energy * 0.14);
 
     rootGroup.current.position.x = THREE.MathUtils.damp(
       rootGroup.current.position.x,
       targetX,
-      3.0,
+      2.8,
       delta,
     );
     rootGroup.current.position.y = THREE.MathUtils.damp(
       rootGroup.current.position.y,
       targetY,
-      3.0,
+      2.8,
       delta,
     );
     rootGroup.current.position.z = THREE.MathUtils.damp(
       rootGroup.current.position.z,
       targetZ,
-      3.0,
+      2.8,
       delta,
     );
     rootGroup.current.scale.setScalar(
@@ -878,12 +1270,12 @@ const GargantuaAndEndurance = ({
     if (blackHoleGroup.current) {
       const targetRotX =
         0.38 +
-        Math.sin(progress * Math.PI * 2.0) * 0.42 +
+        Math.sin(progress * Math.PI * 2.5) * 0.42 +
         py * 0.35 +
         velocity * 0.25;
       const targetRotZ =
         -0.22 +
-        Math.cos(progress * Math.PI * 1.5) * 0.32 +
+        Math.cos(progress * Math.PI * 2.0) * 0.35 +
         px * 0.3 +
         velocity * 0.18;
 
@@ -936,13 +1328,13 @@ const GargantuaAndEndurance = ({
       enduranceRingRef.current.rotation.z -= delta * (0.18 + energy * 0.9);
       enduranceRingRef.current.rotation.x = THREE.MathUtils.damp(
         enduranceRingRef.current.rotation.x,
-        0.75 + py * 0.25 + Math.sin(progress * Math.PI) * 0.35,
+        0.75 + py * 0.25 + Math.sin(progress * Math.PI * 2.0) * 0.35,
         2.8,
         delta,
       );
       enduranceRingRef.current.rotation.y = THREE.MathUtils.damp(
         enduranceRingRef.current.rotation.y,
-        -0.35 + px * 0.25 + Math.cos(progress * Math.PI) * 0.3,
+        -0.35 + px * 0.25 + Math.cos(progress * Math.PI * 2.0) * 0.3,
         2.8,
         delta,
       );
@@ -1020,7 +1412,7 @@ const GargantuaAndEndurance = ({
   `;
 
   return (
-    <group ref={rootGroup} position={[2.2, 0.35, -2.2]}>
+    <group ref={rootGroup} position={[2.1, 0.35, -2.1]}>
       {/* Gargantua Black Hole & Accretion System */}
       <group ref={blackHoleGroup}>
         {/* Pitch-Black Event Horizon Sphere */}
@@ -1063,10 +1455,7 @@ const GargantuaAndEndurance = ({
         </mesh>
 
         {/* Main Relativistic Accretion Disk */}
-        <mesh
-          ref={accretionDiskRef}
-          rotation={[Math.PI * 0.44, 0, 0]}
-        >
+        <mesh ref={accretionDiskRef} rotation={[Math.PI * 0.44, 0, 0]}>
           <ringGeometry args={[0.9, 2.85, 96, 2]} />
           <shaderMaterial
             uniforms={diskUniforms}
@@ -1180,14 +1569,6 @@ const GargantuaAndEndurance = ({
           blending={THREE.AdditiveBlending}
         />
       </mesh>
-
-      {/* Chapter-Specific Interstellar Artifact */}
-      <InterstellarChapterArtifact
-        key={activeChapter}
-        chapter={activeChapter}
-        accentColor={palette.primary}
-        reducedMotion={reducedMotion}
-      />
     </group>
   );
 };
@@ -1262,11 +1643,19 @@ const PortfolioScrollExperience = () => {
       pointer.current.x = (event.clientX / window.innerWidth) * 2 - 1;
       pointer.current.y = 1 - (event.clientY / window.innerHeight) * 2;
     };
+    const updateTouch = (event) => {
+      const touch = event.touches?.[0];
+      if (!touch) return;
+      pointer.current.x = (touch.clientX / window.innerWidth) * 2 - 1;
+      pointer.current.y = 1 - (touch.clientY / window.innerHeight) * 2;
+    };
     const clearPointer = () => {
       pointer.current.x = 0;
       pointer.current.y = 0;
     };
     window.addEventListener("pointermove", updatePointer, { passive: true });
+    window.addEventListener("touchmove", updateTouch, { passive: true });
+    window.addEventListener("touchstart", updateTouch, { passive: true });
     window.addEventListener("blur", clearPointer);
 
     return () => {
@@ -1274,6 +1663,8 @@ const PortfolioScrollExperience = () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", updateScrollInterface);
       window.removeEventListener("pointermove", updatePointer);
+      window.removeEventListener("touchmove", updateTouch);
+      window.removeEventListener("touchstart", updateTouch);
       window.removeEventListener("blur", clearPointer);
       if (updateFrame) window.cancelAnimationFrame(updateFrame);
     };
@@ -1319,6 +1710,18 @@ const PortfolioScrollExperience = () => {
           scrollMotion={scrollMotion}
           pointer={pointer}
           activeChapter={activeChapter}
+          reducedMotion={reducedMotion}
+        />
+        <SpatialGeometryField
+          scrollMotion={scrollMotion}
+          pointer={pointer}
+          activeChapter={activeChapter}
+          reducedMotion={reducedMotion}
+        />
+        <Section3DMonuments
+          activeChapter={activeChapter}
+          scrollMotion={scrollMotion}
+          pointer={pointer}
           reducedMotion={reducedMotion}
         />
         <ShootingComets reducedMotion={reducedMotion} />

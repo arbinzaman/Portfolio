@@ -52,7 +52,9 @@ const Socials = () => {
               Around the web
             </p>
             <h2 className="extrude-3d mt-2 text-2xl font-semibold tracking-[-0.04em] text-white sm:text-3xl">
-              Find me online.
+              <span data-text="Find me online." className="exploded-type-3d">
+                Find me online.
+              </span>
             </h2>
           </div>
           <p className="max-w-sm text-sm leading-6 text-secondary sm:text-right">

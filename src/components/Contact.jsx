@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import { toast } from "react-hot-toast";
@@ -102,83 +103,100 @@ const Contact = () => {
     <div className="mt-8 flex flex-col-reverse gap-10 xl:mt-12 xl:flex-row xl:items-stretch xl:gap-12">
       <motion.div
         variants={slideIn("left", "tween", 0.2, 1)}
-        className="relative flex-[0.78] rounded-[22px] border border-white/15 bg-[#080a18]/90 p-6 shadow-[0_6px_0_0_rgba(18,15,38,0.95),0_7px_0_0_rgba(167,139,250,0.32),0_26px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:p-8 lg:p-10"
+        className="flex-[0.78]"
       >
-        <div className="border-b border-white/[0.08] pb-5">
-          <p className={styles.sectionSubText}>Get in touch</p>
-          <h3 className={`${styles.sectionHeadText} extrude-3d`}>Contact.</h3>
-        </div>
-
-        <form
-          ref={formRef}
-          onSubmit={handleSubmit}
-          className="mt-8 flex flex-col gap-6 sm:mt-9 sm:gap-7"
+        <Tilt
+          tiltMaxAngleX={3.5}
+          tiltMaxAngleY={3.5}
+          perspective={1400}
+          scale={1}
+          transitionSpeed={500}
+          className="plate-3d h-full w-full"
         >
-          <label className="flex flex-col">
-            <span className="mb-2 text-sm font-medium text-white/85">
-              Your Name
-            </span>
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              placeholder="What's your good name?"
-              autoComplete="name"
-              className="input-3d px-4 py-3.5 font-medium text-white outline-none placeholder:text-secondary/60 sm:px-5"
-            />
-          </label>
-          <label className="flex flex-col">
-            <span className="mb-2 text-sm font-medium text-white/85">
-              Your Email
-            </span>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="What's your mail address?"
-              autoComplete="email"
-              className="input-3d px-4 py-3.5 font-medium text-white outline-none placeholder:text-secondary/60 sm:px-5"
-            />
-          </label>
-          <label className="flex flex-col">
-            <span className="mb-2 text-sm font-medium text-white/85">
-              Your Message
-            </span>
-            <textarea
-              rows={6}
-              name="message"
-              value={form.message}
-              onChange={handleChange}
-              placeholder="What do you want to build together?"
-              className="input-3d resize-y px-4 py-3.5 font-medium text-white outline-none placeholder:text-secondary/60 sm:px-5"
-            />
-          </label>
+          <div className="plate-3d-face h-full p-6 sm:p-8 lg:p-10">
+            <div className="z-lift-md border-b border-white/[0.08] pb-5">
+              <p className={styles.sectionSubText}>Get in touch</p>
+              <h3 className={`${styles.sectionHeadText} extrude-3d`}>
+                <span data-text="Contact." className="exploded-type-3d">
+                  Contact.
+                </span>
+              </h3>
+            </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="key-3d key-3d--primary group mt-1 w-fit px-6 py-3.5 text-sm disabled:cursor-wait disabled:opacity-70"
-          >
-            {loading ? "Sending..." : "Send message"}
-            {!loading && (
-              <span
-                aria-hidden="true"
-                className="transition-transform group-hover:translate-x-1"
+            <form
+              ref={formRef}
+              onSubmit={handleSubmit}
+              className="z-lift-sm mt-8 flex flex-col gap-6 sm:mt-9 sm:gap-7"
+            >
+              <label className="flex flex-col">
+                <span className="mb-2 text-sm font-medium text-white/85">
+                  Your Name
+                </span>
+                <input
+                  type="text"
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  placeholder="What's your good name?"
+                  autoComplete="name"
+                  className="input-3d px-4 py-3.5 font-medium text-white outline-none placeholder:text-secondary/60 sm:px-5"
+                />
+              </label>
+              <label className="flex flex-col">
+                <span className="mb-2 text-sm font-medium text-white/85">
+                  Your Email
+                </span>
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  placeholder="What's your mail address?"
+                  autoComplete="email"
+                  className="input-3d px-4 py-3.5 font-medium text-white outline-none placeholder:text-secondary/60 sm:px-5"
+                />
+              </label>
+              <label className="flex flex-col">
+                <span className="mb-2 text-sm font-medium text-white/85">
+                  Your Message
+                </span>
+                <textarea
+                  rows={6}
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
+                  placeholder="What do you want to build together?"
+                  className="input-3d resize-y px-4 py-3.5 font-medium text-white outline-none placeholder:text-secondary/60 sm:px-5"
+                />
+              </label>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="key-3d key-3d--primary z-lift-lg group mt-1 w-fit px-6 py-3.5 text-sm disabled:cursor-wait disabled:opacity-70"
               >
-                ↗
-              </span>
-            )}
-          </button>
-        </form>
+                {loading ? "Sending..." : "Send message"}
+                {!loading && (
+                  <span
+                    aria-hidden="true"
+                    className="transition-transform group-hover:translate-x-1"
+                  >
+                    ↗
+                  </span>
+                )}
+              </button>
+            </form>
+          </div>
+        </Tilt>
       </motion.div>
 
       <motion.div
         variants={slideIn("right", "tween", 0.2, 1)}
-        className="relative h-[340px] w-full overflow-hidden rounded-[22px] border border-white/15 bg-[#080a18]/85 shadow-[0_6px_0_0_rgba(18,15,38,0.95),0_7px_0_0_rgba(167,139,250,0.32),0_26px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl md:h-[460px] xl:h-[620px] xl:flex-1"
+        className="plate-3d h-[340px] w-full md:h-[460px] xl:h-[620px] xl:flex-1"
       >
-        <EarthCanvas />
+        <div className="plate-3d-face relative h-full w-full overflow-hidden">
+          <EarthCanvas />
+        </div>
       </motion.div>
     </div>
   );
