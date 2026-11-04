@@ -37,20 +37,13 @@ const chapterAccents = [
   "#67e8f9",
 ];
 
-function detectDeviceTier() {
-  if (typeof window === "undefined") {
-    return { isMobile: false, isLowEnd: false };
-  }
-  const isMobile =
-    window.matchMedia("(max-width: 768px)").matches ||
-    /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  const cores = navigator.hardwareConcurrency || 4;
-  const memory = navigator.deviceMemory || 4;
-  const isLowEnd = cores <= 4 || memory <= 3;
-  return { isMobile, isLowEnd };
-}
+// Shared reusable small geometries to avoid re-allocating GPU buffers on low-end devices
+const sharedUnitOctahedron = new THREE.OctahedronGeometry(1, 0);
+const sharedUnitTetrahedron = new THREE.TetrahedronGeometry(1, 0);
+const sharedSatelliteRing = new THREE.TorusGeometry(0.105, 0.006, 5, 28);
+const sharedSatelliteMiniTorus = new THREE.TorusGeometry(1, 0.12, 4, 12);
 
-const ChapterGlyph = ({ chapter, reducedMotion, ringSegments }) => {
+const ChapterGlyph = ({ chapter, reducedMotion }) => {
   const group = useRef();
   const chapterIndex = Math.max(
     0,
@@ -59,7 +52,7 @@ const ChapterGlyph = ({ chapter, reducedMotion, ringSegments }) => {
   const accent = chapterAccents[chapterIndex];
 
   useFrame(({ clock }, delta) => {
-    if (!group.current || reducedMotion) return;
+    if (!group.current || reducedMotion || document.hidden) return;
     group.current.rotation.y += delta * 0.22;
     group.current.rotation.x = THREE.MathUtils.damp(
       group.current.rotation.x,
@@ -95,11 +88,11 @@ const ChapterGlyph = ({ chapter, reducedMotion, ringSegments }) => {
       motif = (
         <>
           <mesh>
-            <sphereGeometry args={[0.8, 16, 12]} />
+            <sphereGeometry args={[0.8, 20, 16]} />
             {wireMaterial}
           </mesh>
           <mesh rotation={[0.7, 0.4, 0.3]}>
-            <torusGeometry args={[1.15, 0.018, 5, ringSegments]} />
+            <torusGeometry args={[1.15, 0.018, 6, 72]} />
             {glowMaterial}
           </mesh>
           <mesh position={[0.8, 0.4, 0.15]} scale={0.1}>
@@ -121,8 +114,8 @@ const ChapterGlyph = ({ chapter, reducedMotion, ringSegments }) => {
               key={y}
               position={[Math.sin(index) * 0.22, y, 0.06]}
               scale={0.13}
+              geometry={sharedUnitOctahedron}
             >
-              <octahedronGeometry args={[1, 0]} />
               {glowMaterial}
             </mesh>
           ))}
@@ -141,9 +134,7 @@ const ChapterGlyph = ({ chapter, reducedMotion, ringSegments }) => {
               key={index}
               rotation={[0.45 + index * 0.65, index * 0.42, index * 0.3]}
             >
-              <torusGeometry
-                args={[0.62 + index * 0.22, 0.012, 5, ringSegments]}
-              />
+              <torusGeometry args={[0.62 + index * 0.22, 0.012, 5, 64]} />
               {glowMaterial}
             </mesh>
           ))}
@@ -167,8 +158,11 @@ const ChapterGlyph = ({ chapter, reducedMotion, ringSegments }) => {
               {wireMaterial}
             </mesh>
           ))}
-          <mesh position={[0.48, 0.42, 0.08]} scale={0.085}>
-            <octahedronGeometry args={[1, 0]} />
+          <mesh
+            position={[0.48, 0.42, 0.08]}
+            scale={0.085}
+            geometry={sharedUnitOctahedron}
+          >
             {glowMaterial}
           </mesh>
         </>
@@ -182,7 +176,7 @@ const ChapterGlyph = ({ chapter, reducedMotion, ringSegments }) => {
             {wireMaterial}
           </mesh>
           <mesh rotation={[Math.PI / 2, 0.2, 0]}>
-            <torusGeometry args={[0.9, 0.025, 5, ringSegments]} />
+            <torusGeometry args={[0.9, 0.025, 6, 64]} />
             {glowMaterial}
           </mesh>
           <mesh position={[0, -0.9, 0]} rotation={[0, 0, Math.PI]}>
@@ -220,11 +214,11 @@ const ChapterGlyph = ({ chapter, reducedMotion, ringSegments }) => {
       motif = (
         <>
           <mesh rotation={[0.4, 0.5, 0]}>
-            <torusKnotGeometry args={[0.62, 0.018, 64, 8, 2, 3]} />
+            <torusKnotGeometry args={[0.62, 0.018, 96, 10, 2, 3]} />
             {glowMaterial}
           </mesh>
           <mesh rotation={[0, 0.8, 0.4]}>
-            <torusGeometry args={[0.96, 0.012, 5, ringSegments]} />
+            <torusGeometry args={[0.96, 0.012, 5, 64]} />
             {wireMaterial}
           </mesh>
         </>
@@ -239,12 +233,12 @@ const ChapterGlyph = ({ chapter, reducedMotion, ringSegments }) => {
               position={[0, 0, index * -0.14]}
               scale={1 - index * 0.12}
             >
-              <torusGeometry args={[0.72, 0.018, 5, ringSegments]} />
+              <torusGeometry args={[0.72, 0.018, 5, 64]} />
               {index % 2 === 0 ? glowMaterial : wireMaterial}
             </mesh>
           ))}
           <mesh position={[0, 0, 0.12]} scale={0.1}>
-            <sphereGeometry args={[1, 10, 10]} />
+            <sphereGeometry args={[1, 12, 12]} />
             {glowMaterial}
           </mesh>
         </>
@@ -264,7 +258,7 @@ const ChapterGlyph = ({ chapter, reducedMotion, ringSegments }) => {
               rotation={[Math.PI / 2, 0, 0]}
               scale={0.75 + index * 0.22}
             >
-              <torusGeometry args={[0.48, 0.012, 5, ringSegments]} />
+              <torusGeometry args={[0.48, 0.012, 5, 64]} />
               {glowMaterial}
             </mesh>
           ))}
@@ -299,15 +293,15 @@ const ChapterGlyph = ({ chapter, reducedMotion, ringSegments }) => {
   );
 };
 
-const StarField = ({ pointer, reducedMotion, scrollMotion, starCount }) => {
+const StarField = ({ pointer, reducedMotion, scrollMotion }) => {
   const stars = useRef();
   const field = useRef();
   const comet = useRef();
   const viewport = useThree((state) => state.viewport);
 
   const positions = useMemo(() => {
-    const values = new Float32Array(starCount * 3);
-    for (let index = 0; index < starCount; index += 1) {
+    const values = new Float32Array(1100 * 3);
+    for (let index = 0; index < 1100; index += 1) {
       const seed = index + 1;
       const random = (multiplier, offset) => {
         const value = Math.sin(seed * multiplier) * offset;
@@ -320,7 +314,7 @@ const StarField = ({ pointer, reducedMotion, scrollMotion, starCount }) => {
       values[index * 3 + 2] = -1 - random(74.7, 19341.171) * 5;
     }
     return values;
-  }, [starCount, viewport.height, viewport.width]);
+  }, [viewport.height, viewport.width]);
 
   const constellationLines = useMemo(() => {
     const constellations = [
@@ -367,6 +361,7 @@ const StarField = ({ pointer, reducedMotion, scrollMotion, starCount }) => {
   }, [viewport.height, viewport.width]);
 
   useFrame(({ clock }, delta) => {
+    if (document.hidden) return;
     if (stars.current) {
       stars.current.material.opacity =
         0.18 + Math.sin(clock.elapsedTime * 0.45) * 0.035;
@@ -441,8 +436,8 @@ const StarField = ({ pointer, reducedMotion, scrollMotion, starCount }) => {
             key={`constellation-${index}`}
             position={position}
             scale={index % 3 === 0 ? 0.035 : 0.022}
+            geometry={sharedUnitOctahedron}
           >
-            <octahedronGeometry args={[1, 0]} />
             <meshBasicMaterial
               color={index % 3 === 0 ? "#67e8f9" : "#c4b5fd"}
               transparent
@@ -453,7 +448,7 @@ const StarField = ({ pointer, reducedMotion, scrollMotion, starCount }) => {
       </group>
       <group ref={comet} visible={false}>
         <mesh>
-          <sphereGeometry args={[0.035, 6, 6]} />
+          <sphereGeometry args={[0.035, 8, 8]} />
           <meshBasicMaterial color="#e0f2fe" />
         </mesh>
         <mesh position={[-0.3, 0.1, 0]} rotation={[0, 0, -0.3]}>
@@ -470,12 +465,12 @@ const StarField = ({ pointer, reducedMotion, scrollMotion, starCount }) => {
   );
 };
 
-const AtmosphericDust = ({ pointer, reducedMotion, dustCount }) => {
+const AtmosphericDust = ({ pointer, reducedMotion }) => {
   const dust = useRef();
   const viewport = useThree((state) => state.viewport);
   const positions = useMemo(() => {
-    const values = new Float32Array(dustCount * 3);
-    for (let index = 0; index < dustCount; index += 1) {
+    const values = new Float32Array(420 * 3);
+    for (let index = 0; index < 420; index += 1) {
       const seed = index + 31;
       const random = (multiplier, offset) => {
         const value = Math.sin(seed * multiplier) * offset;
@@ -488,10 +483,10 @@ const AtmosphericDust = ({ pointer, reducedMotion, dustCount }) => {
       values[index * 3 + 2] = -1.8 - random(19.3, 18421.9) * 2.2;
     }
     return values;
-  }, [dustCount, viewport.height, viewport.width]);
+  }, [viewport.height, viewport.width]);
 
   useFrame(({ clock }, delta) => {
-    if (!dust.current || reducedMotion) return;
+    if (!dust.current || reducedMotion || document.hidden) return;
     dust.current.rotation.z = THREE.MathUtils.damp(
       dust.current.rotation.z,
       Math.sin(clock.elapsedTime * 0.08) * 0.025 + pointer.current.x * 0.012,
@@ -527,16 +522,11 @@ const AtmosphericDust = ({ pointer, reducedMotion, dustCount }) => {
   );
 };
 
-const BackgroundOrbits = ({
-  pointer,
-  reducedMotion,
-  scrollMotion,
-  ringSegments,
-}) => {
+const BackgroundOrbits = ({ pointer, reducedMotion, scrollMotion }) => {
   const group = useRef();
 
   useFrame((state, delta) => {
-    if (!group.current || reducedMotion) return;
+    if (!group.current || reducedMotion || document.hidden) return;
 
     const progress = scrollMotion.current.progress;
     group.current.scale.set(
@@ -567,7 +557,7 @@ const BackgroundOrbits = ({
   return (
     <group ref={group} position={[0, 0, -3.8]}>
       <mesh>
-        <torusGeometry args={[3.05, 0.006, 4, ringSegments]} />
+        <torusGeometry args={[3.05, 0.006, 4, 180]} />
         <meshBasicMaterial
           color="#a78bfa"
           transparent
@@ -576,7 +566,7 @@ const BackgroundOrbits = ({
         />
       </mesh>
       <mesh rotation={[0.12, 0.2, 0.32]}>
-        <torusGeometry args={[2.42, 0.004, 4, ringSegments]} />
+        <torusGeometry args={[2.42, 0.004, 4, 160]} />
         <meshBasicMaterial
           color="#67e8f9"
           transparent
@@ -594,8 +584,8 @@ const BackgroundOrbits = ({
           key={`orbit-node-${index}`}
           position={position}
           scale={index < 2 ? 0.06 : 0.045}
+          geometry={sharedUnitOctahedron}
         >
-          <octahedronGeometry args={[1, 0]} />
           <meshBasicMaterial
             color={index % 2 === 0 ? "#67e8f9" : "#c4b5fd"}
             transparent
@@ -612,7 +602,6 @@ const ScrollObject = ({
   reducedMotion,
   activeChapter,
   scrollMotion,
-  isLowEnd,
 }) => {
   const group = useRef();
   const inner = useRef();
@@ -632,8 +621,6 @@ const ScrollObject = ({
     [chapterIndex],
   );
   const isMobile = useThree((state) => state.viewport.aspect < 0.8);
-  const ringSegments = isLowEnd ? 64 : isMobile ? 96 : 144;
-  const spherePointsCount = isLowEnd ? 96 : isMobile ? 140 : 240;
 
   const networkLine = useMemo(
     () =>
@@ -645,10 +632,9 @@ const ScrollObject = ({
   );
 
   const points = useMemo(() => {
-    const positions = new Float32Array(spherePointsCount * 3);
-    const denom = Math.max(1, spherePointsCount - 1);
-    for (let index = 0; index < spherePointsCount; index += 1) {
-      const vertical = 1 - (index / denom) * 2;
+    const positions = new Float32Array(240 * 3);
+    for (let index = 0; index < 240; index += 1) {
+      const vertical = 1 - (index / 239) * 2;
       const radius = Math.sqrt(1 - vertical * vertical);
       const angle = index * Math.PI * (3 - Math.sqrt(5));
       positions[index * 3] = Math.cos(angle) * radius * 2.05;
@@ -656,15 +642,15 @@ const ScrollObject = ({
       positions[index * 3 + 2] = Math.sin(angle) * radius * 2.05;
     }
     return positions;
-  }, [spherePointsCount]);
+  }, []);
 
   useFrame((state, delta) => {
-    if (!group.current) return;
+    if (!group.current || document.hidden) return;
 
     const progress = scrollMotion.current.progress;
     const aspect = state.viewport.aspect;
-    const baseX = aspect > 1.15 ? 2.65 : aspect < 0.8 ? 0.15 : 0.82;
-    const baseScale = aspect > 1.15 ? 1.88 : aspect < 0.8 ? 1.18 : 0.94;
+    const baseX = aspect > 1.15 ? 2.65 : aspect < 0.8 ? 0.22 : 0.82;
+    const baseScale = aspect > 1.15 ? 1.88 : aspect < 0.8 ? 1.22 : 0.94;
     const motionProgress = reducedMotion ? 0 : progress;
     const pointerX = reducedMotion ? 0 : pointer.current.x;
     const pointerY = reducedMotion ? 0 : pointer.current.y;
@@ -796,7 +782,7 @@ const ScrollObject = ({
   return (
     <group ref={group} position={[2.45, 0.62, -1.5]}>
       <mesh ref={coreGlow} scale={1.08}>
-        <icosahedronGeometry args={[1.3, isMobile ? 2 : 3]} />
+        <icosahedronGeometry args={[1.3, 3]} />
         <shaderMaterial
           uniforms={{ uTime: { value: 0 }, uIntensity: { value: 1 } }}
           vertexShader={`
@@ -809,13 +795,15 @@ const ScrollObject = ({
             }
           `}
           fragmentShader={`
+            precision mediump float;
             uniform float uTime;
             uniform float uIntensity;
             varying vec3 vNormal;
             varying vec3 vPosition;
             void main() {
               float facing = abs(dot(normalize(vNormal), vec3(0.0, 0.0, 1.0)));
-              float rim = pow(1.0 - facing, 2.2);
+              float invFacing = 1.0 - facing;
+              float rim = invFacing * invFacing;
               float pulse = 0.82 + 0.18 * sin(uTime * 0.8);
               float flow = 0.5 + 0.5 * sin(vPosition.y * 5.0 + uTime * 0.35);
               vec3 violet = vec3(0.45, 0.20, 0.95);
@@ -836,7 +824,7 @@ const ScrollObject = ({
         <meshBasicMaterial
           color="#8b5cf6"
           transparent
-          opacity={isMobile ? 0.19 : 0.1}
+          opacity={isMobile ? 0.17 : 0.1}
           wireframe
           depthWrite={false}
         />
@@ -846,13 +834,13 @@ const ScrollObject = ({
         <meshBasicMaterial
           color="#a78bfa"
           transparent
-          opacity={isMobile ? 0.2 : 0.16}
+          opacity={0.16}
           wireframe
           depthWrite={false}
         />
       </mesh>
       <mesh ref={outerRing} rotation={[0.8, 0.25, 0.2]}>
-        <torusGeometry args={[1.72, 0.003, 5, ringSegments]} />
+        <torusGeometry args={[1.72, 0.003, 5, 144]} />
         <meshBasicMaterial
           color="#c4b5fd"
           transparent
@@ -861,7 +849,7 @@ const ScrollObject = ({
         />
       </mesh>
       <mesh ref={accentRing} rotation={[1.1, 0.6, -0.5]}>
-        <torusGeometry args={[1.92, 0.002, 4, ringSegments]} />
+        <torusGeometry args={[1.92, 0.002, 4, 144]} />
         <meshBasicMaterial
           color="#67e8f9"
           transparent
@@ -870,7 +858,7 @@ const ScrollObject = ({
         />
       </mesh>
       <mesh ref={scrollRing} rotation={[0.8, 0.3, 0]}>
-        <torusGeometry args={[2.22, 0.009, 5, ringSegments]} />
+        <torusGeometry args={[2.22, 0.009, 5, 160]} />
         <meshBasicMaterial
           color="#a78bfa"
           transparent
@@ -879,7 +867,7 @@ const ScrollObject = ({
         />
       </mesh>
       <mesh ref={scrollRingAccent} rotation={[1.15, 0.25, 0.5]}>
-        <torusGeometry args={[2.48, 0.006, 5, ringSegments]} />
+        <torusGeometry args={[2.48, 0.006, 5, 160]} />
         <meshBasicMaterial
           color="#67e8f9"
           transparent
@@ -890,8 +878,10 @@ const ScrollObject = ({
       <group ref={network} rotation={[0.3, 0.1, 0]}>
         {satellitePositions.map((position, index) => (
           <group key={`satellite-${index}`} position={position}>
-            <mesh rotation={[0.2, 0.3, index * 0.18]}>
-              <torusGeometry args={[0.105, 0.006, 5, 20]} />
+            <mesh
+              rotation={[0.2, 0.3, index * 0.18]}
+              geometry={sharedSatelliteRing}
+            >
               <meshBasicMaterial
                 color={index % 2 === 0 ? "#67e8f9" : "#c4b5fd"}
                 transparent
@@ -899,14 +889,16 @@ const ScrollObject = ({
                 depthWrite={false}
               />
             </mesh>
-            <mesh scale={0.045}>
-              {index % 3 === 0 ? (
-                <torusGeometry args={[1, 0.12, 4, 12]} />
-              ) : index % 3 === 1 ? (
-                <octahedronGeometry args={[1, 0]} />
-              ) : (
-                <tetrahedronGeometry args={[1, 0]} />
-              )}
+            <mesh
+              scale={0.045}
+              geometry={
+                index % 3 === 0
+                  ? sharedSatelliteMiniTorus
+                  : index % 3 === 1
+                  ? sharedUnitOctahedron
+                  : sharedUnitTetrahedron
+              }
+            >
               <meshBasicMaterial
                 color={index % 2 === 0 ? "#67e8f9" : "#c4b5fd"}
                 transparent
@@ -947,7 +939,6 @@ const ScrollObject = ({
         key={activeChapter}
         chapter={activeChapter}
         reducedMotion={reducedMotion}
-        ringSegments={isLowEnd ? 40 : 64}
       />
     </group>
   );
@@ -955,7 +946,6 @@ const ScrollObject = ({
 
 const PortfolioScrollExperience = () => {
   const [reducedMotion, setReducedMotion] = useState(false);
-  const [deviceTier, setDeviceTier] = useState(detectDeviceTier);
   const [activeChapter, setActiveChapter] = useState("intro");
   const pointer = useRef({ x: 0, y: 0 });
   const scrollMotion = useRef({ velocity: 0, progress: 0 });
@@ -963,14 +953,9 @@ const PortfolioScrollExperience = () => {
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const mobileQuery = window.matchMedia("(max-width: 768px)");
-    const updatePreferences = () => {
-      setReducedMotion(mediaQuery.matches);
-      setDeviceTier(detectDeviceTier());
-    };
-    updatePreferences();
-    mediaQuery.addEventListener("change", updatePreferences);
-    mobileQuery.addEventListener("change", updatePreferences);
+    const updateMotionPreference = () => setReducedMotion(mediaQuery.matches);
+    updateMotionPreference();
+    mediaQuery.addEventListener("change", updateMotionPreference);
 
     let updateFrame = 0;
     const updateScrollInterface = () => {
@@ -1037,8 +1022,7 @@ const PortfolioScrollExperience = () => {
     window.addEventListener("blur", clearPointer);
 
     return () => {
-      mediaQuery.removeEventListener("change", updatePreferences);
-      mobileQuery.removeEventListener("change", updatePreferences);
+      mediaQuery.removeEventListener("change", updateMotionPreference);
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", updateScrollInterface);
       window.removeEventListener("pointermove", updatePointer);
@@ -1047,25 +1031,19 @@ const PortfolioScrollExperience = () => {
     };
   }, []);
 
-  const { isMobile, isLowEnd } = deviceTier;
-  const starCount = isLowEnd ? 280 : isMobile ? 480 : 1000;
-  const dustCount = isLowEnd ? 110 : isMobile ? 190 : 400;
-  const orbitRingSegments = isLowEnd ? 64 : isMobile ? 96 : 160;
-  const canvasDpr = isLowEnd ? 0.8 : isMobile ? [0.85, 1] : [1, 1.15];
-
   return (
     <div
       aria-hidden="true"
-      className="portfolio-background-scene pointer-events-none fixed inset-0 z-0 overflow-hidden opacity-95"
+      className="portfolio-background-scene pointer-events-none fixed inset-0 z-0 overflow-hidden opacity-90"
     >
       <div className="portfolio-background-gradient absolute inset-0 bg-[radial-gradient(ellipse_at_70%_43%,rgba(145,94,255,0.25),transparent_40%),radial-gradient(ellipse_at_76%_54%,rgba(34,211,238,0.13),transparent_34%),linear-gradient(180deg,rgba(5,8,22,0.04),#050816)]" />
       <div className="portfolio-ambient-glow absolute -inset-[18%]" />
       <Canvas
         camera={{ position: [0, 0, 6], fov: 42 }}
-        dpr={canvasDpr}
+        dpr={[1, 1.5]}
         gl={{
           alpha: true,
-          antialias: false,
+          antialias: true,
           depth: true,
           stencil: false,
           powerPreference: "low-power",
@@ -1076,25 +1054,18 @@ const PortfolioScrollExperience = () => {
           pointer={pointer}
           reducedMotion={reducedMotion}
           scrollMotion={scrollMotion}
-          starCount={starCount}
         />
-        <AtmosphericDust
-          pointer={pointer}
-          reducedMotion={reducedMotion}
-          dustCount={dustCount}
-        />
+        <AtmosphericDust pointer={pointer} reducedMotion={reducedMotion} />
         <BackgroundOrbits
           pointer={pointer}
           reducedMotion={reducedMotion}
           scrollMotion={scrollMotion}
-          ringSegments={orbitRingSegments}
         />
         <ScrollObject
           pointer={pointer}
           reducedMotion={reducedMotion}
           activeChapter={activeChapter}
           scrollMotion={scrollMotion}
-          isLowEnd={isLowEnd}
         />
       </Canvas>
     </div>
