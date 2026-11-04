@@ -14,6 +14,7 @@ import Socials from "./Socials.jsx";
 export { socialLinks } from "./Socials.jsx";
 import Certified from "./Certified.jsx";
 import HobbyPortfolio from "./hobby/HobbyPortfolio.jsx";
+import SoundToggle from "./SoundToggle.jsx";
 
 
 export {
@@ -27,6 +28,7 @@ export {
   PhotoGallery,
   Certified,
   HobbyPortfolio,
+  SoundToggle,
   Feedbacks,
   Contact,
   Socials,
