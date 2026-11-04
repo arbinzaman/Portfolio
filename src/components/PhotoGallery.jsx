@@ -76,14 +76,13 @@ const PhotoGallery = () => {
                           scale={1.02}
                           transitionSpeed={400}
                         >
-                          <motion.img
+                          <img
                             src={img}
                             alt={`${event.title} ${idx + 1}`}
+                            loading="lazy"
+                            decoding="async"
                             className="h-48 w-full cursor-pointer rounded-2xl border border-white/15 object-cover shadow-[0_6px_0_0_rgba(18,14,38,0.95),0_20px_50px_rgba(0,0,0,0.45)] transition-transform duration-500 sm:h-60 md:h-72"
                             onClick={() => setSelectedImage(img)}
-                            initial={{ opacity: 0.85 }}
-                            whileInView={{ opacity: 1 }}
-                            transition={{ duration: 0.5 }}
                           />
                         </Tilt>
                       ))}
@@ -111,14 +110,13 @@ const PhotoGallery = () => {
                       transitionSpeed={400}
                       className="z-lift-lg"
                     >
-                      <motion.img
+                      <img
                         src={event.imageUrl}
                         alt={event.title}
+                        loading="lazy"
+                        decoding="async"
                         className="h-52 w-full cursor-pointer rounded-2xl border border-white/15 object-cover shadow-[0_8px_0_0_rgba(18,14,38,0.95),0_24px_60px_rgba(0,0,0,0.45)] sm:h-64 md:h-80"
                         onClick={() => setSelectedImage(event.imageUrl)}
-                        initial={{ opacity: 0.85 }}
-                        whileInView={{ opacity: 1 }}
-                        transition={{ duration: 0.5 }}
                       />
                     </Tilt>
                   ) : event.videoUrl ? (

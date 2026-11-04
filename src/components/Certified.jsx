@@ -77,6 +77,8 @@ const Certified = () => {
                     <img
                       src={logo}
                       alt={`${organization} logo`}
+                      loading="lazy"
+                      decoding="async"
                       className="h-10 max-w-[6.5rem] object-contain grayscale opacity-70 transition-all duration-500 group-hover:grayscale-0 group-hover:opacity-100"
                     />
                   </div>

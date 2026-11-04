@@ -190,17 +190,27 @@ const BallCanvas = ({ icon }) => {
       isDragging = false;
     };
 
+    const onResize = () => {
+      if (disposed) return;
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const width = Math.max(1, Math.round((rect.width || 112) * dpr));
+      const height = Math.max(1, Math.round((rect.height || 112) * dpr));
+      if (canvas.width === width && canvas.height === height) return;
+      renderBall();
+    };
+
     canvas.addEventListener("pointerdown", onPointerDown);
     window.addEventListener("pointermove", onPointerMove, { passive: true });
     window.addEventListener("pointerup", onPointerUp);
-    window.addEventListener("resize", renderBall);
+    window.addEventListener("resize", onResize, { passive: true });
 
     return () => {
       disposed = true;
       canvas.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerup", onPointerUp);
-      window.removeEventListener("resize", renderBall);
+      window.removeEventListener("resize", onResize);
       ballMaterial.dispose();
       decalMaterial.dispose();
     };

@@ -42,6 +42,8 @@ const RecognitionCard = ({
             <img
               src={imageUrl}
               alt={title}
+              loading="lazy"
+              decoding="async"
               className={`w-full object-cover transition-transform duration-700 group-hover:scale-[1.04] ${
                 isLastOdd
                   ? "h-48 sm:h-56 md:h-full md:min-h-[250px]"
@@ -66,6 +68,8 @@ const RecognitionCard = ({
                   <img
                     src={logo}
                     alt={organization}
+                    loading="lazy"
+                    decoding="async"
                     className="max-h-[30px] max-w-[30px] object-contain"
                   />
                 </div>
