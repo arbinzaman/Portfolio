@@ -65,24 +65,19 @@ const PortfolioContent = () => {
     };
   }, [location.pathname]);
 
-  if (location.pathname === "/hobby/gallery") {
-    return <TravelGalleryPage />;
-  }
-
-  if (location.pathname.startsWith("/hobby/gallery/")) {
-    return <TravelPhotoPage />;
-  }
-
-  if (location.pathname.startsWith("/hobby/stories/")) {
-    return <TravelStoryPage />;
-  }
-
-  if (location.pathname === "/hobby") {
-    return <HobbyPortfolio />;
-  }
+  const isHobbyRoute = location.pathname.startsWith("/hobby");
 
   return (
-    <div className="relative isolate min-h-screen overflow-x-hidden bg-primary">
+    <>
+      {location.pathname === "/hobby/gallery" && <TravelGalleryPage />}
+      {location.pathname.startsWith("/hobby/gallery/") && <TravelPhotoPage />}
+      {location.pathname.startsWith("/hobby/stories/") && <TravelStoryPage />}
+      {location.pathname === "/hobby" && <HobbyPortfolio />}
+      <div
+        className={`relative isolate min-h-screen overflow-x-hidden bg-primary ${
+          isHobbyRoute ? "hidden" : ""
+        }`}
+      >
       {backgroundReady && (
         <Suspense fallback={null}>
           <PortfolioScrollExperience />
@@ -171,6 +166,10 @@ const PortfolioContent = () => {
                 <div className="flex flex-col gap-3 md:col-span-5">
                   <a
                     href="#intro"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
                     className="group inline-flex w-fit items-center gap-3"
                     aria-label="Back to Arbin Zaman introduction"
                   >
@@ -234,7 +233,8 @@ const PortfolioContent = () => {
           </footer>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

@@ -90,6 +90,7 @@ const PhotoGallery = () => {
                     <div className="z-lift-lg relative aspect-video w-full overflow-hidden rounded-2xl border border-white/15 shadow-[0_8px_0_0_rgba(18,14,38,0.95),0_24px_60px_rgba(0,0,0,0.5)] sm:aspect-[16/9]">
                       <iframe
                         src={event.embedUrl}
+                        loading="lazy"
                         className="absolute inset-0 h-full w-full rounded-2xl"
                         style={{ border: "none" }}
                         scrolling="no"

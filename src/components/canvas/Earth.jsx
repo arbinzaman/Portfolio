@@ -14,7 +14,7 @@ const Earth = () => {
 
 const EarthCanvas = () => {
   const containerRef = useRef(null);
-  const [inView, setInView] = useState(false);
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -22,9 +22,12 @@ const EarthCanvas = () => {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setInView(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setHasLoaded(true);
+          observer.disconnect();
+        }
       },
-      { rootMargin: "300px 0px" },
+      { rootMargin: "400px 0px" },
     );
 
     observer.observe(el);
@@ -33,7 +36,7 @@ const EarthCanvas = () => {
 
   return (
     <div ref={containerRef} className="h-full w-full">
-      {inView && (
+      {hasLoaded && (
         <Canvas
           frameloop="demand"
           dpr={[1, 1.25]}
