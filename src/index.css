@@ -692,7 +692,14 @@ body {
     transform-style: flat;
   }
 
-  .plate-3d-face,
+  .plate-3d-face {
+    background:
+      linear-gradient(145deg, rgba(255, 255, 255, 0.065), rgba(145, 94, 255, 0.03) 42%, transparent),
+      rgba(8, 10, 24, 0.78);
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
   .portfolio-panel,
   .portfolio-section-band {
     backdrop-filter: none !important;
