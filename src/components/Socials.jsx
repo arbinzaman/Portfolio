@@ -1,5 +1,4 @@
 import React from "react";
-import Tilt from "react-parallax-tilt";
 import {
   Github,
   Facebook,
@@ -8,6 +7,7 @@ import {
   Twitter,
   ArrowUpRight,
 } from "lucide-react";
+import ResponsiveTilt from "./ResponsiveTilt";
 
 export const socialLinks = [
   {
@@ -65,7 +65,7 @@ const Socials = () => {
 
         <div className="mt-8 grid grid-cols-1 gap-4 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
           {socialLinks.map(({ name, url, handle, Icon }) => (
-            <Tilt
+            <ResponsiveTilt
               key={name}
               tiltMaxAngleX={10}
               tiltMaxAngleY={10}
@@ -99,7 +99,7 @@ const Socials = () => {
                   className="z-lift-md shrink-0 text-white/35 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#c4b5fd]"
                 />
               </a>
-            </Tilt>
+            </ResponsiveTilt>
           ))}
         </div>
       </div>

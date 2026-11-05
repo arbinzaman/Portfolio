@@ -3,20 +3,35 @@ import * as THREE from "three";
 import { DecalGeometry } from "three-stdlib";
 
 let sharedRenderer = null;
+let sharedRendererBlocked = false;
 const textureLoader = new THREE.TextureLoader();
 const textureCache = new Map();
 
 function getSharedRenderer() {
-  if (typeof window === "undefined") return null;
+  if (typeof window === "undefined" || sharedRendererBlocked) return null;
   if (!sharedRenderer) {
-    sharedRenderer = new THREE.WebGLRenderer({
-      alpha: true,
-      antialias: true,
-      powerPreference: "low-power",
-    });
-    sharedRenderer.outputEncoding = THREE.sRGBEncoding;
-    sharedRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-    sharedRenderer.setClearColor(0x000000, 0);
+    try {
+      sharedRenderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: true,
+        powerPreference: "low-power",
+      });
+      sharedRenderer.outputEncoding = THREE.sRGBEncoding;
+      sharedRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+      sharedRenderer.setClearColor(0x000000, 0);
+      sharedRenderer.domElement.addEventListener(
+        "webglcontextlost",
+        (e) => {
+          e.preventDefault();
+          sharedRenderer = null;
+        },
+        false,
+      );
+    } catch (err) {
+      sharedRendererBlocked = true;
+      sharedRenderer = null;
+      return null;
+    }
   }
   return sharedRenderer;
 }
@@ -128,10 +143,45 @@ const BallCanvas = ({ icon }) => {
       camera.lookAt(0, 0, 0);
     };
 
+    const drawFallback2D = (width, height, img) => {
+      ctx.clearRect(0, 0, width, height);
+      const cx = width / 2;
+      const cy = height / 2;
+      const r = Math.min(width, height) * 0.42;
+
+      const grad = ctx.createRadialGradient(
+        cx - r * 0.25,
+        cy - r * 0.25,
+        r * 0.1,
+        cx,
+        cy,
+        r,
+      );
+      grad.addColorStop(0, "#fff8eb");
+      grad.addColorStop(0.7, "#d6cfc2");
+      grad.addColorStop(1, "#8d867a");
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      if (img) {
+        const iconSize = r * 1.1;
+        ctx.drawImage(
+          img,
+          cx - iconSize / 2,
+          cy - iconSize / 2,
+          iconSize,
+          iconSize,
+        );
+      }
+      ctx.restore();
+    };
+
     const renderBall = () => {
       if (disposed) return;
-      const renderer = getSharedRenderer();
-      if (!renderer) return;
 
       const rect = canvas.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -141,6 +191,12 @@ const BallCanvas = ({ icon }) => {
       if (canvas.width !== width || canvas.height !== height) {
         canvas.width = width;
         canvas.height = height;
+      }
+
+      const renderer = getSharedRenderer();
+      if (!renderer) {
+        drawFallback2D(width, height, decalMaterial.map?.image);
+        return;
       }
 
       camera.aspect = width / height;

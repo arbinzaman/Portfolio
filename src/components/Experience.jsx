@@ -1,10 +1,11 @@
 import React from "react";
-import Tilt from "react-parallax-tilt";
 import {
   VerticalTimeline,
   VerticalTimelineElement,
 } from "react-vertical-timeline-component";
 import { motion } from "framer-motion";
+import ResponsiveTilt from "./ResponsiveTilt";
+import OptimizedImage from "./OptimizedImage";
 
 import "react-vertical-timeline-component/style.min.css";
 
@@ -34,15 +35,16 @@ const ExperienceCard = ({ experience }) => {
       }}
       icon={
         <div className="flex h-full w-full items-center justify-center">
-          <img
+          <OptimizedImage
             src={experience.icon}
             alt={experience.company_name}
+            maxMobileDim={256}
             className="rounded-full object-contain"
           />
         </div>
       }
     >
-      <Tilt
+      <ResponsiveTilt
         tiltMaxAngleX={5}
         tiltMaxAngleY={5}
         perspective={1200}
@@ -74,7 +76,7 @@ const ExperienceCard = ({ experience }) => {
             ))}
           </ul>
         </div>
-      </Tilt>
+      </ResponsiveTilt>
     </VerticalTimelineElement>
   );
 };

@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
-import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import { toast } from "react-hot-toast";
+import ResponsiveTilt from "./ResponsiveTilt";
 
 import { styles } from "../styles";
 import EarthCanvas from "./canvas/Earth";
@@ -105,7 +105,7 @@ const Contact = () => {
         variants={slideIn("left", "tween", 0.2, 1)}
         className="flex-[0.78]"
       >
-        <Tilt
+        <ResponsiveTilt
           tiltMaxAngleX={3.5}
           tiltMaxAngleY={3.5}
           perspective={1400}
@@ -187,7 +187,7 @@ const Contact = () => {
               </button>
             </form>
           </div>
-        </Tilt>
+        </ResponsiveTilt>
       </motion.div>
 
       <motion.div

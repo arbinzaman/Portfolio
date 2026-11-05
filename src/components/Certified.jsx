@@ -1,7 +1,8 @@
 import React from "react";
-import Tilt from "react-parallax-tilt";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import ResponsiveTilt from "./ResponsiveTilt";
+import OptimizedImage from "./OptimizedImage";
 
 import { recognitions } from "../constants";
 import { styles } from "../styles";
@@ -53,7 +54,7 @@ const Certified = () => {
             pauseOnMouseEnter: true,
           }}
           speed={1600}
-          loop={certifiedBy.length > 6}
+          loop={false}
           slidesPerView={2}
           spaceBetween={20}
           breakpoints={{
@@ -64,7 +65,7 @@ const Certified = () => {
         >
           {certifiedBy.map(({ logo, organization, title, label }, idx) => (
             <SwiperSlide key={`${organization}-${title || idx}`}>
-              <Tilt
+              <ResponsiveTilt
                 tiltMaxAngleX={10}
                 tiltMaxAngleY={10}
                 perspective={1000}
@@ -74,19 +75,20 @@ const Certified = () => {
               >
                 <div className="plate-3d-face flex h-32 flex-col items-center justify-center gap-3 px-4 py-4">
                   <div className="z-lift-lg flex h-14 w-14 items-center justify-center rounded-xl border border-white/10 bg-white/[0.05] p-2 shadow-[0_4px_0_0_rgba(145,94,255,0.28)]">
-                    <img
+                    <OptimizedImage
                       src={logo}
                       alt={`${organization} logo`}
-                      loading="lazy"
-                      decoding="async"
-                      className="h-10 max-w-[6.5rem] object-contain grayscale opacity-70 transition-all duration-500 group-hover:grayscale-0 group-hover:opacity-100"
+                      width={104}
+                      height={40}
+                      maxMobileDim={256}
+                      className="h-10 max-w-[6.5rem] object-contain grayscale opacity-70 sm:transition-all sm:duration-500 sm:group-hover:grayscale-0 sm:group-hover:opacity-100"
                     />
                   </div>
                   <p className="z-lift-sm line-clamp-1 text-center font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-white/55 transition-colors duration-300 group-hover:text-white/95">
                     {label || organization}
                   </p>
                 </div>
-              </Tilt>
+              </ResponsiveTilt>
             </SwiperSlide>
           ))}
         </Swiper>

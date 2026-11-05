@@ -22,6 +22,7 @@ import {
 import TravelGalleryPage from "./components/hobby/TravelGalleryPage";
 import TravelPhotoPage from "./components/hobby/TravelPhotoPage";
 import TravelStoryPage from "./components/hobby/TravelStoryPage";
+import SmartLoader from "./components/SmartLoader";
 const PortfolioScrollExperience = lazy(() =>
   import("./components/PortfolioScrollExperience"),
 );
@@ -32,33 +33,15 @@ const PortfolioContent = () => {
 
   useEffect(() => {
     if (location.pathname.startsWith("/hobby")) return undefined;
-
-    let timeoutId;
-    let idleCallbackId;
-    const loadBackground = () => setBackgroundReady(true);
-
-    if ("requestIdleCallback" in window) {
-      idleCallbackId = window.requestIdleCallback(loadBackground, {
-        timeout: 1200,
-      });
-    } else {
-      timeoutId = window.setTimeout(loadBackground, 400);
-    }
-
-    return () => {
-      if (idleCallbackId !== undefined) {
-        window.cancelIdleCallback(idleCallbackId);
-      }
-      if (timeoutId !== undefined) {
-        window.clearTimeout(timeoutId);
-      }
-    };
+    const timeoutId = window.setTimeout(() => setBackgroundReady(true), 150);
+    return () => window.clearTimeout(timeoutId);
   }, [location.pathname]);
 
   const isHobbyRoute = location.pathname.startsWith("/hobby");
 
   return (
     <>
+      {!isHobbyRoute && <SmartLoader />}
       {location.pathname === "/hobby/gallery" && <TravelGalleryPage />}
       {location.pathname.startsWith("/hobby/gallery/") && <TravelPhotoPage />}
       {location.pathname.startsWith("/hobby/stories/") && <TravelStoryPage />}

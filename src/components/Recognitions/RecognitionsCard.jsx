@@ -1,6 +1,6 @@
 import React from "react";
-import Tilt from "react-parallax-tilt";
-import { motion } from "framer-motion";
+import ResponsiveTilt from "../ResponsiveTilt";
+import OptimizedImage from "../OptimizedImage";
 
 const RecognitionCard = ({
   title,
@@ -13,7 +13,7 @@ const RecognitionCard = ({
   isLastOdd = false,
 }) => {
   return (
-    <Tilt
+    <ResponsiveTilt
       tiltMaxAngleX={isLastOdd ? 4 : 6}
       tiltMaxAngleY={isLastOdd ? 4 : 6}
       perspective={1250}
@@ -23,9 +23,7 @@ const RecognitionCard = ({
         isLastOdd ? "md:col-span-2" : ""
       }`}
     >
-      <motion.div
-        initial={{ opacity: 1, y: 0 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
         className={`plate-3d-face flex h-full w-full flex-col overflow-hidden ${
           isLastOdd ? "md:flex-row md:items-stretch" : ""
         }`}
@@ -39,12 +37,13 @@ const RecognitionCard = ({
                 : ""
             }`}
           >
-            <img
+            <OptimizedImage
               src={imageUrl}
               alt={title}
-              loading="lazy"
-              decoding="async"
-              className={`w-full object-cover transition-transform duration-700 group-hover:scale-[1.04] ${
+              width={800}
+              height={500}
+              maxMobileDim={1280}
+              className={`w-full object-cover sm:transition-transform sm:duration-700 sm:group-hover:scale-[1.04] ${
                 isLastOdd
                   ? "h-48 sm:h-56 md:h-full md:min-h-[250px]"
                   : "h-48 sm:h-56"
@@ -65,11 +64,12 @@ const RecognitionCard = ({
               {/* Logo */}
               {logo && (
                 <div className="z-lift-lg flex h-12 min-h-[48px] w-12 min-w-[48px] items-center justify-center rounded-xl border border-white/15 bg-white/[0.08] p-2 shadow-[0_4px_0_0_rgba(145,94,255,0.35),0_10px_25px_rgba(0,0,0,0.4)]">
-                  <img
+                  <OptimizedImage
                     src={logo}
                     alt={organization}
-                    loading="lazy"
-                    decoding="async"
+                    width={48}
+                    height={48}
+                    maxMobileDim={256}
                     className="max-h-[30px] max-w-[30px] object-contain"
                   />
                 </div>
@@ -98,8 +98,8 @@ const RecognitionCard = ({
             ))}
           </div>
         </div>
-      </motion.div>
-    </Tilt>
+      </div>
+    </ResponsiveTilt>
   );
 };
 

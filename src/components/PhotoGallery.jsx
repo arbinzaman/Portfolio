@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import Tilt from "react-parallax-tilt";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import ResponsiveTilt from "./ResponsiveTilt";
+import OptimizedImage from "./OptimizedImage";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -10,11 +11,33 @@ import { galleryPhotos } from "./../constants/index";
 
 const PhotoGallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isGalleryVisible, setIsGalleryVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setIsGalleryVisible(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setIsGalleryVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "100px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   if (!galleryPhotos || galleryPhotos.length === 0) return null;
 
   return (
     <section
+      ref={sectionRef}
       id="gallery"
       data-portfolio-chapter="gallery"
       className="portfolio-section-band relative w-full overflow-hidden px-4 py-16 sm:px-6 sm:py-24 md:px-8"
@@ -45,7 +68,7 @@ const PhotoGallery = () => {
           modules={[Autoplay, Pagination, Navigation]}
           spaceBetween={30}
           slidesPerView={1}
-          loop={galleryPhotos.length > 1}
+          loop={false}
           autoplay={{ delay: 4000, disableOnInteraction: false }}
           pagination={{ clickable: true }}
           navigation
@@ -68,7 +91,7 @@ const PhotoGallery = () => {
                   {event.images?.length > 0 ? (
                     <div className="z-lift-lg grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
                       {event.images.map((img, idx) => (
-                        <Tilt
+                        <ResponsiveTilt
                           key={idx}
                           tiltMaxAngleX={7}
                           tiltMaxAngleY={7}
@@ -76,33 +99,34 @@ const PhotoGallery = () => {
                           scale={1.02}
                           transitionSpeed={400}
                         >
-                          <img
+                          <OptimizedImage
                             src={img}
                             alt={`${event.title} ${idx + 1}`}
-                            loading="lazy"
-                            decoding="async"
-                            className="h-48 w-full cursor-pointer rounded-2xl border border-white/15 object-cover shadow-[0_6px_0_0_rgba(18,14,38,0.95),0_20px_50px_rgba(0,0,0,0.45)] transition-transform duration-500 sm:h-60 md:h-72"
+                            maxMobileDim={1080}
+                            className="h-48 w-full cursor-pointer rounded-2xl border border-white/15 object-cover shadow-[0_6px_0_0_rgba(18,14,38,0.95),0_20px_50px_rgba(0,0,0,0.45)] sm:transition-transform sm:duration-500 sm:h-60 md:h-72"
                             onClick={() => setSelectedImage(img)}
                           />
-                        </Tilt>
+                        </ResponsiveTilt>
                       ))}
                     </div>
                   ) : event.embedUrl ? (
-                    <div className="z-lift-lg relative aspect-video w-full overflow-hidden rounded-2xl border border-white/15 shadow-[0_8px_0_0_rgba(18,14,38,0.95),0_24px_60px_rgba(0,0,0,0.5)] sm:aspect-[16/9]">
-                      <iframe
-                        src={event.embedUrl}
-                        loading="lazy"
-                        className="absolute inset-0 h-full w-full rounded-2xl"
-                        style={{ border: "none" }}
-                        scrolling="no"
-                        frameBorder="0"
-                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
-                        allowFullScreen
-                        title={event.title}
-                      ></iframe>
+                    <div className="z-lift-lg relative aspect-video w-full overflow-hidden rounded-2xl border border-white/15 bg-[#080a16] shadow-[0_8px_0_0_rgba(18,14,38,0.95),0_24px_60px_rgba(0,0,0,0.5)] sm:aspect-[16/9]">
+                      {isGalleryVisible && (
+                        <iframe
+                          src={event.embedUrl}
+                          loading="lazy"
+                          className="absolute inset-0 h-full w-full rounded-2xl"
+                          style={{ border: "none" }}
+                          scrolling="no"
+                          frameBorder="0"
+                          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
+                          allowFullScreen
+                          title={event.title}
+                        ></iframe>
+                      )}
                     </div>
                   ) : event.imageUrl ? (
-                    <Tilt
+                    <ResponsiveTilt
                       tiltMaxAngleX={5}
                       tiltMaxAngleY={5}
                       perspective={1200}
@@ -110,15 +134,14 @@ const PhotoGallery = () => {
                       transitionSpeed={400}
                       className="z-lift-lg"
                     >
-                      <img
+                      <OptimizedImage
                         src={event.imageUrl}
                         alt={event.title}
-                        loading="lazy"
-                        decoding="async"
+                        maxMobileDim={1280}
                         className="h-52 w-full cursor-pointer rounded-2xl border border-white/15 object-cover shadow-[0_8px_0_0_rgba(18,14,38,0.95),0_24px_60px_rgba(0,0,0,0.45)] sm:h-64 md:h-80"
                         onClick={() => setSelectedImage(event.imageUrl)}
                       />
-                    </Tilt>
+                    </ResponsiveTilt>
                   ) : event.videoUrl ? (
                     <a
                       href={event.videoUrl || event.embedUrl}

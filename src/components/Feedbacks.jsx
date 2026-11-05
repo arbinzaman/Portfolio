@@ -1,6 +1,6 @@
 import React from "react";
-import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
+import ResponsiveTilt from "./ResponsiveTilt";
 
 import { styles } from "../styles";
 import { SectionWrapper } from "../hoc";
@@ -8,7 +8,7 @@ import { fadeIn, textVariant } from "../utils/motion";
 import { testimonials } from "../constants";
 
 const FeedbackCard = ({ index, testimonial, name, designation, company }) => (
-  <Tilt
+  <ResponsiveTilt
     tiltMaxAngleX={8}
     tiltMaxAngleY={8}
     perspective={1150}
@@ -46,13 +46,13 @@ const FeedbackCard = ({ index, testimonial, name, designation, company }) => (
         </div>
       </div>
     </motion.div>
-  </Tilt>
+  </ResponsiveTilt>
 );
 
 const Feedbacks = () => {
   return (
     <div className="mt-8">
-      <Tilt
+      <ResponsiveTilt
         tiltMaxAngleX={3}
         tiltMaxAngleY={3}
         perspective={1400}
@@ -72,7 +72,7 @@ const Feedbacks = () => {
             </h2>
           </motion.div>
         </div>
-      </Tilt>
+      </ResponsiveTilt>
       <div
         className={`relative z-10 -mt-12 grid grid-cols-1 gap-6 pb-14 ${styles.paddingX} md:grid-cols-2 lg:grid-cols-3`}
       >

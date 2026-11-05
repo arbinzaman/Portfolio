@@ -256,13 +256,13 @@ const GargantuaAndEndurance = ({
       <group ref={blackHoleGroup}>
         {/* Pitch-Black Event Horizon Sphere */}
         <mesh scale={0.92}>
-          <sphereGeometry args={[1, 32, 32]} />
+          <sphereGeometry args={[1, 64, 64]} />
           <meshBasicMaterial color="#010206" />
         </mesh>
 
         {/* Relativistic Photon Sphere Rim Glow */}
         <mesh ref={photonRingRef} scale={1.04}>
-          <sphereGeometry args={[1, 32, 32]} />
+          <sphereGeometry args={[1, 64, 64]} />
           <shaderMaterial
             uniforms={photonUniforms}
             vertexShader={PHOTON_RING_VERTEX_SHADER}
@@ -276,7 +276,7 @@ const GargantuaAndEndurance = ({
 
         {/* Main Relativistic Accretion Disk */}
         <mesh ref={accretionDiskRef} rotation={[Math.PI * 0.44, 0, 0]}>
-          <ringGeometry args={[0.9, 2.85, 96, 2]} />
+          <ringGeometry args={[0.9, 2.85, 128, 3]} />
           <shaderMaterial
             uniforms={diskUniforms}
             vertexShader={ACCRETION_VERTEX_SHADER}
@@ -294,7 +294,7 @@ const GargantuaAndEndurance = ({
           rotation={[0.08, 0.12, -0.08]}
           scale={[0.82, 0.82, 0.82]}
         >
-          <ringGeometry args={[0.92, 2.25, 96, 1]} />
+          <ringGeometry args={[0.92, 2.25, 128, 2]} />
           <shaderMaterial
             uniforms={diskUniforms}
             vertexShader={ACCRETION_VERTEX_SHADER}

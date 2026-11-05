@@ -1,6 +1,6 @@
 import React from "react";
-import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
+import ResponsiveTilt from "./ResponsiveTilt";
 
 import { styles } from "../styles";
 import { services } from "../constants";
@@ -8,7 +8,7 @@ import { SectionWrapper } from "../hoc";
 import { fadeIn, textVariant } from "../utils/motion";
 
 const ServiceCard = ({ index, title, icon }) => (
-  <Tilt
+  <ResponsiveTilt
     tiltMaxAngleX={11}
     tiltMaxAngleY={11}
     perspective={1100}
@@ -36,7 +36,7 @@ const ServiceCard = ({ index, title, icon }) => (
         </div>
       </div>
     </motion.div>
-  </Tilt>
+  </ResponsiveTilt>
 );
 
 const About = () => {
@@ -54,7 +54,7 @@ const About = () => {
         </h2>
       </motion.div>
 
-      <Tilt
+      <ResponsiveTilt
         tiltMaxAngleX={3.5}
         tiltMaxAngleY={3.5}
         perspective={1400}
@@ -82,7 +82,7 @@ const About = () => {
             </p>
           </div>
         </motion.div>
-      </Tilt>
+      </ResponsiveTilt>
 
       <div className="mt-12 flex flex-wrap gap-6 sm:mt-14 sm:gap-8">
         {services.map((service, index) => (

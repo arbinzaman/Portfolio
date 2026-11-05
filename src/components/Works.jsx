@@ -1,7 +1,8 @@
 import React from "react";
-import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
+import ResponsiveTilt from "./ResponsiveTilt";
+import OptimizedImage from "./OptimizedImage";
 import { github } from "../assets";
 import { styles } from "../styles";
 import { SectionWrapper } from "../hoc";
@@ -22,7 +23,7 @@ const ProjectCard = ({
       variants={fadeIn("up", "spring", index * 0.25, 0.75)}
       className="h-full w-full"
     >
-      <Tilt
+      <ResponsiveTilt
         tiltMaxAngleX={7}
         tiltMaxAngleY={7}
         perspective={1200}
@@ -33,12 +34,13 @@ const ProjectCard = ({
         <article className="plate-3d-face flex h-full flex-col justify-between p-4 sm:p-5">
           <div>
             <div className="z-lift-md relative h-[220px] w-full overflow-hidden rounded-xl border border-white/15 bg-[#080a16] shadow-[0_6px_0_0_rgba(14,12,32,0.95),0_18px_40px_rgba(0,0,0,0.45)]">
-              <img
+              <OptimizedImage
                 src={image}
                 alt={name}
-                loading="lazy"
-                decoding="async"
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                width={800}
+                height={500}
+                maxMobileDim={1280}
+                className="h-full w-full object-cover sm:transition-transform sm:duration-700 sm:group-hover:scale-[1.04]"
               />
 
               <div className="card-img_hover absolute inset-0 m-3 flex justify-end gap-2">
@@ -91,7 +93,7 @@ const ProjectCard = ({
             ))}
           </div>
         </article>
-      </Tilt>
+      </ResponsiveTilt>
     </motion.div>
   );
 };
@@ -108,7 +110,7 @@ const Works = () => {
         </h2>
       </motion.div>
 
-      <Tilt
+      <ResponsiveTilt
         tiltMaxAngleX={3.5}
         tiltMaxAngleY={3.5}
         perspective={1400}
@@ -128,7 +130,7 @@ const Works = () => {
             </p>
           </div>
         </motion.div>
-      </Tilt>
+      </ResponsiveTilt>
 
       <div className="mt-10 grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3 sm:mt-12">
         {projects.map((project, index) => (

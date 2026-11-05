@@ -35,12 +35,16 @@ const EarthCanvas = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="h-full w-full">
+    <div
+      ref={containerRef}
+      className="pointer-events-none sm:pointer-events-auto h-full w-full touch-pan-y"
+    >
       {hasLoaded && (
         <Canvas
           frameloop="demand"
-          dpr={[1, 1.25]}
+          dpr={[1, 2]}
           gl={{ powerPreference: "low-power", antialias: true }}
+          style={{ touchAction: "pan-y" }}
           camera={{
             fov: 45,
             near: 0.1,

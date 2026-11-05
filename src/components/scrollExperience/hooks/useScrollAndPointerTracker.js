@@ -111,9 +111,15 @@ export const useScrollAndPointerTracker = () => {
     };
 
     const updatePointer = (event) => {
-      if (event.pointerType === "touch") return;
       pointer.current.x = (event.clientX / window.innerWidth) * 2 - 1;
       pointer.current.y = 1 - (event.clientY / window.innerHeight) * 2;
+    };
+
+    const updateTouch = (event) => {
+      const touch = event.touches?.[0];
+      if (!touch) return;
+      pointer.current.x = (touch.clientX / window.innerWidth) * 2 - 1;
+      pointer.current.y = 1 - (touch.clientY / window.innerHeight) * 2;
     };
 
     const clearPointer = () => {
@@ -124,6 +130,8 @@ export const useScrollAndPointerTracker = () => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleResize, { passive: true });
     window.addEventListener("pointermove", updatePointer, { passive: true });
+    window.addEventListener("touchmove", updateTouch, { passive: true });
+    window.addEventListener("touchstart", updateTouch, { passive: true });
     window.addEventListener("blur", clearPointer);
 
     return () => {
@@ -133,6 +141,8 @@ export const useScrollAndPointerTracker = () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("pointermove", updatePointer);
+      window.removeEventListener("touchmove", updateTouch);
+      window.removeEventListener("touchstart", updateTouch);
       window.removeEventListener("blur", clearPointer);
       if (updateFrame) window.cancelAnimationFrame(updateFrame);
     };

@@ -10,7 +10,7 @@ const Hero = () => {
     <section
       id="intro"
       data-portfolio-chapter="intro"
-      className="relative mx-auto h-screen min-h-[720px] w-full overflow-hidden"
+      className="relative mx-auto h-[100svh] min-h-[580px] w-full overflow-hidden sm:h-screen sm:min-h-[720px]"
     >
       <div
         aria-hidden="true"
@@ -21,7 +21,7 @@ const Hero = () => {
         <div className="perspective-floor__plane" />
       </div>
 
-      <div className="pointer-events-none absolute inset-x-0 top-20 z-10 mx-auto max-w-7xl px-6 sm:px-16">
+      <div className="pointer-events-none absolute inset-x-0 top-16 z-10 mx-auto max-w-7xl px-6 sm:top-20 sm:px-16">
         <div className="max-w-3xl">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-secondary backdrop-blur-md sm:text-xs">
             <span className="h-1.5 w-1.5 rounded-full bg-[#915EFF] shadow-[0_0_12px_rgba(145,94,255,0.9)]" />
@@ -113,16 +113,16 @@ const Hero = () => {
         <ComputersCanvas />
       </div>
 
-      <div className="absolute bottom-3 z-20 flex w-full justify-center sm:bottom-7">
+      <div className="pointer-events-none absolute bottom-5 inset-x-0 z-30 flex w-full justify-center sm:bottom-7">
         <a
           href="#about"
           aria-label="Scroll to introduction"
-          className="group flex h-10 w-6 items-start justify-center rounded-full border border-white/35 bg-[#080a17]/60 p-1.5 shadow-[0_4px_0_0_rgba(167,139,250,0.35)] backdrop-blur-md transition hover:-translate-y-0.5 hover:border-[#a78bfa] sm:h-12 sm:w-7"
+          className="pointer-events-auto group flex h-11 w-7 items-start justify-center rounded-full border-2 border-[#a78bfa]/75 bg-[#080a17]/85 p-1.5 shadow-[0_4px_0_0_rgba(167,139,250,0.45),0_0_20px_rgba(145,94,255,0.45)] backdrop-blur-md transition hover:-translate-y-0.5 hover:border-[#a78bfa] sm:h-12 sm:w-7"
         >
           <motion.span
-            animate={{ y: [0, 12, 0] }}
+            animate={{ y: [0, 14, 0] }}
             transition={{ duration: 1.5, repeat: Infinity, repeatType: "loop" }}
-            className="h-2 w-2 rounded-full bg-white/80 group-hover:bg-[#a78bfa]"
+            className="h-2.5 w-2.5 rounded-full bg-white shadow-[0_0_8px_#a78bfa] group-hover:bg-[#a78bfa]"
           />
         </a>
       </div>

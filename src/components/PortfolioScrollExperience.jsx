@@ -21,10 +21,6 @@ import {
 const PortfolioScrollExperience = () => {
   const { reducedMotion, activeChapter, pointer, scrollMotion } =
     useScrollAndPointerTracker();
-  const isMobileDevice =
-    typeof window !== "undefined" &&
-    (window.matchMedia("(max-width: 768px)").matches ||
-      /Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
 
   return (
     <div
@@ -35,10 +31,10 @@ const PortfolioScrollExperience = () => {
       <div className="portfolio-ambient-glow absolute -inset-[18%]" />
       <Canvas
         camera={{ position: [0, 0, 6.2], fov: 44 }}
-        dpr={isMobileDevice ? 1 : [1, 1.5]}
+        dpr={[1, 2]}
         gl={{
           alpha: true,
-          antialias: !isMobileDevice,
+          antialias: true,
           depth: true,
           stencil: false,
           powerPreference: "low-power",
