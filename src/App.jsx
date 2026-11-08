@@ -1,6 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { BrowserRouter, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
 
 import {
   About,
@@ -17,14 +16,16 @@ import {
   PhotoGallery,
   Certified,
   HobbyPortfolio,
+  TravelGalleryPage,
+  TravelPhotoPage,
+  TravelStoryPage,
+  HobbyThemeProvider,
+  SmartLoader,
   SoundToggle,
 } from "./components";
-import TravelGalleryPage from "./components/hobby/TravelGalleryPage";
-import TravelPhotoPage from "./components/hobby/TravelPhotoPage";
-import TravelStoryPage from "./components/hobby/TravelStoryPage";
-import SmartLoader from "./components/SmartLoader";
+
 const PortfolioScrollExperience = lazy(() =>
-  import("./components/PortfolioScrollExperience"),
+  import("./components/scrollExperience/PortfolioScrollExperience"),
 );
 
 const PortfolioContent = () => {
@@ -42,10 +43,30 @@ const PortfolioContent = () => {
   return (
     <>
       {!isHobbyRoute && <SmartLoader />}
-      {location.pathname === "/hobby/gallery" && <TravelGalleryPage />}
-      {location.pathname.startsWith("/hobby/gallery/") && <TravelPhotoPage />}
-      {location.pathname.startsWith("/hobby/stories/") && <TravelStoryPage />}
-      {location.pathname === "/hobby" && <HobbyPortfolio />}
+      {isHobbyRoute && (
+        <HobbyThemeProvider>
+          {location.pathname === "/hobby/gallery" && <TravelGalleryPage />}
+          {location.pathname.startsWith("/hobby/gallery/") && (
+            <TravelPhotoPage />
+          )}
+          {location.pathname.startsWith("/hobby/stories/") && (
+            <TravelStoryPage />
+          )}
+          {location.pathname === "/hobby" && <HobbyPortfolio />}
+
+          {/* Floating Hobby Music Toggle (Charlie BGM) */}
+          <div className="fixed bottom-4 right-4 z-50 sm:bottom-6 sm:right-6">
+            <SoundToggle variant="hobby" active={isHobbyRoute} />
+          </div>
+        </HobbyThemeProvider>
+      )}
+
+      {/* Main Coding Portfolio Music Toggle (Hidden on /hobby) */}
+      {!isHobbyRoute && (
+        <div className="fixed bottom-4 right-4 z-50 sm:bottom-6 sm:right-6">
+          <SoundToggle variant="portfolio" active={!isHobbyRoute} />
+        </div>
+      )}
       <div
         className={`relative isolate min-h-screen overflow-x-hidden bg-primary ${
           isHobbyRoute ? "hidden" : ""
@@ -171,14 +192,6 @@ const App = () => {
   return (
     <BrowserRouter>
       <PortfolioContent />
-      <motion.div
-        className="fixed bottom-4 right-4 z-40 sm:bottom-6 sm:right-6"
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <SoundToggle />
-      </motion.div>
     </BrowserRouter>
   );
 };

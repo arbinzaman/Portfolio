@@ -931,3 +931,129 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ==========================================================================
+   HOBBY / TRAVEL PORTFOLIO THEME ENGINE (LIGHT · DARK · SYSTEM)
+   ========================================================================== */
+
+[data-hobby-theme="light"] {
+  color-scheme: light;
+}
+
+[data-hobby-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* Main page & sticky nav backgrounds */
+[data-hobby-theme="dark"] .bg-\[\#fbfaf7\] {
+  background-color: #0b120f !important;
+}
+
+[data-hobby-theme="dark"] .bg-\[\#fbfaf7\]\/95 {
+  background-color: rgba(11, 18, 15, 0.94) !important;
+}
+
+/* Card & elevated surfaces */
+[data-hobby-theme="dark"] .bg-\[\#f3f0e8\] {
+  background-color: #131f1a !important;
+}
+
+[data-hobby-theme="dark"] .bg-\[\#f3f0e8\]\/75,
+[data-hobby-theme="dark"] .bg-\[\#f3f0e8\]\/70,
+[data-hobby-theme="dark"] .bg-\[\#f3f0e8\]\/60 {
+  background-color: rgba(19, 31, 26, 0.85) !important;
+}
+
+[data-hobby-theme="dark"] .bg-\[\#e9e6dd\] {
+  background-color: #192822 !important;
+}
+
+[data-hobby-theme="dark"] .bg-\[\#d8d4c8\] {
+  background-color: #24372f !important;
+}
+
+/* White inputs, buttons, and translucent drawers in dark mode */
+[data-hobby-theme="dark"] .bg-white,
+[data-hobby-theme="dark"] .bg-white\/85,
+[data-hobby-theme="dark"] .bg-white\/80,
+[data-hobby-theme="dark"] .bg-white\/70,
+[data-hobby-theme="dark"] .bg-white\/65,
+[data-hobby-theme="dark"] .bg-white\/60 {
+  background-color: #182721 !important;
+}
+
+[data-hobby-theme="dark"] .hover\:bg-white:hover {
+  background-color: #20332b !important;
+}
+
+/* Primary & muted typography */
+[data-hobby-theme="dark"] .text-\[\#17231f\] {
+  color: #eef3ef !important;
+}
+
+[data-hobby-theme="dark"] .text-\[\#17231f\]\/80 {
+  color: rgba(238, 243, 239, 0.85) !important;
+}
+
+[data-hobby-theme="dark"] .text-\[\#17231f\]\/75,
+[data-hobby-theme="dark"] .text-\[\#17231f\]\/70 {
+  color: rgba(238, 243, 239, 0.76) !important;
+}
+
+[data-hobby-theme="dark"] .text-\[\#17231f\]\/65,
+[data-hobby-theme="dark"] .text-\[\#17231f\]\/60 {
+  color: rgba(238, 243, 239, 0.68) !important;
+}
+
+[data-hobby-theme="dark"] .text-\[\#17231f\]\/55,
+[data-hobby-theme="dark"] .text-\[\#17231f\]\/50,
+[data-hobby-theme="dark"] .text-\[\#17231f\]\/45 {
+  color: rgba(238, 243, 239, 0.52) !important;
+}
+
+[data-hobby-theme="dark"] .placeholder\:text-\[\#17231f\]\/40::placeholder,
+[data-hobby-theme="dark"] .placeholder\:text-\[\#17231f\]\/35::placeholder {
+  color: rgba(238, 243, 239, 0.42) !important;
+}
+
+[data-hobby-theme="dark"] .hover\:text-\[\#17231f\]:hover {
+  color: #ffffff !important;
+}
+
+/* Accent green in dark mode for crisp legibility */
+[data-hobby-theme="dark"] .text-\[\#36745e\] {
+  color: #5bc49b !important;
+}
+
+[data-hobby-theme="dark"] .hover\:text-\[\#36745e\]:hover {
+  color: #74d6af !important;
+}
+
+/* Active dark pill button inversion in dark mode */
+[data-hobby-theme="dark"] button.bg-\[\#17231f\] {
+  background-color: #36745e !important;
+  border-color: #4eb88e !important;
+  color: #ffffff !important;
+}
+
+/* Borders & dividers */
+[data-hobby-theme="dark"] .border-\[\#17231f\]\/20,
+[data-hobby-theme="dark"] .border-\[\#17231f\]\/15,
+[data-hobby-theme="dark"] .border-\[\#17231f\]\/12,
+[data-hobby-theme="dark"] .border-\[\#17231f\]\/10 {
+  border-color: rgba(238, 243, 239, 0.14) !important;
+}
+
+[data-hobby-theme="dark"] .bg-\[\#17231f\]\/10,
+[data-hobby-theme="dark"] .bg-\[\#17231f\]\/5 {
+  background-color: rgba(238, 243, 239, 0.1) !important;
+}
+
+/* 3D Map studio & Footer CTA card shadow in dark mode */
+[data-hobby-theme="dark"] .shadow-\[0_12px_0_0_\#ded9cc\,0_24px_48px_-15px_rgba\(23\,35\,31\,0\.14\)\],
+[data-hobby-theme="dark"] .shadow-\[0_10px_0_0_\#ded9cc\,0_20px_40px_-15px_rgba\(23\,35\,31\,0\.12\)\] {
+  box-shadow:
+    0 12px 0 0 #080e0b,
+    0 24px 48px -15px rgba(0, 0, 0, 0.65) !important;
+}
+

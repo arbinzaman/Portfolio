@@ -6,6 +6,7 @@ export { default as SpatialGeometryField } from "./SpatialGeometryField";
 export { default as Section3DMonuments } from "./Section3DMonuments";
 export { default as ShootingComets } from "./ShootingComets";
 export { default as GargantuaAndEndurance } from "./GargantuaAndEndurance";
+export { default as PortfolioScrollExperience } from "./PortfolioScrollExperience";
 export { useScrollAndPointerTracker } from "./hooks/useScrollAndPointerTracker";
 export * from "./scrollExperienceConfig";
 
