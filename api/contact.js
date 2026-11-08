@@ -88,14 +88,14 @@ function buildMimeMessage({ cleanUser, fromName, to, replyTo, subject, text, htm
     .join("\r\n");
 }
 
-function sendGmailSmtp({ user, appPassword, ...msg }) {
-  return sendGmailSmtpBatch({ user, appPassword, messages: [msg] });
-}
-
 function sendGmailSmtpBatch({ user, appPassword, messages }) {
   return new Promise((resolve, reject) => {
-    const cleanUser = String(user).replace(/['"\s]+/g, "");
-    const cleanPass = String(appPassword).replace(/['"\s]+/g, "");
+    const cleanUser = String(user)
+      .replace(/^GMAIL_USER\s*=\s*/i, "")
+      .replace(/['"\s]+/g, "");
+    const cleanPass = String(appPassword)
+      .replace(/^GMAIL_APP_PASSWORD\s*=\s*/i, "")
+      .replace(/['"\s]+/g, "");
     const socket = tls.connect(
       {
         host: "smtp.gmail.com",
@@ -107,7 +107,7 @@ function sendGmailSmtpBatch({ user, appPassword, messages }) {
       () => {},
     );
 
-    socket.setTimeout(9500);
+    socket.setTimeout(15000);
     socket.on("timeout", () => {
       socket.destroy();
       reject(new Error("SMTP connection timed out"));
@@ -158,7 +158,7 @@ function sendGmailSmtpBatch({ user, appPassword, messages }) {
           socket.destroy();
           reject(
             new Error(
-              `SMTP error at step ${stepIndex} (expected ${currentStep.expect}): ${line}`,
+              `SMTP error at step ${stepIndex} [user=${cleanUser}, passLen=${cleanPass.length}] (expected ${currentStep.expect}): ${line}`,
             ),
           );
           return;
@@ -572,29 +572,29 @@ export default async function handler(req, res) {
       timeFormatted,
     });
 
-    // Send notification to Arbin (arbinzmn@gmail.com) and auto-reply to the visitor concurrently
-    await Promise.all([
-      sendGmailSmtp({
-        user: gmailUser,
-        appPassword: gmailAppPassword,
-        fromName: `${name} via Arbin Portfolio`,
-        to: DEFAULT_GMAIL_USER,
-        replyTo: `${encodeMimeHeader(name)} <${email}>`,
-        subject: `✨ New Message from ${name} (${source})`,
-        text: ownerMail.text,
-        html: ownerMail.html,
-      }),
-      sendGmailSmtp({
-        user: gmailUser,
-        appPassword: gmailAppPassword,
-        fromName: "Arbin Zaman",
-        to: email,
-        replyTo: `Arbin Zaman <${DEFAULT_GMAIL_USER}>`,
-        subject: `Thank you for reaching out, ${name}! — Arbin Zaman`,
-        text: visitorMail.text,
-        html: visitorMail.html,
-      }),
-    ]);
+    // Send notification to Arbin (arbinzmn@gmail.com) and auto-reply to the visitor over one authenticated TLS session
+    await sendGmailSmtpBatch({
+      user: gmailUser,
+      appPassword: gmailAppPassword,
+      messages: [
+        {
+          fromName: `${name} via Arbin Portfolio`,
+          to: DEFAULT_GMAIL_USER,
+          replyTo: `${encodeMimeHeader(name)} <${email}>`,
+          subject: `✨ New Message from ${name} (${source})`,
+          text: ownerMail.text,
+          html: ownerMail.html,
+        },
+        {
+          fromName: "Arbin Zaman",
+          to: email,
+          replyTo: `Arbin Zaman <${DEFAULT_GMAIL_USER}>`,
+          subject: `Thank you for reaching out, ${name}! — Arbin Zaman`,
+          text: visitorMail.text,
+          html: visitorMail.html,
+        },
+      ],
+    });
 
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
