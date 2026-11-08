@@ -16,6 +16,7 @@ import {
   PhotoGallery,
   Certified,
   HobbyPortfolio,
+  HobbyTravelLoader,
   TravelGalleryPage,
   TravelPhotoPage,
   TravelStoryPage,
@@ -45,6 +46,7 @@ const PortfolioContent = () => {
       {!isHobbyRoute && <SmartLoader />}
       {isHobbyRoute && (
         <HobbyThemeProvider>
+          <HobbyTravelLoader />
           {location.pathname === "/hobby/gallery" && <TravelGalleryPage />}
           {location.pathname.startsWith("/hobby/gallery/") && (
             <TravelPhotoPage />

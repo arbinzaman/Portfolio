@@ -36,7 +36,9 @@ export async function sendContactEmail({
   }
 
   const error = new Error(
-    data?.error || "Failed to send message via Gmail SMTP.",
+    data?.details
+      ? `${data.error || "Failed to send message via Gmail SMTP."} (${data.details})`
+      : data?.error || "Failed to send message via Gmail SMTP.",
   );
   error.code = data?.code;
   throw error;

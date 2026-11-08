@@ -28,6 +28,7 @@ import {
 import Tech from "./Tech.jsx";
 import {
   HobbyPortfolio,
+  HobbyTravelLoader,
   TravelGalleryPage,
   TravelPhotoPage,
   TravelStoryPage,
@@ -60,6 +61,7 @@ export {
   Footer,
   Certified,
   HobbyPortfolio,
+  HobbyTravelLoader,
   TravelGalleryPage,
   TravelPhotoPage,
   TravelStoryPage,

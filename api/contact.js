@@ -3,31 +3,12 @@ import fs from "node:fs";
 import path from "node:path";
 
 const DEFAULT_GMAIL_USER = "arbinzmn@gmail.com";
-const FALLBACK_PROFILE_IMAGE_URL = "https://i.ibb.co/zhjfpq71/arbinzaman.jpg";
-const PROFILE_IMAGE_CID = "arbinzaman_avatar";
+const ARBIN_PROFILE_IMAGE_URL = "https://i.ibb.co/zhjfpq71/arbinzaman.jpg";
 
-let cachedAvatarBase64 = null;
-function getLocalAvatarBase64() {
-  if (cachedAvatarBase64 !== null) return cachedAvatarBase64;
-  try {
-    const imgPath = path.resolve(process.cwd(), "src/assets/arbinzaman.jpg");
-    if (fs.existsSync(imgPath)) {
-      const buf = fs.readFileSync(imgPath);
-      cachedAvatarBase64 = buf
-        .toString("base64")
-        .replace(/(.{76})/g, "$1\r\n");
-      return cachedAvatarBase64;
-    }
-  } catch {
-    // Fallback to hosted URL
-  }
-  cachedAvatarBase64 = "";
-  return "";
-}
-
-const ARBIN_PROFILE_IMAGE_URL = getLocalAvatarBase64()
-  ? `cid:${PROFILE_IMAGE_CID}`
-  : FALLBACK_PROFILE_IMAGE_URL;
+const toBase64Mime = (input) =>
+  Buffer.from(String(input), "utf8")
+    .toString("base64")
+    .replace(/(.{76})/g, "$1\r\n");
 
 function readLocalDotEnv() {
   try {
@@ -71,102 +52,87 @@ const encodeMimeHeader = (text = "") =>
 
 /**
  * Minimal, zero-dependency RFC-5321 SMTP client over TLS (smtp.gmail.com:465).
- * Sends a single MIME email using a Gmail address + 16-char Google App Password.
+ * Sends one or more MIME emails over a single authenticated TLS session.
  */
-function sendGmailSmtp({ user, appPassword, fromName, to, replyTo, subject, text, html }) {
+function buildMimeMessage({ cleanUser, fromName, to, replyTo, subject, text, html }) {
+  const boundary = `----=_Boundary_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+  const messageId = `<${Date.now()}.${Math.random().toString(36).slice(2)}@gmail.com>`;
+  const dateHeader = new Date().toUTCString();
+
+  return [
+    `From: ${encodeMimeHeader(fromName)} <${cleanUser}>`,
+    `To: <${to}>`,
+    replyTo ? `Reply-To: ${replyTo}` : null,
+    `Subject: ${encodeMimeHeader(subject)}`,
+    `Date: ${dateHeader}`,
+    `Message-ID: ${messageId}`,
+    "MIME-Version: 1.0",
+    `Content-Type: multipart/alternative; boundary="${boundary}"`,
+    "",
+    `--${boundary}`,
+    "Content-Type: text/plain; charset=UTF-8",
+    "Content-Transfer-Encoding: base64",
+    "",
+    toBase64Mime(text),
+    "",
+    `--${boundary}`,
+    "Content-Type: text/html; charset=UTF-8",
+    "Content-Transfer-Encoding: base64",
+    "",
+    toBase64Mime(html),
+    "",
+    `--${boundary}--`,
+    "",
+  ]
+    .filter((line) => line !== null)
+    .join("\r\n");
+}
+
+function sendGmailSmtp({ user, appPassword, ...msg }) {
+  return sendGmailSmtpBatch({ user, appPassword, messages: [msg] });
+}
+
+function sendGmailSmtpBatch({ user, appPassword, messages }) {
   return new Promise((resolve, reject) => {
-    const cleanPass = String(appPassword).replace(/\s+/g, "");
+    const cleanUser = String(user).replace(/['"\s]+/g, "");
+    const cleanPass = String(appPassword).replace(/['"\s]+/g, "");
     const socket = tls.connect(
       {
         host: "smtp.gmail.com",
         port: 465,
         servername: "smtp.gmail.com",
+        family: 4,
         rejectUnauthorized: true,
       },
       () => {},
     );
 
-    socket.setTimeout(15000);
+    socket.setTimeout(9500);
     socket.on("timeout", () => {
       socket.destroy();
       reject(new Error("SMTP connection timed out"));
     });
     socket.on("error", (err) => reject(err));
 
-    const relBoundary = `----=_RelBoundary_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-    const altBoundary = `----=_AltBoundary_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-    const messageId = `<${Date.now()}.${Math.random().toString(36).slice(2)}@gmail.com>`;
-    const dateHeader = new Date().toUTCString();
-    const avatarBase64 = getLocalAvatarBase64();
-
-    const headers = [
-      `From: ${encodeMimeHeader(fromName)} <${user}>`,
-      `To: <${to}>`,
-      replyTo ? `Reply-To: ${replyTo}` : null,
-      `Subject: ${encodeMimeHeader(subject)}`,
-      `Date: ${dateHeader}`,
-      `Message-ID: ${messageId}`,
-      "MIME-Version: 1.0",
-    ].filter((line) => line !== null);
-
-    const altParts = [
-      `--${altBoundary}`,
-      "Content-Type: text/plain; charset=UTF-8",
-      "Content-Transfer-Encoding: base64",
-      "",
-      Buffer.from(text, "utf8").toString("base64"),
-      "",
-      `--${altBoundary}`,
-      "Content-Type: text/html; charset=UTF-8",
-      "Content-Transfer-Encoding: base64",
-      "",
-      Buffer.from(html, "utf8").toString("base64"),
-      "",
-      `--${altBoundary}--`,
-    ];
-
-    const mimeLines = avatarBase64
-      ? [
-          ...headers,
-          `Content-Type: multipart/related; boundary="${relBoundary}"`,
-          "",
-          `--${relBoundary}`,
-          `Content-Type: multipart/alternative; boundary="${altBoundary}"`,
-          "",
-          ...altParts,
-          "",
-          `--${relBoundary}`,
-          'Content-Type: image/jpeg; name="arbinzaman.jpg"',
-          "Content-Transfer-Encoding: base64",
-          `Content-ID: <${PROFILE_IMAGE_CID}>`,
-          'Content-Disposition: inline; filename="arbinzaman.jpg"',
-          "",
-          avatarBase64,
-          "",
-          `--${relBoundary}--`,
-          "",
-        ]
-      : [
-          ...headers,
-          `Content-Type: multipart/alternative; boundary="${altBoundary}"`,
-          "",
-          ...altParts,
-          "",
-        ];
-
-    const mimeMessage = mimeLines.join("\r\n");
-
     const steps = [
       { expect: "220", cmd: "EHLO arbin.me" },
       { expect: "250", cmd: "AUTH LOGIN" },
-      { expect: "334", cmd: Buffer.from(user, "utf8").toString("base64") },
+      { expect: "334", cmd: Buffer.from(cleanUser, "utf8").toString("base64") },
       { expect: "334", cmd: Buffer.from(cleanPass, "utf8").toString("base64") },
-      { expect: "235", cmd: `MAIL FROM:<${user}>` },
-      { expect: "250", cmd: `RCPT TO:<${to}>` },
-      { expect: "250", cmd: "DATA" },
-      { expect: "354", cmd: `${mimeMessage}\r\n.` },
-      { expect: "250", cmd: "QUIT" },
     ];
+
+    messages.forEach((msg, index) => {
+      const mimeMessage = buildMimeMessage({ cleanUser, ...msg });
+      steps.push({
+        expect: index === 0 ? "235" : "250",
+        cmd: `MAIL FROM:<${cleanUser}>`,
+      });
+      steps.push({ expect: "250", cmd: `RCPT TO:<${msg.to}>` });
+      steps.push({ expect: "250", cmd: "DATA" });
+      steps.push({ expect: "354", cmd: `${mimeMessage}\r\n.` });
+    });
+
+    steps.push({ expect: "250", cmd: "QUIT" });
 
     let stepIndex = 0;
     let buffer = "";
@@ -606,29 +572,29 @@ export default async function handler(req, res) {
       timeFormatted,
     });
 
-    // 1. Send notification to Arbin (arbinzmn@gmail.com)
-    await sendGmailSmtp({
-      user: gmailUser,
-      appPassword: gmailAppPassword,
-      fromName: `${name} via Arbin Portfolio`,
-      to: DEFAULT_GMAIL_USER,
-      replyTo: `${encodeMimeHeader(name)} <${email}>`,
-      subject: `✨ New Message from ${name} (${source})`,
-      text: ownerMail.text,
-      html: ownerMail.html,
-    });
-
-    // 2. Send auto-reply confirmation to the visitor
-    await sendGmailSmtp({
-      user: gmailUser,
-      appPassword: gmailAppPassword,
-      fromName: "Arbin Zaman",
-      to: email,
-      replyTo: `Arbin Zaman <${DEFAULT_GMAIL_USER}>`,
-      subject: `Thank you for reaching out, ${name}! — Arbin Zaman`,
-      text: visitorMail.text,
-      html: visitorMail.html,
-    });
+    // Send notification to Arbin (arbinzmn@gmail.com) and auto-reply to the visitor concurrently
+    await Promise.all([
+      sendGmailSmtp({
+        user: gmailUser,
+        appPassword: gmailAppPassword,
+        fromName: `${name} via Arbin Portfolio`,
+        to: DEFAULT_GMAIL_USER,
+        replyTo: `${encodeMimeHeader(name)} <${email}>`,
+        subject: `✨ New Message from ${name} (${source})`,
+        text: ownerMail.text,
+        html: ownerMail.html,
+      }),
+      sendGmailSmtp({
+        user: gmailUser,
+        appPassword: gmailAppPassword,
+        fromName: "Arbin Zaman",
+        to: email,
+        replyTo: `Arbin Zaman <${DEFAULT_GMAIL_USER}>`,
+        subject: `Thank you for reaching out, ${name}! — Arbin Zaman`,
+        text: visitorMail.text,
+        html: visitorMail.html,
+      }),
+    ]);
 
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
@@ -647,6 +613,7 @@ export default async function handler(req, res) {
       JSON.stringify({
         ok: false,
         error: "Failed to send email via Gmail SMTP.",
+        details: error?.message || "Unknown SMTP error",
       }),
     );
   }
