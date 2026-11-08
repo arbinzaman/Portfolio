@@ -158,7 +158,7 @@ function sendGmailSmtpBatch({ user, appPassword, messages }) {
           socket.destroy();
           reject(
             new Error(
-              `SMTP error at step ${stepIndex} [user=${cleanUser}, passLen=${cleanPass.length}] (expected ${currentStep.expect}): ${line}`,
+              `SMTP error at step ${stepIndex} (expected ${currentStep.expect}): ${line}`,
             ),
           );
           return;
