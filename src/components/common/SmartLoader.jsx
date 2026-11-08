@@ -28,8 +28,8 @@ const SmartLoader = ({ onReady }) => {
     const maxDuration = 2200; // hard cap so lazy assets never block the user
 
     const tick = (now) => {
-      const elapsed = now - startTime;
-      const timeProgress = Math.min(100, (elapsed / minDuration) * 100);
+      const elapsed = Math.max(0, now - startTime);
+      const timeProgress = Math.min(100, Math.max(0, (elapsed / minDuration) * 100));
       const realProgress = active ? Math.max(progress, timeProgress * 0.85) : 100;
       const target =
         elapsed >= maxDuration ? 100 : Math.min(realProgress, timeProgress);
@@ -39,7 +39,7 @@ const SmartLoader = ({ onReady }) => {
         current = 100;
       }
 
-      const rounded = Math.min(100, Math.round(current));
+      const rounded = Math.min(100, Math.max(0, Math.round(current)));
       setDisplayProgress(rounded);
 
       if (rounded >= 100) {
@@ -59,9 +59,12 @@ const SmartLoader = ({ onReady }) => {
     };
   }, [active, progress, onReady]);
 
-  const stepIndex = Math.min(
-    TELEMETRY_STEPS.length - 1,
-    Math.floor((displayProgress / 100) * TELEMETRY_STEPS.length),
+  const stepIndex = Math.max(
+    0,
+    Math.min(
+      TELEMETRY_STEPS.length - 1,
+      Math.floor((displayProgress / 100) * TELEMETRY_STEPS.length),
+    ),
   );
 
   // SVG Ring geometry

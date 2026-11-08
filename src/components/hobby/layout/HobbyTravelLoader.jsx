@@ -43,15 +43,15 @@ const HobbyTravelLoader = ({ onReady }) => {
     const duration = 1450; // Crisp, cinematic expedition intro
 
     const tick = (now) => {
-      const elapsed = now - startTime;
-      const target = Math.min(100, (elapsed / duration) * 100);
+      const elapsed = Math.max(0, now - startTime);
+      const target = Math.min(100, Math.max(0, (elapsed / duration) * 100));
 
       current += (target - current) * 0.18;
       if (target >= 99.5 && current >= 98.5) {
         current = 100;
       }
 
-      const rounded = Math.min(100, Math.round(current));
+      const rounded = Math.min(100, Math.max(0, Math.round(current)));
       setDisplayProgress(rounded);
 
       if (rounded >= 100) {
@@ -71,11 +71,14 @@ const HobbyTravelLoader = ({ onReady }) => {
     };
   }, [onReady]);
 
-  const stageIndex = Math.min(
-    EXPEDITION_STAGES.length - 1,
-    Math.floor((displayProgress / 100) * EXPEDITION_STAGES.length),
+  const stageIndex = Math.max(
+    0,
+    Math.min(
+      EXPEDITION_STAGES.length - 1,
+      Math.floor((displayProgress / 100) * EXPEDITION_STAGES.length),
+    ),
   );
-  const currentStage = EXPEDITION_STAGES[stageIndex];
+  const currentStage = EXPEDITION_STAGES[stageIndex] || EXPEDITION_STAGES[0];
 
   // Flight path circle geometry
   const radius = 68;
